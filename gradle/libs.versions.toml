@@ -1,0 +1,118 @@
+[versions]
+
+#======Kotlin
+kotlin = "2.0.21"
+kotlinxCoroutines = "1.9.0"
+kotlinxSerialization = "1.7.3"
+kotlinxCompose = "1.7.0"
+ktor = "3.0.0"
+
+#=====Google
+ksp = "2.0.21-1.0.25"
+
+#======Android
+androidCompileSdk = "35"
+androidTargetSdk = "35"
+androidMinSdk = "24"
+androidGradlePlugin = "8.6.1"
+androidMaterial = "1.12.0"
+androidxActivityKtx = "1.9.3"
+androidxLifecycle = "2.8.6"
+androidxCompose = "1.7.4"
+androidxComposeLifecycle = "2.8.6"
+androidxComposeMaterial3 = "1.3.0"
+androidxComposeUiUtilAndroid = "1.7.4"
+
+#======Multiplatform
+kermit = "2.0.4"
+sqldelight = "2.0.2"
+koin = "4.0.0"
+nativecoroutines = "1.0.0-ALPHA-37"
+turbine = "1.1.0"
+
+[plugins]
+
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+google-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+kotlinx-compose = { id = "org.jetbrains.compose", version.ref = "kotlinxCompose" }
+kotlinx-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+nativecoroutines = { id = "com.rickclephas.kmp.nativecoroutines", version.ref = "nativecoroutines" }
+sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
+
+[libraries]
+
+#======Gradle
+gradle-android-tools = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
+gradle-kotlin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+
+#======Jetbrains
+test-kotlin = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
+kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
+test-kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
+ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
+ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
+ktor-client-darwin = { group = "io.ktor", name = "ktor-client-darwin", version.ref = "ktor" }
+ktor-client-mock = { group = "io.ktor", name = "ktor-client-mock", version.ref = "ktor" }
+ktor-serialization = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-contentNegotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
+
+#======Multiplatform
+kmp-kermit = { group = "co.touchlab", name = "kermit", version.ref = "kermit" }
+kmp-koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
+kmp-koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
+kmp-koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
+test-kmp-koin = { group = "io.insert-koin", name = "koin-test", version.ref = "koin" }
+kmp-sqldelight-driver = { group = "app.cash.sqldelight", name = "sqlite-driver", version.ref = "sqldelight" }
+kmp-sqldelight-android-driver = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqldelight" }
+kmp-sqldelight-ios-driver = { group = "app.cash.sqldelight", name = "native-driver", version.ref = "sqldelight" }
+kmp-sqldelight-coroutines-extensions = { group = "app.cash.sqldelight", name = "coroutines-extensions", version.ref = "sqldelight" }
+test-kmp-turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
+
+#======Android
+android-material = { group = "com.google.android.material", name = "material", version.ref = "androidMaterial" }
+androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
+
+androidx-compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivityKtx" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "androidxCompose" }
+androidx-compose-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout", version.ref = "androidxCompose" }
+androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "androidxCompose" }
+androidx-compose-material-iconsExtended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "androidxCompose" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "androidxComposeMaterial3" }
+androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "androidxCompose" }
+androidx-compose-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxComposeLifecycle" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "androidxCompose" }
+androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics", version.ref = "androidxCompose" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "androidxCompose" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "androidxCompose" }
+androidx-compose-ui-util = { group = "androidx.compose.ui", name = "ui-util", version.ref = "androidxCompose" }
+androidx-compose-ui-util-android = { group = "androidx.compose.ui", name = "ui-util-android", version.ref = "androidxComposeUiUtilAndroid" }
+
+[bundles]
+
+ktor = [
+    "ktor-client-core",
+    "ktor-serialization",
+    "ktor-contentNegotiation",
+    "ktor-logging"
+]
+
+androidx-compose = [
+    "androidx-compose-activity",
+    "androidx-compose-foundation",
+    "androidx-compose-foundation-layout",
+    "androidx-compose-material",
+    "androidx-compose-material-iconsExtended",
+    "androidx-compose-material3",
+    "androidx-compose-runtime",
+    "androidx-compose-lifecycle-runtime",
+    "androidx-compose-ui",
+    "androidx-compose-ui-graphics",
+    "androidx-compose-ui-tooling",
+    "androidx-compose-ui-tooling-preview",
+    "androidx-compose-ui-util",
+    "androidx-compose-ui-util-android"
+]

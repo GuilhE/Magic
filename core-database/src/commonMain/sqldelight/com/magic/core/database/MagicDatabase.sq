@@ -1,0 +1,48 @@
+CREATE TABLE IF NOT EXISTS CardSet (
+    code TEXT NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    releaseDate Text NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Card (
+    id TEXT NOT NULL PRIMARY KEY,
+    setCode TEXT NOT NULL,
+    name TEXT NOT NULL ,
+    text TEXT NOT NULL,
+    imageUrl TEXT,
+    artist TEXT NOT NULL,
+    FOREIGN KEY(setCode) REFERENCES CardSet(code) ON DELETE CASCADE
+);
+
+getCardsCount:
+SELECT COUNT(id) FROM Card;
+
+getSetsCount:
+SELECT COUNT(code) FROM CardSet;
+
+getAllCards:
+SELECT DISTINCT * FROM Card WHERE imageUrl!= '' ORDER BY name;
+
+getAllCardSets:
+SELECT * FROM CardSet ORDER BY releaseDate;
+
+getSet:
+SELECT code FROM CardSet WHERE code = ? LIMIT 1;
+
+getCardsBySetCode:
+SELECT * FROM Card WHERE setCode = ? ORDER BY name;
+
+insertCard:
+INSERT OR REPLACE INTO Card(id, setCode, name, text, imageUrl, artist)
+VALUES (?, ?, ?, ?, ?, ?);
+
+insertCardSet:
+INSERT OR REPLACE INTO CardSet(code, name, releaseDate)
+VALUES (?, ?, ?);
+
+deleteAllSets:
+DELETE FROM CardSet;
+
+deleteCardSetAndCards:
+DELETE FROM CardSet WHERE code = ?;
+DELETE FROM Card WHERE setCode = ?;
