@@ -8,7 +8,7 @@ kotlinxCompose = "1.7.0"
 ktor = "3.0.0"
 
 #=====Google
-ksp = "2.0.21-1.0.25"
+ksp = "2.0.21-1.0.26"
 
 #======Android
 androidCompileSdk = "35"

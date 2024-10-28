@@ -17,3 +17,10 @@ struct MagicApp: App {
         }
     }
 }
+
+#Preview {
+    // CardListView(viewModel: CardListViewModelFactory.mock())
+    // CardListView(viewModel: CardListViewModelFactory.create())
+    // CardDeckScreen<ColorCardView, ColorDeckViewModel>(viewModel: CardDeckViewModelFactory.mock())
+    CardDeckScreen<MagicCardView, MagicDeckViewModel>(viewModel: CardDeckViewModelFactory.create())
+}
