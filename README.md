@@ -21,11 +21,13 @@ These five modules constitute the Shared Data Layer.
 
 #### Android
 
+The `MagicApp` serves as the entry point and includes the setup for DI. There's no Domain Layer and `Shared Data Layer` is the Data Layer itself. Finally, the `presentation` contains all the logic related to the UI Layer.
+
 To run it `./gradlew :androidApp:installDebug`
 
 #### iOS
 
-The `App` package serves as the entry point and includes the setup for dependency injection (DI). 
+The `App` package serves as the entry point and includes the setup for DI. 
 The `Core` defines the DI protocols and container. The `Data` acts as a bridge between the App's Data Layer and the Shared Data Layer, where the implementation logic resides. 
 The `Domain` contains the bridge protocols and data structures, and also the app protocols. Finally, the `Presentation` contains all the logic related to the UI Layer.
 
