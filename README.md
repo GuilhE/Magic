@@ -2,6 +2,8 @@
 
 # Magic
 
+[![Android Weekly](https://androidweekly.net/issues/issue-647/badge)](https://androidweekly.net/issues/issue-647)
+
 KMP sample project acting as a playground to illustrate what's discussed in this article:
 <p>
  <a href="https://guidelgado.medium.com/fa8cb2c1aa92"><img src="/media/banner.png" width="692"></a></br>
