@@ -27,7 +27,7 @@ androidxComposeUiUtilAndroid = "1.7.5"
 kermit = "2.0.4"
 sqldelight = "2.0.2"
 koin = "4.0.0"
-nativecoroutines = "1.0.0-ALPHA-37-kotlin-2.1.0-Beta2"
+nativecoroutines = "1.0.0-ALPHA-37-kotlin-2.1.0-RC"
 turbine = "1.1.0"
 
 [plugins]
