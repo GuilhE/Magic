@@ -31,11 +31,11 @@ public final class DomainCardList: Sendable {
     }
 }
 
-public final class DomainException: Error, @unchecked Sendable {
+public final class DomainException: Error, Sendable {
     public let error: Error?
-    public let domainError: (any ErrorException)?
+    public let domainError: ErrorException?
 
-    public init(domainError: (any ErrorException)?) {
+    public init(domainError: ErrorException?) {
         self.error = nil
         self.domainError = domainError
     }
