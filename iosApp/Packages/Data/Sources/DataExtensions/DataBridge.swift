@@ -1,7 +1,7 @@
 import DomainProtocols
 import MagicDataLayer
 
-extension KotlinThrowable: @retroactive ErrorException {}
-extension RateLimitException: @retroactive DomainRateLimitException {}
-extension Card: @retroactive DomainCard {}
-extension CardSet: @retroactive DomainCardSet {}
+extension KotlinThrowable: @retroactive ErrorException, @unchecked Sendable {}
+extension RateLimitException: @retroactive DomainRateLimitException, @unchecked Sendable {}
+extension Card: @retroactive DomainCard, @unchecked Sendable {}
+extension CardSet: @retroactive DomainCardSet, @unchecked Sendable {}

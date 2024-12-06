@@ -1,5 +1,6 @@
 import Swinject
 
+@MainActor
 public class DIContainer {
     public static let shared = DIContainer()
     private let container: Container = .init()

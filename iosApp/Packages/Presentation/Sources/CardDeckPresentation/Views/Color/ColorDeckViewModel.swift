@@ -2,7 +2,6 @@ import CardUIModels
 import Combine
 import SwiftUI
 
-@MainActor
 public class ColorDeckViewModel: ObservableObject, CardDeckViewModelProtocol {
     public typealias CardType = ColorCard
 

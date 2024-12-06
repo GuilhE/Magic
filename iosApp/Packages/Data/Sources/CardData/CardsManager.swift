@@ -2,37 +2,42 @@ import CardDomain
 import DataExtensions
 import DomainProtocols
 import KMPNativeCoroutinesAsync
-import MagicDataLayer
+@preconcurrency import MagicDataLayer
 
 extension CardsManager: @retroactive DomainCardsManagerProtocol {
+    
     public func getCardSet(setCode: String) async -> Swift.Result<DomainCardList, DomainException> {
-        do {
-            let result = try await asyncFunction(for: getSet(setCode: setCode))
-            if let successResult = result as? ResultSuccess<NSArray>, let cards = successResult.data as? [any DomainCard] {
-                return .success(DomainCardList(cards: cards))
-            } else if let errorResult = result as? ResultError {
-                return .failure(DomainException(domainError: errorResult.exception))
-            } else {
-                return .failure(DomainException(error: UnexpectedResultError()))
+        return await Task {
+            do {
+                let result = try await asyncFunction(for: getSet(setCode: setCode))
+                if let successResult = result as? ResultSuccess<NSArray>, let cards = successResult.data as? [any DomainCard] {
+                    return .success(DomainCardList(cards: cards))
+                } else if let errorResult = result as? ResultError {
+                    return .failure(DomainException(domainError: errorResult.exception))
+                } else {
+                    return .failure(DomainException(error: UnexpectedResultError()))
+                }
+            } catch {
+                return .failure(DomainException(error: error))
             }
-        } catch {
-            return .failure(DomainException(error: error))
-        }
+        }.value
     }
 
     public func getCardSets(setCodes: [String]) async -> Swift.Result<Void, DomainException> {
-        do {
-            let result = try await asyncFunction(for: getSets(setCodes: setCodes))
-            if result is ResultSuccess<KotlinUnit> {
-                return .success(())
-            } else if let errorResult = result as? ResultError {
-                return .failure(DomainException(domainError: errorResult.exception))
-            } else {
-                return .failure(DomainException(error: UnexpectedResultError()))
+        return await Task {
+            do {
+                let result = try await asyncFunction(for: getSets(setCodes: setCodes))
+                if result is ResultSuccess<KotlinUnit> {
+                    return .success(())
+                } else if let errorResult = result as? ResultError {
+                    return .failure(DomainException(domainError: errorResult.exception))
+                } else {
+                    return .failure(DomainException(error: UnexpectedResultError()))
+                }
+            } catch {
+                return .failure(DomainException(error: error))
             }
-        } catch {
-            return .failure(DomainException(error: error))
-        }
+        }.value
     }
 
     public func getCardSets() -> [any DomainCardSet] {

@@ -4,7 +4,6 @@ import Combine
 import DomainProtocols
 import SwiftUI
 
-@MainActor
 public class MagicDeckViewModel: ObservableObject, CardDeckViewModelProtocol {
     public typealias CardType = MagicCard
 
