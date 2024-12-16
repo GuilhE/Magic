@@ -4,9 +4,9 @@ import Combine
 import DomainProtocols
 import SwiftUI
 
+@MainActor
 public protocol CardListViewModelProtocol {}
 
-@MainActor
 public class CardListViewModel: ObservableObject, CardListViewModelProtocol {
     // https://en.wikipedia.org/wiki/List_of_Magic:_The_Gathering_sets
     private let sets = ["4ED", "5ED", "TMP", "MIR"]

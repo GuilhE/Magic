@@ -1,5 +1,6 @@
 import DomainProtocols
 
+@MainActor
 public protocol DomainCardsManagerProtocol {
     func getCardSet(setCode: String) async -> Result<DomainCardList, DomainException>
     func getCardSets(setCodes: [String]) async -> Result<Void, DomainException>
