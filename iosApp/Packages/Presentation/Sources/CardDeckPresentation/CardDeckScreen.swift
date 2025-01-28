@@ -75,13 +75,16 @@ public struct CardDeckScreen<CardView: CardViewProtocol, CardViewModel: CardDeck
                 }) {
                     Image(set.toImage())
                         .circularBlueBorder()
+                        .accessibilityHidden(true)
                 }
                 .scaleEffect(currentSet == set.code ? 1.2 : 1.0)
                 .animation(.easeInOut(duration: 0.15), value: currentSet == set.code)
+                .accessibilityLabel("\(set.toLabel()) \(currentSet == set.code ? ", current deck" : "")")
+                .accessibilityHint("\(currentSet == set.code ? "" : "Touch to change deck")")
             }
             if availableSets.isEmpty {
                 if viewModel.isLoading {
-                    ProgressView()
+                    ProgressView().accessibilityLabel("Loading available decks")
                 } else {
                     Button(action: {
                         if !viewModel.isLoading {
@@ -93,7 +96,10 @@ public struct CardDeckScreen<CardView: CardViewProtocol, CardViewModel: CardDeck
                         Image(systemName: "arrow.down.circle.dotted")
                             .scaleEffect(2.0)
                             .tint(.green)
+                            .accessibilityHidden(true)
                     }
+                    .accessibilityLabel("Get avaiable decks")
+                    .accessibilityHint("Touch to download available decks")
                 }
             }
         }
@@ -109,6 +115,7 @@ public struct CardDeckScreen<CardView: CardViewProtocol, CardViewModel: CardDeck
                     .grayscale(1)
                     .opacity(0.1)
                     .animation(.easeInOut(duration: 0.15), value: showEmpty)
+                    .accessibilityLabel("Empty deck, no cards to show")
             }
             CardDeckView<CardView>(
                 cardSize: CGSize(width: 250, height: 350),
@@ -147,6 +154,7 @@ public struct CardDeckScreen<CardView: CardViewProtocol, CardViewModel: CardDeck
                     currentSet = ""
                 }
             )
+            .accessibilityHidden(showEmpty)
         }
     }
 
@@ -166,9 +174,12 @@ public struct CardDeckScreen<CardView: CardViewProtocol, CardViewModel: CardDeck
                 }
             }) {
                 Image(systemName: "trash.circle")
+                    .accessibilityHidden(true)
             }
             .disabled(!enabledDeleteButton())
-
+            .accessibilityLabel("Delete current set")
+            .accessibilityHint("Touch to delete \(label(set: currentSet)) set")
+            
             Button(action: {
                 if !runShuffleAnimation {
                     runShuffleAnimation = true
@@ -178,8 +189,11 @@ public struct CardDeckScreen<CardView: CardViewProtocol, CardViewModel: CardDeck
                 Image(systemName: "shuffle.circle")
                     .rotationEffect(Angle(degrees: btnShuffleRotation))
                     .animation(.easeInOut(duration: 1), value: runShuffleAnimation)
+                    .accessibilityHidden(true)
             }
             .disabled(!enabledShuffleButton())
+            .accessibilityLabel("Shuffle current deck")
+            .accessibilityHint("Touch to shuffle \(label(set: currentSet)) deck")
 
             Button(action: {
                 if !viewModel.isLoading, !runAddAnimation {
@@ -190,8 +204,12 @@ public struct CardDeckScreen<CardView: CardViewProtocol, CardViewModel: CardDeck
                     .scaleEffect(viewModel.isLoading ? 1.2 : 1.0)
                     .animation(viewModel.isLoading ? .easeInOut(duration: 1).repeatForever(autoreverses: true) : .default, value: viewModel.isLoading)
                     .tint(viewModel.isLoading ? .green : .blue)
+                    .accessibilityHidden(true)
             }
             .disabled(!enabledGetButton())
+            .accessibilityLabel("Get more set cards")
+            .accessibilityHint("Touch to get more \(label(set: currentSet)) set cards")
+
         }
     }
 
@@ -214,5 +232,24 @@ private extension CardSetItem {
         default:
             return "default"
         }
+    }
+    
+    func toLabel() -> String {
+        return label(set: code)
+    }
+}
+
+private func label(set: String) -> String {
+    switch set {
+    case "4ED":
+        return "4th edition"
+    case "5ED":
+        return "5th edition"
+    case "MIR":
+        return "Mirage"
+    case "TMP":
+        return "Tempest"
+    default:
+        return ""
     }
 }

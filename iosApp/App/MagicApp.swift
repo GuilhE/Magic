@@ -1,10 +1,14 @@
 import CardDeckPresentation
 import CardListPresentation
+import netfox
 import SwiftUI
 
 @main
 struct MagicApp: App {
     init() {
+        #if DEBUG
+        NFX.sharedInstance().start()
+        #endif
         AppDependencies().setupDependencies()
     }
 
