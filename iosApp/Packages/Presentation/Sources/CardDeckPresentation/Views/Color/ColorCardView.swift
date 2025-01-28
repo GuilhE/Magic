@@ -17,6 +17,7 @@ public struct ColorCardView: CardViewProtocol {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(Color.gray)
                     .animation(.easeInOut(duration: 0.5), value: showBack)
+                    .accessibilityHidden(true)
             } else {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(card.color)
@@ -25,11 +26,13 @@ public struct ColorCardView: CardViewProtocol {
                             .font(.system(size: 100))
                             .foregroundColor(.white)
                     )
+                    .accessibilityHidden(true)
             }
         }
         .frame(width: size.width, height: size.height)
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .rotation3DEffect(Angle(degrees: showBack ? 180 : 0), axis: (x: 0, y: 1, z: 0))
         .shadow(radius: 5)
+        .accessibilityLabel("\(card.color.description) card number \(card.number)")
     }
 }

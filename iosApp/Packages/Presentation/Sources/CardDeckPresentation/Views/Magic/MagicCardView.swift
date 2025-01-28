@@ -21,6 +21,7 @@ public struct MagicCardView: CardViewProtocol {
                     .scaledToFit()
                     .rotation3DEffect(Angle(degrees: 180), axis: (x: 0, y: 1, z: 0))
                     .animation(.easeInOut(duration: 0.5), value: showBack)
+                    .accessibilityHidden(true)
             } else {
                 if showError {
                     ZStack {
@@ -31,6 +32,7 @@ public struct MagicCardView: CardViewProtocol {
                         Image(systemName: "photo")
                             .font(.title)
                             .foregroundStyle(.secondary)
+                            .accessibilityHidden(true)
                     }
                 } else {
                     KFImage(URL(string: card.imageUrl))
@@ -52,6 +54,7 @@ public struct MagicCardView: CardViewProtocol {
         }
         .frame(width: size.width, height: size.height)
         .clipShape(RoundedRectangle(cornerRadius: 14))
-        .rotation3DEffect(Angle(degrees: showBack ? 180 : 0), axis: (x: 0, y: 1, z: 0))
+        .rotation3DEffect(Angle(degrees: showBack ? 180 : 0), axis: (x: 0, y: 1, z: 0))        
+        .accessibilityLabel("\(card.name) card")
     }
 }
