@@ -1,14 +1,14 @@
 [versions]
 
 #======Kotlin
-kotlin = "2.1.0"
+kotlin = "2.1.10"
 kotlinxCoroutines = "1.10.1"
-kotlinxSerialization = "1.7.3"
-kotlinxCompose = "1.7.2"
+kotlinxSerialization = "1.8.0"
+kotlinxCompose = "1.8.0-alpha03"
 ktor = "3.0.0"
 
 #=====Google
-ksp = "2.1.0-1.0.29"
+ksp = "2.1.10-1.0.30"
 
 #======Android
 androidCompileSdk = "35"
@@ -18,16 +18,16 @@ androidGradlePlugin = "8.7.3"
 androidMaterial = "1.12.0"
 androidxActivityKtx = "1.10.0"
 androidxLifecycle = "2.8.7"
-androidxCompose = "1.7.6"
+androidxCompose = "1.7.8"
 androidxComposeLifecycle = "2.8.7"
 androidxComposeMaterial3 = "1.3.1"
-androidxComposeUiUtilAndroid = "1.7.6"
+androidxComposeUiUtilAndroid = "1.7.8"
 
 #======Multiplatform
 kermit = "2.0.4"
 sqldelight = "2.0.2"
 koin = "4.0.0"
-nativecoroutines = "1.0.0-ALPHA-38"
+nativecoroutines = "1.0.0-ALPHA-39"
 turbine = "1.1.0"
 
 [plugins]
