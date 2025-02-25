@@ -5,7 +5,7 @@ kotlin = "2.1.10"
 kotlinxCoroutines = "1.10.1"
 kotlinxSerialization = "1.8.0"
 kotlinxCompose = "1.8.0-alpha03"
-ktor = "3.0.0"
+ktor = "3.1.1"
 
 #=====Google
 ksp = "2.1.10-1.0.30"
