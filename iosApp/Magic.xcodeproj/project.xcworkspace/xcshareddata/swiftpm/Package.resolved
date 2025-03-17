@@ -1,13 +1,13 @@
 {
-  "originHash" : "63ea43ef68bd65a0cedefff0d80f0b428edead4322ea047fe656781c53ee1d1d",
+  "originHash" : "1567143c735b14902101f3b7d58dcbe85a9d2f0dfbc5b0ad0944c93536594dd7",
   "pins" : [
     {
       "identity" : "kingfisher",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/onevcat/Kingfisher.git",
       "state" : {
-        "revision" : "33696a71dd4d71f1b0f781ade11a48ba5549581a",
-        "version" : "8.0.3"
+        "revision" : "4c6b067f96953ee19526e49e4189403a2be21fb3",
+        "version" : "8.3.1"
       }
     },
     {
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/rickclephas/KMP-NativeCoroutines.git",
       "state" : {
-        "revision" : "db24edabaf00b2994a3c3a9601d51d246e26d6bf",
-        "version" : "1.0.0-ALPHA-39-spm-async"
+        "revision" : "d551202769c6900e93244ad4014a68143f32a3c1",
+        "version" : "1.0.0-ALPHA-40-spm-async"
       }
     },
     {

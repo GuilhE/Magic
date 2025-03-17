@@ -4,11 +4,11 @@
 kotlin = "2.1.10"
 kotlinxCoroutines = "1.10.1"
 kotlinxSerialization = "1.8.0"
-kotlinxCompose = "1.8.0-alpha03"
+kotlinxCompose = "1.8.0-alpha04"
 ktor = "3.1.1"
 
 #=====Google
-ksp = "2.1.10-1.0.30"
+ksp = "2.1.10-1.0.31"
 
 #======Android
 androidCompileSdk = "35"
@@ -16,7 +16,7 @@ androidTargetSdk = "35"
 androidMinSdk = "24"
 androidGradlePlugin = "8.7.3"
 androidMaterial = "1.12.0"
-androidxActivityKtx = "1.10.0"
+androidxActivityKtx = "1.10.1"
 androidxLifecycle = "2.8.7"
 androidxCompose = "1.7.8"
 androidxComposeLifecycle = "2.8.7"
@@ -27,7 +27,7 @@ androidxComposeUiUtilAndroid = "1.7.8"
 kermit = "2.0.4"
 sqldelight = "2.0.2"
 koin = "4.0.0"
-nativecoroutines = "1.0.0-ALPHA-39"
+nativecoroutines = "1.0.0-ALPHA-40"
 turbine = "1.1.0"
 
 [plugins]
