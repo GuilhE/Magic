@@ -24,9 +24,9 @@ public protocol DomainCard: Sendable {
 }
 
 public final class DomainCardList: Sendable {
-    let cards: [any DomainCard]
+    let cards: [DomainCard]
     
-    public init(cards: [any DomainCard]) {
+    public init(cards: [DomainCard]) {
         self.cards = cards
     }
 }

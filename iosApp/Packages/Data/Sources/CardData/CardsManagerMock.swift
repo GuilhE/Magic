@@ -6,7 +6,7 @@ public class CardsManagerMock: DomainCardsManagerProtocol {
     private var mockCardSets: [CardSet: [Card]] = [:]
     private var setCountContinuation: AsyncStream<Int>.Continuation?
     private var cardCountContinuation: AsyncStream<Int>.Continuation?
-    private var cardsContinuations: [String: AsyncStream<[any DomainCard]>.Continuation] = [:]
+    private var cardsContinuations: [String: AsyncStream<[DomainCard]>.Continuation] = [:]
 
     public init() {
         mockCardSets[CardSet(code: "AAA", name: "Set AAA", releaseDate: "2024-01-01")] = createCards("AAA")
@@ -23,7 +23,7 @@ public class CardsManagerMock: DomainCardsManagerProtocol {
             }
             await emitCardsUpdate(for: setCode, cards: cards)
             await emitCountsUpdate(delay: 0)
-            return .success(DomainCardList(cards: cards))
+            return .success(DomainCardList(cards: cards as [DomainCard]))
         } else {
             return .failure(DomainException(error: NSError(domain: "Set not found", code: 404, userInfo: nil)))
         }
@@ -33,13 +33,13 @@ public class CardsManagerMock: DomainCardsManagerProtocol {
         return .success(())
     }
 
-    public func getCardSets() -> [any DomainCardSet] {
-        return mockCardSets.map { $0.key }
+    public func getCardSets() -> [DomainCardSet] {
+        return mockCardSets.map { $0.key } as! [DomainCardSet]
     }
 
-    public func observeCardSets() async throws -> AsyncStream<[any DomainCardSet]> {
+    public func observeCardSets() async throws -> AsyncStream<[DomainCardSet]> {
         return AsyncStream { continuation in
-            continuation.yield(mockCardSets.keys.map { set in set })
+            continuation.yield(mockCardSets.keys.map { set in set } as [DomainCardSet])
         }
     }
 
@@ -57,11 +57,11 @@ public class CardsManagerMock: DomainCardsManagerProtocol {
         }
     }
 
-    public func observeCardsFromSet(setCode: String) async throws -> AsyncStream<[any DomainCard]> {
+    public func observeCardsFromSet(setCode: String) async throws -> AsyncStream<[DomainCard]> {
         return AsyncStream { continuation in
             cardsContinuations[setCode] = continuation
             if let cards = mockCardSets.first(where: { $0.key.code == setCode })?.value {
-                continuation.yield(cards)
+                continuation.yield(cards as [DomainCard])
             } else {
                 continuation.yield([])
             }
@@ -110,17 +110,17 @@ public class CardsManagerMock: DomainCardsManagerProtocol {
 
         for (setCode, continuation) in cardsContinuations {
             if let cards = mockCardSets.first(where: { $0.key.code == setCode })?.value {
-                continuation.yield(cards)
+                continuation.yield(cards as [DomainCard])
             } else {
                 continuation.yield([])
             }
         }
     }
 
-    private func emitCardsUpdate(delay: UInt64 = 500_000_000, for setCode: String, cards: [any DomainCard]) async {
+    private func emitCardsUpdate(delay: UInt64 = 500_000_000, for setCode: String, cards: [DomainCard]) async {
         try? await Task.sleep(nanoseconds: delay)
         if let continuation = cardsContinuations[setCode] {
-            continuation.yield(cards)
+            continuation.yield(cards as [DomainCard])
         }
     }
 }
