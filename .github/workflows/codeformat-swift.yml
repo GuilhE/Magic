@@ -30,4 +30,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr create --title "Apply SwiftFormat" --body "This PR applies SwiftFormat automatically." --base develop --head $(git branch --show-current)
+          gh pr create --title "Apply SwiftFormat" --body "This PR applies SwiftFormat automatically." --base main --head $(git branch --show-current)
