@@ -18,11 +18,11 @@ class CardsManagerFactory: FactoryProtocol {
     }
 
     public static func create<CardsManager>() -> CardsManager {
-        return DIContainer.shared.resolve(DomainCardsManagerProtocol.self, name: createName) as! CardsManager
+        DIContainer.shared.resolve(DomainCardsManagerProtocol.self, name: createName) as! CardsManager
     }
 
     public static func mock<CardsManagerMock>() -> CardsManagerMock {
-        return DIContainer.shared.resolve(DomainCardsManagerProtocol.self, name: mockName) as! CardsManagerMock
+        DIContainer.shared.resolve(DomainCardsManagerProtocol.self, name: mockName) as! CardsManagerMock
     }
 }
 
@@ -38,11 +38,11 @@ class CardListViewModelFactory: FactoryProtocol {
     }
 
     public static func create<CardListViewModel>() -> CardListViewModel {
-        return DIContainer.shared.resolve(CardListViewModelProtocol.self, name: createName) as! CardListViewModel
+        DIContainer.shared.resolve(CardListViewModelProtocol.self, name: createName) as! CardListViewModel
     }
 
     public static func mock<CardListViewModelMock>() -> CardListViewModelMock {
-        return DIContainer.shared.resolve(CardListViewModelProtocol.self, name: mockName) as! CardListViewModelMock
+        DIContainer.shared.resolve(CardListViewModelProtocol.self, name: mockName) as! CardListViewModelMock
     }
 }
 
@@ -57,10 +57,10 @@ class CardDeckViewModelFactory: FactoryProtocol {
     }
 
     public static func create<MagicDeckViewModel>() -> MagicDeckViewModel {
-        return DIContainer.shared.resolve((any CardDeckViewModelProtocol).self, name: createName) as! MagicDeckViewModel
+        DIContainer.shared.resolve((any CardDeckViewModelProtocol).self, name: createName) as! MagicDeckViewModel
     }
 
     public static func mock<ColorDeckViewModel>() -> ColorDeckViewModel {
-        return DIContainer.shared.resolve((any CardDeckViewModelProtocol).self, name: mockName) as! ColorDeckViewModel
+        DIContainer.shared.resolve((any CardDeckViewModelProtocol).self, name: mockName) as! ColorDeckViewModel
     }
 }

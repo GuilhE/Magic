@@ -54,7 +54,7 @@ public struct MagicCardView: CardViewProtocol {
         }
         .frame(width: size.width, height: size.height)
         .clipShape(RoundedRectangle(cornerRadius: 14))
-        .rotation3DEffect(Angle(degrees: showBack ? 180 : 0), axis: (x: 0, y: 1, z: 0))        
+        .rotation3DEffect(Angle(degrees: showBack ? 180 : 0), axis: (x: 0, y: 1, z: 0))
         .accessibilityLabel("\(card.name) card")
     }
 }
