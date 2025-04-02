@@ -11,7 +11,7 @@ extension CardsManager: @retroactive DomainCardsManagerProtocol {
             if let successResult = result as? ResultSuccess<NSArray>, let cards = successResult.data as? [DomainCard] {
                 return .success(DomainCardList(cards: cards))
             } else if let errorResult = result as? ResultError {
-                return .failure(DomainException(domainError: (errorResult.exception as ErrorException)))
+                return .failure(DomainException(domainError: errorResult.exception as ErrorException))
             } else {
                 return .failure(DomainException(error: UnexpectedResultError()))
             }
@@ -26,7 +26,7 @@ extension CardsManager: @retroactive DomainCardsManagerProtocol {
             if result is ResultSuccess<KotlinUnit> {
                 return .success(())
             } else if let errorResult = result as? ResultError {
-                return .failure(DomainException(domainError: (errorResult.exception as ErrorException)))
+                return .failure(DomainException(domainError: errorResult.exception as ErrorException))
             } else {
                 return .failure(DomainException(error: UnexpectedResultError()))
             }
@@ -36,11 +36,11 @@ extension CardsManager: @retroactive DomainCardsManagerProtocol {
     }
 
     public func getCardSets() -> [DomainCardSet] {
-        return self.getSets() as [DomainCardSet]
+        getSets() as [DomainCardSet]
     }
 
     public func observeCardSets() async throws -> AsyncStream<[DomainCardSet]> {
-        return AsyncStream { continuation in
+        AsyncStream { continuation in
             Task {
                 let stream = asyncSequence(for: observeSetsFlow)
                 for try await sets in stream {
@@ -52,7 +52,7 @@ extension CardsManager: @retroactive DomainCardsManagerProtocol {
     }
 
     public func observeSetCount() async throws -> AsyncStream<Int> {
-        return AsyncStream { continuation in
+        AsyncStream { continuation in
             Task {
                 let stream = asyncSequence(for: observeSetCountFlow)
                 for try await count in stream {
@@ -64,7 +64,7 @@ extension CardsManager: @retroactive DomainCardsManagerProtocol {
     }
 
     public func observeCardCount() async throws -> AsyncStream<Int> {
-        return AsyncStream { continuation in
+        AsyncStream { continuation in
             Task {
                 let stream = asyncSequence(for: observeCardCountFlow)
                 for try await count in stream {
@@ -76,7 +76,7 @@ extension CardsManager: @retroactive DomainCardsManagerProtocol {
     }
 
     public func observeCardsFromSet(setCode: String) async throws -> AsyncStream<[DomainCard]> {
-        return AsyncStream { continuation in
+        AsyncStream { continuation in
             Task {
                 let stream = asyncSequence(for: observeCardsFromSet(code: setCode))
                 for try await cards in stream {

@@ -10,6 +10,6 @@ public class DIContainer {
     }
 
     public func resolve<T>(_ type: T.Type, name: String? = nil) -> T? {
-        return container.resolve(type, name: name)
+        container.resolve(type, name: name)
     }
 }

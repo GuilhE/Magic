@@ -42,7 +42,7 @@ public class CardListViewModel: ObservableObject, CardListViewModelProtocol {
 
         $currentSet
             .filter { !$0.code.isEmpty }
-            .map { $0.code }
+            .map(\.code)
             .sink { [weak self] code in
                 Task { await self?.observeCards(setCode: code) }
             }
@@ -127,7 +127,7 @@ public class CardListViewModel: ObservableObject, CardListViewModelProtocol {
 
 private extension DomainCard {
     func toCardListItem() -> CardListItem {
-        return CardListItem(
+        CardListItem(
             cardId: id,
             setCode: setCode,
             name: name,

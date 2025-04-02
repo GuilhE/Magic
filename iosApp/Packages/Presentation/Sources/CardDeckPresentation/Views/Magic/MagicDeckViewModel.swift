@@ -33,7 +33,7 @@ public class MagicDeckViewModel: ObservableObject, CardDeckViewModelProtocol {
 
         $currentSet
             .filter { !$0.code.isEmpty }
-            .map { $0.code }
+            .map(\.code)
             .sink { [weak self] code in
                 print("> Current set is \(code)")
                 Task { await self?.observeCards(setCode: code) }
@@ -134,7 +134,7 @@ public class MagicDeckViewModel: ObservableObject, CardDeckViewModelProtocol {
 
 private extension DomainCard {
     func toMagicCard() -> MagicCard {
-        return MagicCard(
+        MagicCard(
             name: name,
             text: text,
             imageUrl: imageUrl.toSecureURL() ?? imageUrl,

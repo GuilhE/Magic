@@ -7,7 +7,7 @@ import SwiftUI
 struct MagicApp: App {
     init() {
         #if DEBUG
-        NFX.sharedInstance().start()
+            NFX.sharedInstance().start()
         #endif
         AppDependencies().setupDependencies()
     }

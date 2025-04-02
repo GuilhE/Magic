@@ -30,35 +30,35 @@ public class CardsManagerMock: DomainCardsManagerProtocol {
     }
 
     public func getCardSets(setCodes _: [String]) async -> Swift.Result<Void, DomainException> {
-        return .success(())
+        .success(())
     }
 
     public func getCardSets() -> [DomainCardSet] {
-        return mockCardSets.map { $0.key } as! [DomainCardSet]
+        mockCardSets.map(\.key) as! [DomainCardSet]
     }
 
     public func observeCardSets() async throws -> AsyncStream<[DomainCardSet]> {
-        return AsyncStream { continuation in
+        AsyncStream { continuation in
             continuation.yield(mockCardSets.keys.map { set in set } as [DomainCardSet])
         }
     }
 
     public func observeSetCount() async throws -> AsyncStream<Int> {
-        return AsyncStream { continuation in
+        AsyncStream { continuation in
             setCountContinuation = continuation
             continuation.yield(mockCardSets.count)
         }
     }
 
     public func observeCardCount() async throws -> AsyncStream<Int> {
-        return AsyncStream { continuation in
+        AsyncStream { continuation in
             cardCountContinuation = continuation
-            continuation.yield(mockCardSets.flatMap { $0.value }.count)
+            continuation.yield(mockCardSets.flatMap(\.value).count)
         }
     }
 
     public func observeCardsFromSet(setCode: String) async throws -> AsyncStream<[DomainCard]> {
-        return AsyncStream { continuation in
+        AsyncStream { continuation in
             cardsContinuations[setCode] = continuation
             if let cards = mockCardSets.first(where: { $0.key.code == setCode })?.value {
                 continuation.yield(cards as [DomainCard])
@@ -106,7 +106,7 @@ public class CardsManagerMock: DomainCardsManagerProtocol {
     private func emitCountsUpdate(delay: UInt64 = 500_000_000) async {
         try? await Task.sleep(nanoseconds: delay)
         setCountContinuation?.yield(mockCardSets.count)
-        cardCountContinuation?.yield(mockCardSets.flatMap { $0.value }.count)
+        cardCountContinuation?.yield(mockCardSets.flatMap(\.value).count)
 
         for (setCode, continuation) in cardsContinuations {
             if let cards = mockCardSets.first(where: { $0.key.code == setCode })?.value {

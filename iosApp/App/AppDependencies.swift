@@ -1,6 +1,6 @@
 import MagicDataLayer
 
-@MainActor 
+@MainActor
 class AppDependencies {
     public func setupDependencies() {
         DependencyInjection().doInitKoin(enableNetworkLogs: false)
