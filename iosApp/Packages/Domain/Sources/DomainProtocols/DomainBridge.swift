@@ -4,7 +4,7 @@ public protocol DomainRateLimitException: ErrorException {}
 public struct UnexpectedResultError: Error, Sendable {
     public init() {}
     var localizedDescription: String {
-        return "Received an unexpected result type."
+        "Received an unexpected result type."
     }
 }
 
@@ -25,7 +25,7 @@ public protocol DomainCard: Sendable {
 
 public final class DomainCardList: Sendable {
     let cards: [DomainCard]
-    
+
     public init(cards: [DomainCard]) {
         self.cards = cards
     }
@@ -36,12 +36,12 @@ public final class DomainException: Error, Sendable {
     public let domainError: ErrorException?
 
     public init(domainError: ErrorException?) {
-        self.error = nil
+        error = nil
         self.domainError = domainError
     }
 
     public init(error: Error?) {
         self.error = error
-        self.domainError = nil
+        domainError = nil
     }
 }

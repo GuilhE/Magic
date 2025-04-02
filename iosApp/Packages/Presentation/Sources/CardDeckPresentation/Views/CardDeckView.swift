@@ -56,7 +56,7 @@ struct CardDeckView<CardView: CardViewProtocol>: View {
                     )
                     .onTapGesture {
                         if !shuffle {
-                            if touchedCard == nil && fromBottomToTop() ? index == deck.count - 1 : index == 0 {
+                            if touchedCard == nil, fromBottomToTop() ? index == deck.count - 1 : index == 0 {
                                 touchedCard = card
                             } else {
                                 touchedCard = nil

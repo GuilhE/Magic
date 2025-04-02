@@ -37,7 +37,7 @@ public struct CardDeckScreen<CardView: CardViewProtocol, CardViewModel: CardDeck
                 CardDeck
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .onChange(of: viewModel.cards) { value in
-                        if !value.isEmpty && !runAddAnimation {
+                        if !value.isEmpty, !runAddAnimation {
                             fullDeck = value
                             refreshCards()
                         }
@@ -179,7 +179,7 @@ public struct CardDeckScreen<CardView: CardViewProtocol, CardViewModel: CardDeck
             .disabled(!enabledDeleteButton())
             .accessibilityLabel("Delete current set")
             .accessibilityHint("Touch to delete \(label(set: currentSet)) set")
-            
+
             Button(action: {
                 if !runShuffleAnimation {
                     runShuffleAnimation = true
@@ -209,7 +209,6 @@ public struct CardDeckScreen<CardView: CardViewProtocol, CardViewModel: CardDeck
             .disabled(!enabledGetButton())
             .accessibilityLabel("Get more set cards")
             .accessibilityHint("Touch to get more \(label(set: currentSet)) set cards")
-
         }
     }
 
@@ -222,34 +221,34 @@ private extension CardSetItem {
     func toImage() -> String {
         switch code {
         case "4ED":
-            return "edition_4_symbol"
+            "edition_4_symbol"
         case "5ED":
-            return "edition_5_symbol"
+            "edition_5_symbol"
         case "MIR":
-            return "edition_mirage_symbol"
+            "edition_mirage_symbol"
         case "TMP":
-            return "edition_tempest_symbol"
+            "edition_tempest_symbol"
         default:
-            return "default"
+            "default"
         }
     }
-    
+
     func toLabel() -> String {
-        return label(set: code)
+        label(set: code)
     }
 }
 
 private func label(set: String) -> String {
     switch set {
     case "4ED":
-        return "4th edition"
+        "4th edition"
     case "5ED":
-        return "5th edition"
+        "5th edition"
     case "MIR":
-        return "Mirage"
+        "Mirage"
     case "TMP":
-        return "Tempest"
+        "Tempest"
     default:
-        return ""
+        ""
     }
 }
