@@ -1,11 +1,10 @@
 name: SwiftFormat (code)
+
 on:
   push:
     branches:
       - main
   pull_request:
-    branches:
-      - main
 
 jobs:
   Lint:
@@ -14,20 +13,32 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Running code format
-        run: swiftformat ./iosApp --swiftversion 6.0.3 --reporter github-actions-log
+        run: |
+          swiftformat ./iosApp --swiftversion 6.0.3 --reporter github-actions-log
+          git diff --exit-code || echo "CHANGES_DETECTED=true" >> $GITHUB_ENV
+
+      - name: Check if there are changes
+        if: env.CHANGES_DETECTED == 'true'
+        run: echo "SwiftFormat made changes. Proceeding with PR."
 
       - name: Creating new branch to commit changes
+        if: env.CHANGES_DETECTED == 'true'
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          BRANCH_NAME="auto-formatting-$(date +%s)"
+          BRANCH_NAME="auto-formatting-${{ github.event.pull_request.head.ref }}"
           git checkout -b $BRANCH_NAME
           git add .
-          git commit -m "Apply SwiftFormat" || echo "No changes to commit"
+          git commit -m "Apply SwiftFormat"
           git push origin $BRANCH_NAME
 
       - name: Creating Pull Request
+        if: env.CHANGES_DETECTED == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr create --title "Apply SwiftFormat" --body "This PR applies SwiftFormat automatically." --base main --head $(git branch --show-current)
+          gh pr create \
+            --title "Apply SwiftFormat" \
+            --body "This PR applies SwiftFormat automatically." \
+            --base ${{ github.event.pull_request.head.ref }} \
+            --head $(git branch --show-current)
