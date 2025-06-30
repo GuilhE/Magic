@@ -1,5 +1,5 @@
 {
-  "originHash" : "2e04cc4b7bbe4d7e931a3b4f04526125187b664917fbebb287b45d1b61491276",
+  "originHash" : "1c4f1a2142587929495b9cbdcfa0aa9bd30f07b1a876b8ed8f3769637c1a65b4",
   "pins" : [
     {
       "identity" : "kingfisher",
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/rickclephas/KMP-NativeCoroutines.git",
       "state" : {
-        "revision" : "351706747f51b1d5c315863abbbe41b42c516572",
-        "version" : "1.0.0-ALPHA-44-spm-async"
+        "revision" : "85c30240bf393bc50c1f10256300afbfe230ba22",
+        "version" : "1.0.0-ALPHA-45-spm-async"
       }
     },
     {
