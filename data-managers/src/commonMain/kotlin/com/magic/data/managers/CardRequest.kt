@@ -30,11 +30,11 @@ internal sealed class CardRequests(
     /**
      * The Api is failing to get Boosters, we'll simulate that with this
      */
-    data class GetCardsFromSet(private val setCode: String) : CardRequests("cards", HttpMethod.Get) {
+    data class GetCardsFromSet(private val setCode: String, private val page: Int = 1) : CardRequests("cards", HttpMethod.Get) {
         override fun requestBuilder(): HttpRequestBuilder.() -> Unit = {
             contentType(ContentType.Application.Json)
             parameter("set", setCode)
-            parameter("page", 1)
+            parameter("page", page)
             parameter("pageSize", 100)
         }
     }

@@ -4,6 +4,7 @@ import co.touchlab.kermit.Logger
 import com.magic.core.database.MagicDao
 import com.magic.core.network.api.ApiClient
 import com.magic.core.network.api.core.ApiResult
+import com.magic.data.managers.toCard
 import com.magic.data.models.exceptions.RateLimitException
 import com.magic.data.models.local.Card
 import com.magic.data.models.local.CardSet
@@ -43,6 +44,7 @@ class CardsManager : KoinComponent {
 
     /**
      *  If [CardSet] is not cached, it will be fetched from the API along with its cards and then inserted into the local database.
+     *  It will fetch 3 pages of cards from the API, each containing 100 cards.
      *
      * @param setCode The code of the [CardSet] to fetch and insert.
      * @return A [Result] containing a list of [Card] on success or a [Throwable] on error.
@@ -66,15 +68,17 @@ class CardsManager : KoinComponent {
 
         val localBooster = local.cardsFromSet(setCode)
         if (localBooster.isEmpty()) {
-            val boosterResult = remote.perform<CardListResponse>(CardRequests.GetCardsFromSet(setCode))
-            if (boosterResult is ApiResult.Error) {
-                logger.i { "> Error fetching booster: ${boosterResult.exception.message}" }
-                return Result.Error(RateLimitException(boosterResult.exception.message ?: ""))
-            }
-
-            val cards = (boosterResult as ApiResult.Success).data.cards
-            cards.forEach { card ->
-                local.insertCard(card.id, card.setCode, card.name, card.text, card.imageUrl, card.artist)
+            val cards = mutableListOf<Card>()
+            for (page in 1..3) {
+                val boosterResult = remote.perform<CardListResponse>(CardRequests.GetCardsFromSet(setCode, page))
+                if (boosterResult is ApiResult.Error) {
+                    logger.i { "> Error fetching booster: ${boosterResult.exception.message}" }
+                    return Result.Error(RateLimitException(boosterResult.exception.message ?: ""))
+                }
+                cards.addAll((boosterResult as ApiResult.Success).data.cards)
+                cards.forEach { card ->
+                    local.insertCard(card.id, card.setCode, card.name, card.text, card.imageUrl, card.artist)
+                }
             }
             return Result.Success(cards)
         } else {

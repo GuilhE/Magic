@@ -3,9 +3,9 @@
 #======Kotlin
 kotlin = "2.2.0"
 kotlinxCoroutines = "1.10.2"
-kotlinxSerialization = "1.8.1"
+kotlinxSerialization = "1.9.0"
 kotlinxCompose = "1.8.2"
-ktor = "3.2.0"
+ktor = "3.2.2"
 
 #=====Google
 ksp = "2.2.0-2.0.2"
@@ -14,7 +14,7 @@ ksp = "2.2.0-2.0.2"
 androidCompileSdk = "36"
 androidTargetSdk = "36"
 androidMinSdk = "24"
-androidGradlePlugin = "8.11.0"
+androidGradlePlugin = "8.11.1"
 androidMaterial = "1.12.0"
 androidxActivityKtx = "1.10.1"
 androidxLifecycle = "2.9.1"
