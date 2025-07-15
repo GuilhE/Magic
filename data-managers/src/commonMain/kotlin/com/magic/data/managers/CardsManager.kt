@@ -4,7 +4,6 @@ import co.touchlab.kermit.Logger
 import com.magic.core.database.MagicDao
 import com.magic.core.network.api.ApiClient
 import com.magic.core.network.api.core.ApiResult
-import com.magic.data.managers.toCard
 import com.magic.data.models.exceptions.RateLimitException
 import com.magic.data.models.local.Card
 import com.magic.data.models.local.CardSet
