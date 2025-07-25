@@ -1,13 +1,13 @@
 import SwiftUI
 
 struct CardListItem: Identifiable, Equatable {
-    public let id: UUID = .init()
-    public let cardId: String
-    public let setCode: String
-    public let name: String
-    public let text: String
-    public let imageUrl: String
-    public let artist: String
+    let id: UUID = .init()
+    let cardId: String
+    let setCode: String
+    let name: String
+    let text: String
+    let imageUrl: String
+    let artist: String
 
     init(
         cardId: String,
