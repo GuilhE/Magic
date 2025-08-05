@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-
 plugins {
     id("buildlogic.plugins.kmp.library.android")
     alias(libs.plugins.google.ksp)
@@ -14,7 +12,6 @@ android {
 kotlin {
     androidTarget()
     listOf(iosArm64(), iosSimulatorArm64()).forEach { _ ->
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             freeCompilerArgs.add("-Xexport-kdoc")
         }

@@ -1,14 +1,14 @@
 [versions]
 
 #======Kotlin
-kotlin = "2.2.0"
+kotlin = "2.2.20-Beta2"
 kotlinxCoroutines = "1.10.2"
 kotlinxSerialization = "1.9.0"
 kotlinxCompose = "1.8.2"
-ktor = "3.2.2"
+ktor = "3.2.3"
 
 #=====Google
-ksp = "2.2.0-2.0.2"
+ksp = "2.2.20-Beta2-2.0.2"
 
 #======Android
 androidCompileSdk = "36"
@@ -27,7 +27,7 @@ androidxComposeUiUtilAndroid = "1.8.3"
 kermit = "2.0.6"
 sqldelight = "2.1.0"
 koin = "4.1.0"
-nativecoroutines = "1.0.0-ALPHA-45"
+nativecoroutines = "1.0.0-ALPHA-45-kotlin-2.2.20-Beta2"
 turbine = "1.2.1"
 
 [plugins]
@@ -80,7 +80,6 @@ androidx-compose-activity = { group = "androidx.activity", name = "activity-comp
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "androidxCompose" }
 androidx-compose-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout", version.ref = "androidxCompose" }
 androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "androidxCompose" }
-androidx-compose-material-iconsExtended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "androidxCompose" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "androidxComposeMaterial3" }
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "androidxCompose" }
 androidx-compose-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxComposeLifecycle" }
@@ -105,7 +104,6 @@ androidx-compose = [
     "androidx-compose-foundation",
     "androidx-compose-foundation-layout",
     "androidx-compose-material",
-#    "androidx-compose-material-iconsExtended",
     "androidx-compose-material3",
     "androidx-compose-runtime",
     "androidx-compose-lifecycle-runtime",

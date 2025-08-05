@@ -6,8 +6,13 @@ pluginManagement {
         mavenLocal()
         mavenCentral()
         gradlePluginPortal()
-        google()
-        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        google {
+            mavenContent {
+                includeGroupAndSubgroups("androidx")
+                includeGroupAndSubgroups("com.android")
+                includeGroupAndSubgroups("com.google")
+            }
+        }
     }
 }
 
@@ -16,8 +21,13 @@ dependencyResolutionManagement {
     repositories {
         mavenLocal()
         mavenCentral()
-        google()
-        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        google {
+            mavenContent {
+                includeGroupAndSubgroups("androidx")
+                includeGroupAndSubgroups("com.android")
+                includeGroupAndSubgroups("com.google")
+            }
+        }
     }
 }
 
