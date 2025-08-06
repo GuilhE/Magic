@@ -22,19 +22,18 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
 /**
  * Manager class for handling card and card set operations. This class interacts with the remote API and
  * local database to fetch, store, and observe card and card set data.
  */
-class CardsManager : KoinComponent {
+class CardsManager(
+    private val remote: ApiClient,
+    private val local: MagicDao
+) {
     @NativeCoroutineScope
     internal val coroutineScope: CoroutineScope = MainScope()
     private val logger = Logger.withTag("CardsManager")
-    private val remote: ApiClient by inject()
-    private val local: MagicDao by inject()
 
     @Suppress("unused")
     @Throws(RateLimitException::class)
@@ -103,15 +102,15 @@ class CardsManager : KoinComponent {
                     }
                 }
                 val resultsList = results.awaitAll()
-                val errors = resultsList.filterIsInstance<ApiResult.Error>()
-                if (errors.isNotEmpty()) {
-                    val firstError = errors.first()
-                    logger.e { "> Error populating database: ${firstError.exception.message}" }
-                    Result.Error(firstError.exception)
-                } else {
-                    logger.i { "> Successfully populated database with booster sets" }
-                    Result.Success(Unit)
+                resultsList.forEach { result ->
+                    if (result is Result.Error) {
+                        logger.e { "> Error populating database: ${result.exception.message}" }
+                        return@coroutineScope Result.Error(result.exception)
+                    }
                 }
+
+                logger.i { "> Successfully populated database with booster sets" }
+                Result.Success(Unit)
             }
         } catch (e: Exception) {
             logger.e { "> Exception during database population: ${e.message}" }

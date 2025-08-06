@@ -8,5 +8,5 @@ import kotlin.native.HiddenFromObjC
 @OptIn(ExperimentalObjCRefinement::class)
 @HiddenFromObjC
 fun managersDiModule(): Module = module {
-    single { CardsManager() }
+    single { CardsManager(get(), get()) }
 }

@@ -105,7 +105,7 @@ class CardsManagerTest : KoinTest {
         val manager = get<CardsManager>()
         val result = manager.getSet("SET001")
         assertTrue(result is Result.Success)
-        assertEquals(2, result.data.size)
+        assertEquals(6, result.data.size)
         assertEquals("Card 1", result.data[0].name)
         assertEquals("Card 2", result.data[1].name)
     }
