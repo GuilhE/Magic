@@ -4,10 +4,16 @@ import DomainProtocols
 import KMPNativeCoroutinesAsync
 @preconcurrency import MagicDataLayer
 
-extension CardsManager: @retroactive DomainCardsManagerProtocol {
+public class CardsManagerImpl: DomainCardsManagerProtocol {
+    private let apiManager: CardsManager
+
+    public init(apiManager: CardsManager) {
+        self.apiManager = apiManager
+    }
+
     public func getCardSet(setCode: String) async -> Swift.Result<DomainCardList, DomainException> {
         do {
-            let result = try await asyncFunction(for: getSet(setCode: setCode))
+            let result = try await asyncFunction(for: apiManager.getSet(setCode: setCode))
             if let successResult = result as? ResultSuccess<NSArray>, let cards = successResult.data as? [DomainCard] {
                 return .success(DomainCardList(cards: cards))
             } else if let errorResult = result as? ResultError {
@@ -22,7 +28,7 @@ extension CardsManager: @retroactive DomainCardsManagerProtocol {
 
     public func getCardSets(setCodes: [String]) async -> Swift.Result<Void, DomainException> {
         do {
-            let result = try await asyncFunction(for: getSets(setCodes: setCodes))
+            let result = try await asyncFunction(for: apiManager.getSets(setCodes: setCodes))
             if result is ResultSuccess<KotlinUnit> {
                 return .success(())
             } else if let errorResult = result as? ResultError {
@@ -36,13 +42,13 @@ extension CardsManager: @retroactive DomainCardsManagerProtocol {
     }
 
     public func getCardSets() -> [DomainCardSet] {
-        getSets() as [DomainCardSet]
+        apiManager.getSets() as [DomainCardSet]
     }
 
     public func observeCardSets() async throws -> AsyncStream<[DomainCardSet]> {
         AsyncStream { continuation in
             Task {
-                let stream = asyncSequence(for: observeSetsFlow)
+                let stream = asyncSequence(for: apiManager.observeSetsFlow)
                 for try await sets in stream {
                     continuation.yield(sets as [DomainCardSet])
                 }
@@ -54,7 +60,7 @@ extension CardsManager: @retroactive DomainCardsManagerProtocol {
     public func observeSetCount() async throws -> AsyncStream<Int> {
         AsyncStream { continuation in
             Task {
-                let stream = asyncSequence(for: observeSetCountFlow)
+                let stream = asyncSequence(for: apiManager.observeSetCountFlow)
                 for try await count in stream {
                     continuation.yield(count.intValue)
                 }
@@ -66,7 +72,7 @@ extension CardsManager: @retroactive DomainCardsManagerProtocol {
     public func observeCardCount() async throws -> AsyncStream<Int> {
         AsyncStream { continuation in
             Task {
-                let stream = asyncSequence(for: observeCardCountFlow)
+                let stream = asyncSequence(for: apiManager.observeCardCountFlow)
                 for try await count in stream {
                     continuation.yield(count.intValue)
                 }
@@ -78,7 +84,7 @@ extension CardsManager: @retroactive DomainCardsManagerProtocol {
     public func observeCardsFromSet(setCode: String) async throws -> AsyncStream<[DomainCard]> {
         AsyncStream { continuation in
             Task {
-                let stream = asyncSequence(for: observeCardsFromSet(code: setCode))
+                let stream = asyncSequence(for: apiManager.observeCardsFromSet(code: setCode))
                 for try await cards in stream {
                     continuation.yield(cards as [DomainCard])
                 }
@@ -88,6 +94,6 @@ extension CardsManager: @retroactive DomainCardsManagerProtocol {
     }
 
     public func removeCardSet(setCode: String) {
-        removeSet(setCode: setCode)
+        apiManager.removeSet(setCode: setCode)
     }
 }

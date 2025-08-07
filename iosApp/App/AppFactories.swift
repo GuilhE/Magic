@@ -1,7 +1,7 @@
 import CardData
-import CardDeckPresentation
 import CardDomain
 import CardListPresentation
+import CardDeckPresentation
 import DI
 import FactoryProtocols
 import MagicDataLayer
@@ -13,7 +13,9 @@ class CardsManagerFactory: FactoryProtocol {
     public private(set) static var mockName: String = "CardsManagerMock"
 
     static func register() {
-        DIContainer.shared.register(DomainCardsManagerProtocol.self, name: createName) { _ in CardsManager() }
+        DIContainer.shared.register(DomainCardsManagerProtocol.self, name: createName) { _ in
+            CardsManagerImpl(apiManager: ManagersDi().cardsManager())
+        }
         DIContainer.shared.register(DomainCardsManagerProtocol.self, name: mockName) { _ in CardsManagerMock() }
     }
 
