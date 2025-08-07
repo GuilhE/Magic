@@ -11,6 +11,9 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Running code format
         run: |
@@ -19,14 +22,29 @@ jobs:
 
       - name: Check if there are changes
         if: env.CHANGES_DETECTED == 'true'
-        run: echo "SwiftFormat made changes. Proceeding with PR."
+        run: echo "SwiftFormat made changes. Proceeding with formatting."
 
       - name: Creating new branch to commit changes
         if: env.CHANGES_DETECTED == 'true'
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          BRANCH_NAME="auto-formatting-${{ github.event.pull_request.head.ref }}"
+          
+          # Generate branch name based on event type
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            BRANCH_NAME="auto-formatting-pr-${{ github.event.pull_request.number }}-$(date +%s)"
+            BASE_BRANCH="${{ github.event.pull_request.base.ref }}"
+          else
+            BRANCH_NAME="auto-formatting-$(date +%Y%m%d-%H%M%S)"
+            BASE_BRANCH="main"
+          fi
+          
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+          echo "BASE_BRANCH=$BASE_BRANCH" >> $GITHUB_ENV
+          
+          # Delete remote branch if it exists
+          git push origin --delete $BRANCH_NAME 2>/dev/null || true
+          
           git checkout -b $BRANCH_NAME
           git add .
           git commit -m "Apply SwiftFormat"
@@ -39,6 +57,6 @@ jobs:
         run: |
           gh pr create \
             --title "Apply SwiftFormat" \
-            --body "This PR applies SwiftFormat automatically." \
-            --base ${{ github.event.pull_request.head.ref }} \
-            --head $(git branch --show-current)
+            --body "This PR applies SwiftFormat automatically to maintain code consistency." \
+            --base ${{ env.BASE_BRANCH }} \
+            --head ${{ env.BRANCH_NAME }}
