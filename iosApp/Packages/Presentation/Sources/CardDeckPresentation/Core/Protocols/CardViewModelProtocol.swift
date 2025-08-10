@@ -1,5 +1,5 @@
-import CardDomain
 import CardUIModels
+import DomainUseCases
 import SwiftUI
 
 @MainActor

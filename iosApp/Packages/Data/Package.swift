@@ -8,12 +8,12 @@ let package = Package(
     platforms: [.iOS(.v16)],
     products: [
         .library(
-            name: "DataExtensions",
-            targets: ["DataExtensions"]
+            name: "KMPBridge",
+            targets: ["KMPBridge"]
         ),
         .library(
-            name: "CardData",
-            targets: ["CardData"]
+            name: "CardRepository",
+            targets: ["CardRepository"]
         ),
     ],
     dependencies: [
@@ -22,17 +22,17 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "DataExtensions",
+            name: "KMPBridge",
             dependencies: [
-                .product(name: "DomainProtocols", package: "Domain"),
+                .product(name: "DomainModels", package: "Domain"),
             ]
         ),
         .target(
-            name: "CardData",
+            name: "CardRepository",
             dependencies: [
-                "DataExtensions",
-                .product(name: "DomainProtocols", package: "Domain"),
-                .product(name: "CardDomain", package: "Domain"),
+                "KMPBridge",
+                .product(name: "DomainModels", package: "Domain"),
+                .product(name: "DomainUseCases", package: "Domain"),
                 .product(name: "KMPNativeCoroutinesAsync", package: "KMP-NativeCoroutines"),
             ]
         ),

@@ -1,7 +1,7 @@
-import CardDomain
 import CardUIModels
 import Combine
-import DomainProtocols
+import DomainModels
+import DomainUseCases
 import SwiftUI
 
 public class MagicDeckViewModel: ObservableObject, CardDeckViewModelProtocol {

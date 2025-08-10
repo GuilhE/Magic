@@ -11,13 +11,14 @@
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* MagicApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* MagicApp.swift */; };
 		5C0E710A2D491BAD000335AB /* netfox in Frameworks */ = {isa = PBXBuildFile; productRef = 5C0E71092D491BAD000335AB /* netfox */; };
-		5C751D482C5D39C8004083A4 /* DomainProtocols in Frameworks */ = {isa = PBXBuildFile; productRef = 5C751D472C5D39C8004083A4 /* DomainProtocols */; };
-		5C751D4A2C5D4BE2004083A4 /* DataExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = 5C751D492C5D4BE2004083A4 /* DataExtensions */; };
 		5C751D4C2C5D4D85004083A4 /* FactoryProtocols in Frameworks */ = {isa = PBXBuildFile; productRef = 5C751D4B2C5D4D85004083A4 /* FactoryProtocols */; };
 		5C88A8CA2C5BCF4300BC4BC0 /* AppDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C88A8C92C5BCF4300BC4BC0 /* AppDependencies.swift */; };
 		5C94B42C2C63D3C10072F5A9 /* AppFactories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C94B42B2C63D3C10072F5A9 /* AppFactories.swift */; };
-		5CAA87752C6A1D1600A34DF7 /* CardDomain in Frameworks */ = {isa = PBXBuildFile; productRef = 5CAA87742C6A1D1600A34DF7 /* CardDomain */; };
-		5CAA87772C6A1D6C00A34DF7 /* CardData in Frameworks */ = {isa = PBXBuildFile; productRef = 5CAA87762C6A1D6C00A34DF7 /* CardData */; };
+		5CBAF8D72E491CD500167EE4 /* CardRepository in Frameworks */ = {isa = PBXBuildFile; productRef = 5CBAF8D62E491CD500167EE4 /* CardRepository */; };
+		5CBAF8D92E491CD500167EE4 /* KMPBridge in Frameworks */ = {isa = PBXBuildFile; productRef = 5CBAF8D82E491CD500167EE4 /* KMPBridge */; };
+		5CBAF8DD2E491CD500167EE4 /* DomainModels in Frameworks */ = {isa = PBXBuildFile; productRef = 5CBAF8DC2E491CD500167EE4 /* DomainModels */; };
+		5CBAF8DF2E491D0800167EE4 /* CardUIModels in Frameworks */ = {isa = PBXBuildFile; productRef = 5CBAF8DE2E491D0800167EE4 /* CardUIModels */; };
+		5CBAF8E12E49210700167EE4 /* DomainUseCases in Frameworks */ = {isa = PBXBuildFile; productRef = 5CBAF8E02E49210700167EE4 /* DomainUseCases */; };
 		5CDE07AF2C6133F200FE3C47 /* CardDeckPresentation in Frameworks */ = {isa = PBXBuildFile; productRef = 5CDE07AE2C6133F200FE3C47 /* CardDeckPresentation */; };
 		5CE108EB2CA1B63F00D62467 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5CE108EA2CA1B63F00D62467 /* Kingfisher */; };
 		5CEF6E952C5B1D43005E16A1 /* DI in Frameworks */ = {isa = PBXBuildFile; productRef = 5CEF6E942C5B1D43005E16A1 /* DI */; };
@@ -56,16 +57,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5CBAF8D72E491CD500167EE4 /* CardRepository in Frameworks */,
+				5CBAF8DD2E491CD500167EE4 /* DomainModels in Frameworks */,
 				5C0E710A2D491BAD000335AB /* netfox in Frameworks */,
-				5C751D4A2C5D4BE2004083A4 /* DataExtensions in Frameworks */,
 				5CEF6E952C5B1D43005E16A1 /* DI in Frameworks */,
-				5CAA87772C6A1D6C00A34DF7 /* CardData in Frameworks */,
-				5CAA87752C6A1D1600A34DF7 /* CardDomain in Frameworks */,
+				5CBAF8E12E49210700167EE4 /* DomainUseCases in Frameworks */,
 				5C751D4C2C5D4D85004083A4 /* FactoryProtocols in Frameworks */,
 				5CEF6E9B2C5B1D43005E16A1 /* CardListPresentation in Frameworks */,
+				5CBAF8DF2E491D0800167EE4 /* CardUIModels in Frameworks */,
 				5CE108EB2CA1B63F00D62467 /* Kingfisher in Frameworks */,
+				5CBAF8D92E491CD500167EE4 /* KMPBridge in Frameworks */,
 				5CDE07AF2C6133F200FE3C47 /* CardDeckPresentation in Frameworks */,
-				5C751D482C5D39C8004083A4 /* DomainProtocols in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,6 +158,11 @@
 				5CDE07AE2C6133F200FE3C47 /* CardDeckPresentation */,
 				5CE108EA2CA1B63F00D62467 /* Kingfisher */,
 				5C0E71092D491BAD000335AB /* netfox */,
+				5CBAF8D62E491CD500167EE4 /* CardRepository */,
+				5CBAF8D82E491CD500167EE4 /* KMPBridge */,
+				5CBAF8DC2E491CD500167EE4 /* DomainModels */,
+				5CBAF8DE2E491D0800167EE4 /* CardUIModels */,
+				5CBAF8E02E49210700167EE4 /* DomainUseCases */,
 			);
 			productName = iosApp;
 			productReference = 7555FF7B242A565900829871 /* Magic.app */;
@@ -493,13 +500,25 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = FactoryProtocols;
 		};
-		5CAA87742C6A1D1600A34DF7 /* CardDomain */ = {
+		5CBAF8D62E491CD500167EE4 /* CardRepository */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = CardDomain;
+			productName = CardRepository;
 		};
-		5CAA87762C6A1D6C00A34DF7 /* CardData */ = {
+		5CBAF8D82E491CD500167EE4 /* KMPBridge */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = CardData;
+			productName = KMPBridge;
+		};
+		5CBAF8DC2E491CD500167EE4 /* DomainModels */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DomainModels;
+		};
+		5CBAF8DE2E491D0800167EE4 /* CardUIModels */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CardUIModels;
+		};
+		5CBAF8E02E49210700167EE4 /* DomainUseCases */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DomainUseCases;
 		};
 		5CDE07AE2C6133F200FE3C47 /* CardDeckPresentation */ = {
 			isa = XCSwiftPackageProductDependency;

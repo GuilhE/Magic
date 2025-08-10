@@ -1,6 +1,6 @@
-import CardDomain
-import DataExtensions
-import DomainProtocols
+import DomainModels
+import DomainUseCases
+import KMPBridge
 import KMPNativeCoroutinesAsync
 @preconcurrency import MagicDataLayer
 

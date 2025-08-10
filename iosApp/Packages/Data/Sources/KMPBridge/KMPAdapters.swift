@@ -1,4 +1,4 @@
-import DomainProtocols
+import DomainModels
 import MagicDataLayer
 
 extension KotlinThrowable: @retroactive ErrorException, @unchecked Sendable {}

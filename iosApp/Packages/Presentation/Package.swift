@@ -28,22 +28,22 @@ let package = Package(
             name: "CardListPresentation",
             dependencies: [
                 "CardUIModels",
-                .product(name: "DomainProtocols", package: "Domain"),
-                .product(name: "CardDomain", package: "Domain"),
+                .product(name: "DomainModels", package: "Domain"),
+                .product(name: "DomainUseCases", package: "Domain"),
             ]
         ),
         .target(
             name: "CardDeckPresentation",
             dependencies: [
                 "CardUIModels",
-                .product(name: "DomainProtocols", package: "Domain"),
-                .product(name: "CardDomain", package: "Domain"),
+                .product(name: "DomainModels", package: "Domain"),
+                .product(name: "DomainUseCases", package: "Domain"),
             ]
         ),
         .target(
             name: "CardUIModels",
             dependencies: [
-                .product(name: "DomainProtocols", package: "Domain"),
+                .product(name: "DomainModels", package: "Domain"),
             ]
         ),
     ]

@@ -8,22 +8,22 @@ let package = Package(
     platforms: [.iOS(.v16)],
     products: [
         .library(
-            name: "DomainProtocols",
-            targets: ["DomainProtocols"]
+            name: "DomainModels",
+            targets: ["DomainModels"]
         ),
         .library(
-            name: "CardDomain",
-            targets: ["CardDomain"]
+            name: "DomainUseCases",
+            targets: ["DomainUseCases"]
         ),
     ],
     targets: [
         .target(
-            name: "DomainProtocols",
+            name: "DomainModels",
             dependencies: []
         ),
         .target(
-            name: "CardDomain",
-            dependencies: ["DomainProtocols"]
+            name: "DomainUseCases",
+            dependencies: ["DomainModels"]
         ),
     ]
 )

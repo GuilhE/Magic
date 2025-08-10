@@ -1,4 +1,4 @@
-import DomainProtocols
+import DomainModels
 
 public extension DomainCardSet {
     func toCardSetItem() -> CardSetItem {

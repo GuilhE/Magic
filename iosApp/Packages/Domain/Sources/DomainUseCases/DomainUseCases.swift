@@ -1,4 +1,4 @@
-import DomainProtocols
+import DomainModels
 
 @MainActor
 public protocol DomainCardsManagerProtocol {

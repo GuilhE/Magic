@@ -1,9 +1,10 @@
-import CardData
 import CardDeckPresentation
-import CardDomain
 import CardListPresentation
+import CardRepository
 import DI
+import DomainUseCases
 import FactoryProtocols
+import Foundation
 import MagicDataLayer
 
 class CardsManagerFactory: FactoryProtocol {

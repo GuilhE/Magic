@@ -1,5 +1,5 @@
-import CardDomain
-import DomainProtocols
+import DomainModels
+import DomainUseCases
 import MagicDataLayer
 
 private struct MockCardSet: DomainCardSet, Hashable {
