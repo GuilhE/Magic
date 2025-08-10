@@ -35,7 +35,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.magic.data.models.local.CardImpl
+import com.magic.data.models.local.Card
+import com.magic.data.models.local.CardSet
 import com.magic.data.models.local.CardSetImpl
 import org.koin.androidx.compose.koinViewModel
 
@@ -58,13 +59,13 @@ fun MagicScreen(viewModel: MagicViewModel = koinViewModel()) {
 
 @Composable
 private fun MagicScreenContent(
-    set: CardSetImpl,
-    sets: List<CardSetImpl>,
+    set: CardSet,
+    sets: List<CardSet>,
     setCount: Int,
-    cards: List<CardImpl>,
+    cards: List<Card>,
     cardsTotalCount: Int,
     isLoading: Boolean,
-    onSetSelected: (CardSetImpl) -> Unit,
+    onSetSelected: (CardSet) -> Unit,
     onGetCards: () -> Unit,
     onDelete: () -> Unit,
 ) {
@@ -142,9 +143,9 @@ private fun MagicScreenContent(
 @Composable
 private fun Dropdown(
     enabled: Boolean,
-    selectedOption: CardSetImpl,
-    options: List<CardSetImpl>,
-    onOptionSelected: (CardSetImpl) -> Unit
+    selectedOption: CardSet,
+    options: List<CardSet>,
+    onOptionSelected: (CardSet) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
     ExposedDropdownMenuBox(

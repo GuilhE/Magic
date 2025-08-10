@@ -3,7 +3,8 @@ package com.magic.app.android.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.magic.data.managers.CardsManager
-import com.magic.data.models.local.CardImpl
+import com.magic.data.models.local.Card
+import com.magic.data.models.local.CardSet
 import com.magic.data.models.local.CardSetImpl
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -17,9 +18,9 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 data class MagicScreenState(
-    val set: CardSetImpl = CardSetImpl(),
-    val cards: List<CardImpl> = emptyList(),
-    val availableSets: List<CardSetImpl> = emptyList(),
+    val set: CardSet,
+    val cards: List<Card> = emptyList(),
+    val availableSets: List<CardSet> = emptyList(),
     val setCount: Int = 0,
     val cardsTotalCount: Int = 0,
     val isLoading: Boolean = false
@@ -31,10 +32,14 @@ class MagicViewModel : ViewModel(), KoinComponent {
     private val manager: CardsManager by inject()
 
     private val observeCurrentSet = MutableStateFlow(CardSetImpl())
-    private val _state = MutableStateFlow(MagicScreenState())
+    private val _state = MutableStateFlow(MagicScreenState(CardSetImpl()))
     val state = _state
         .onSubscription { safeCall(call = { manager.getSets(cardSetsCodes) }) }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), MagicScreenState(isLoading = true))
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000L),
+            initialValue = MagicScreenState(set = CardSetImpl(), isLoading = true)
+        )
 
     init {
         viewModelScope.launch {
@@ -63,8 +68,8 @@ class MagicViewModel : ViewModel(), KoinComponent {
         }
     }
 
-    fun changeSet(set: CardSetImpl) {
-        observeCurrentSet.update { set }
+    fun changeSet(set: CardSet) {
+        observeCurrentSet.update { CardSetImpl(set.code, set.name, set.releaseDate) }
     }
 
     fun getCardsFromCurrentSet() {

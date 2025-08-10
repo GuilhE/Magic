@@ -15,14 +15,12 @@ class MagicActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            KoinAndroidContext {
-                MaterialTheme {
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = MaterialTheme.colorScheme.background
-                    ) {
-                        MagicScreen()
-                    }
+            MaterialTheme {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    MagicScreen()
                 }
             }
         }
