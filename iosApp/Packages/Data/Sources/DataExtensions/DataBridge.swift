@@ -4,27 +4,27 @@ import MagicDataLayer
 extension KotlinThrowable: @retroactive ErrorException, @unchecked Sendable {}
 extension RateLimitException: @retroactive DomainRateLimitException, @unchecked Sendable {}
 
-extension Card {
-    public var asDomainCard: DomainCard {
+public extension Card {
+    var asDomainCard: DomainCard {
         CardImpl(self)
     }
 }
 
-extension CardSet {
-    public var asDomainCardSet: DomainCardSet {
+public extension CardSet {
+    var asDomainCardSet: DomainCardSet {
         CardSetImpl(self)
     }
 }
 
-extension Array where Element == Card {
-    public var asDomainCards: [DomainCard] {
-        map { $0.asDomainCard }
+public extension [Card] {
+    var asDomainCards: [DomainCard] {
+        map(\.asDomainCard)
     }
 }
 
-extension Array where Element == CardSet {
-    public var asDomainCardSets: [DomainCardSet] {
-        map { $0.asDomainCardSet }
+public extension [CardSet] {
+    var asDomainCardSets: [DomainCardSet] {
+        map(\.asDomainCardSet)
     }
 }
 
