@@ -14,9 +14,14 @@ import kotlinx.coroutines.flow.StateFlow
  */
 interface CardsManager {
 
+    /**
+     * If Swift or Objective-C code calls a Kotlin method that throws an exception, the Kotlin method should be marked with the @Throws annotation,
+     * specifying a list of "expected" exception classes. However, KMP-NC hides the original declaration and removes the @Throws from the generated
+     * functions since the generated functions are not designed to throw exceptions. The solution is straightforward: we create a public function
+     * that explicitly exposes the types of exceptions that may be thrown, thus adding them to the public API.
+     */
     @Throws(RateLimitException::class)
-    fun exportedExceptions() {
-    }
+    fun exportedExceptions()
 
     /**
      *  If [CardSet] is not cached, it will be fetched from the API along with its cards and then inserted into the local database.

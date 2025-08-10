@@ -14,8 +14,8 @@ public class CardsManagerImpl: DomainCardsManagerProtocol {
     public func getCardSet(setCode: String) async -> Swift.Result<DomainCardList, DomainException> {
         do {
             let result = try await asyncFunction(for: apiManager.getSet(setCode: setCode))
-            if let successResult = result as? ResultSuccess<NSArray>, let cards = successResult.data as? [DomainCard] {
-                return .success(DomainCardList(cards: cards))
+            if let successResult = result as? ResultSuccess<NSArray>, let cards = successResult.data as? [Card] {
+                return .success(DomainCardList(cards: cards.asDomainCards))
             } else if let errorResult = result as? ResultError {
                 return .failure(DomainException(domainError: errorResult.exception as ErrorException))
             } else {
@@ -42,7 +42,8 @@ public class CardsManagerImpl: DomainCardsManagerProtocol {
     }
 
     public func getCardSets() -> [DomainCardSet] {
-        apiManager.getSets() as [DomainCardSet]
+        let apiCardSets = apiManager.getSets() as [CardSet]
+        return apiCardSets.asDomainCardSets
     }
 
     public func observeCardSets() async throws -> AsyncStream<[DomainCardSet]> {
@@ -50,7 +51,8 @@ public class CardsManagerImpl: DomainCardsManagerProtocol {
             Task {
                 let stream = asyncSequence(for: apiManager.observeSetsFlow)
                 for try await sets in stream {
-                    continuation.yield(sets as [DomainCardSet])
+                    let apiCardSets = sets as [CardSet]
+                    continuation.yield(apiCardSets.asDomainCardSets)
                 }
                 continuation.finish()
             }
@@ -86,7 +88,8 @@ public class CardsManagerImpl: DomainCardsManagerProtocol {
             Task {
                 let stream = asyncSequence(for: apiManager.observeCardsFromSet(code: setCode))
                 for try await cards in stream {
-                    continuation.yield(cards as [DomainCard])
+                    let apiCards = cards as [Card]
+                    continuation.yield(apiCards.asDomainCards)
                 }
                 continuation.finish()
             }

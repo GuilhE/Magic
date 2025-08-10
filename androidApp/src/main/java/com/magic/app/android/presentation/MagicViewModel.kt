@@ -3,13 +3,11 @@ package com.magic.app.android.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.magic.data.managers.CardsManager
-import com.magic.data.models.local.Card
-import com.magic.data.models.local.CardSet
+import com.magic.data.models.local.CardImpl
+import com.magic.data.models.local.CardSetImpl
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.onSubscription
 import kotlinx.coroutines.flow.stateIn
@@ -19,9 +17,9 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 data class MagicScreenState(
-    val set: CardSet = CardSet(),
-    val cards: List<Card> = emptyList(),
-    val availableSets: List<CardSet> = emptyList(),
+    val set: CardSetImpl = CardSetImpl(),
+    val cards: List<CardImpl> = emptyList(),
+    val availableSets: List<CardSetImpl> = emptyList(),
     val setCount: Int = 0,
     val cardsTotalCount: Int = 0,
     val isLoading: Boolean = false
@@ -32,7 +30,7 @@ class MagicViewModel : ViewModel(), KoinComponent {
     private val cardSetsCodes = listOf("4ED", "5ED", "TMP", "MIR")
     private val manager: CardsManager by inject()
 
-    private val observeCurrentSet = MutableStateFlow(CardSet())
+    private val observeCurrentSet = MutableStateFlow(CardSetImpl())
     private val _state = MutableStateFlow(MagicScreenState())
     val state = _state
         .onSubscription { safeCall(call = { manager.getSets(cardSetsCodes) }) }
@@ -65,7 +63,7 @@ class MagicViewModel : ViewModel(), KoinComponent {
         }
     }
 
-    fun changeSet(set: CardSet) {
+    fun changeSet(set: CardSetImpl) {
         observeCurrentSet.update { set }
     }
 

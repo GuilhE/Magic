@@ -228,6 +228,14 @@ private extension CardSetItem {
             "edition_mirage_symbol"
         case "TMP":
             "edition_tempest_symbol"
+        case "TOR":
+            "edition_torment_symbol"
+        case "CHK":
+            "edition_champions_of_kanigawa_symbol"
+        case "NPH":
+            "edition_new_phyrexia_symbol"
+        case "DTK":
+            "edition_dragon_of_tarkir_symbol"
         default:
             "default"
         }
@@ -248,6 +256,14 @@ private func label(set: String) -> String {
         "Mirage"
     case "TMP":
         "Tempest"
+    case "TOR":
+        "Torment"
+    case "CHK":
+        "Champions of Kanigawa"
+    case "NPH":
+        "New Phyrexia"
+    case "DTK":
+        "Dragon of Tarkir"
     default:
         ""
     }

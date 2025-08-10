@@ -5,8 +5,8 @@ import com.magic.core.database.MagicDao
 import com.magic.core.network.api.ApiClient
 import com.magic.core.network.api.core.ApiResult
 import com.magic.data.models.exceptions.RateLimitException
-import com.magic.data.models.local.Card
-import com.magic.data.models.local.CardSet
+import com.magic.data.models.local.CardImpl
+import com.magic.data.models.local.CardSetImpl
 import com.magic.data.models.local.Result
 import com.magic.data.models.remote.CardListResponse
 import com.magic.data.models.remote.CardSetResponse
@@ -37,7 +37,7 @@ internal class CardsManagerImpl : CardsManager, KoinComponent {
     }
 
     @NativeCoroutines
-    override suspend fun getSet(setCode: String): Result<List<Card>> {
+    override suspend fun getSet(setCode: String): Result<List<CardImpl>> {
         logger.i { "> Fetching booster cards from set $setCode" }
         if (!local.setExist(setCode)) {
             val setResult = remote.perform<CardSetResponse>(CardRequests.GetSet(setCode))
@@ -55,7 +55,7 @@ internal class CardsManagerImpl : CardsManager, KoinComponent {
 
         val localBooster = local.cardsFromSet(setCode)
         if (localBooster.isEmpty()) {
-            val cards = mutableListOf<Card>()
+            val cards = mutableListOf<CardImpl>()
             for (page in 1..3) {
                 val boosterResult = remote.perform<CardListResponse>(CardRequests.GetCardsFromSet(setCode, page))
                 if (boosterResult is ApiResult.Error) {
@@ -110,19 +110,19 @@ internal class CardsManagerImpl : CardsManager, KoinComponent {
         .stateIn(coroutineScope, SharingStarted.Lazily, 0)
 
     @NativeCoroutinesState
-    override val observeSets: StateFlow<List<CardSet>> = local.setsStream()
+    override val observeSets: StateFlow<List<CardSetImpl>> = local.setsStream()
         .map { dbSets -> dbSets.map { dbSet -> dbSet.toCardSet() } }
         .stateIn(coroutineScope, SharingStarted.Lazily, emptyList())
 
     @NativeCoroutines
-    override fun observeCardsFromSet(code: String): StateFlow<List<Card>> {
+    override fun observeCardsFromSet(code: String): StateFlow<List<CardImpl>> {
         return local.cardsFromSetStream(code)
             .map { dbCards -> dbCards.map { dbCard -> dbCard.toCard() } }
             .stateIn(coroutineScope, SharingStarted.Lazily, emptyList())
     }
 
     @NativeCoroutinesState
-    override val observeCards: StateFlow<List<Card>> = local.cardsStream()
+    override val observeCards: StateFlow<List<CardImpl>> = local.cardsStream()
         .map { dbCards -> dbCards.map { dbCard -> dbCard.toCard() } }
         .stateIn(coroutineScope, SharingStarted.Lazily, emptyList())
 
@@ -130,27 +130,27 @@ internal class CardsManagerImpl : CardsManager, KoinComponent {
 
     override fun getCardCount(): Long = local.cardCount()
 
-    override fun getSets(): List<CardSet> = local.sets().map { it.toCardSet() }
+    override fun getSets(): List<CardSetImpl> = local.sets().map { it.toCardSet() }
 
-    override fun getCardsFromSet(setCode: String): List<Card> = local.cardsFromSet(setCode).map { it.toCard() }
+    override fun getCardsFromSet(setCode: String): List<CardImpl> = local.cardsFromSet(setCode).map { it.toCard() }
 
-    override fun getCards(): List<Card> = local.cards().map { it.toCard() }
+    override fun getCards(): List<CardImpl> = local.cards().map { it.toCard() }
 
     override fun removeAllSets() = local.deleteAllSets()
 
     override fun removeSet(setCode: String) = local.deleteCardSet(setCode)
 }
 
-private fun com.magic.core.database.CardSet.toCardSet(): CardSet {
-    return CardSet(
+private fun com.magic.core.database.CardSet.toCardSet(): CardSetImpl {
+    return CardSetImpl(
         code = code,
         name = name,
         releaseDate = releaseDate
     )
 }
 
-private fun com.magic.core.database.Card.toCard(): Card {
-    return Card(
+private fun com.magic.core.database.Card.toCard(): CardImpl {
+    return CardImpl(
         id = this.id,
         setCode = this.setCode,
         name = this.name,

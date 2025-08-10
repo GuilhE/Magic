@@ -35,8 +35,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.magic.data.models.local.Card
-import com.magic.data.models.local.CardSet
+import com.magic.data.models.local.CardImpl
+import com.magic.data.models.local.CardSetImpl
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -58,13 +58,13 @@ fun MagicScreen(viewModel: MagicViewModel = koinViewModel()) {
 
 @Composable
 private fun MagicScreenContent(
-    set: CardSet,
-    sets: List<CardSet>,
+    set: CardSetImpl,
+    sets: List<CardSetImpl>,
     setCount: Int,
-    cards: List<Card>,
+    cards: List<CardImpl>,
     cardsTotalCount: Int,
     isLoading: Boolean,
-    onSetSelected: (CardSet) -> Unit,
+    onSetSelected: (CardSetImpl) -> Unit,
     onGetCards: () -> Unit,
     onDelete: () -> Unit,
 ) {
@@ -142,9 +142,9 @@ private fun MagicScreenContent(
 @Composable
 private fun Dropdown(
     enabled: Boolean,
-    selectedOption: CardSet,
-    options: List<CardSet>,
-    onOptionSelected: (CardSet) -> Unit
+    selectedOption: CardSetImpl,
+    options: List<CardSetImpl>,
+    onOptionSelected: (CardSetImpl) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
     ExposedDropdownMenuBox(
@@ -184,8 +184,8 @@ private fun Dropdown(
 @Preview
 private fun MagicScreenPreview() {
     MagicScreenContent(
-        set = CardSet("SET01", "SET01"),
-        sets = listOf(CardSet("SET01", "SET01"),CardSet("SET02", "SET02")),
+        set = CardSetImpl("SET01", "SET01"),
+        sets = listOf(CardSetImpl("SET01", "SET01"),CardSetImpl("SET02", "SET02")),
         setCount = 50,
         cards = emptyList(),
         cardsTotalCount = 123,
