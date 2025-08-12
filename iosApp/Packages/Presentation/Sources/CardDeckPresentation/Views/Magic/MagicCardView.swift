@@ -33,7 +33,7 @@ public struct MagicCardView: CardViewProtocol {
                     .accessibilityHidden(true)
                 } else {
                     KFImage(URL(string: card.imageUrl))
-                        //.loadTransition(.blurReplace())
+                        // .loadTransition(.blurReplace())
                         .resizable()
                         .placeholder {
                             ZStack {
