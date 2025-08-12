@@ -65,22 +65,22 @@ struct CardDeckView<CardView: CardViewProtocol>: View {
                     }
             }
         }
-        .onChange(of: add) { oldValue, newValue in
+        .onChange(of: add) { _, newValue in
             if newValue {
                 animateAddToDeck()
             }
         }
-        .onChange(of: remove) { oldValue, newValue in
+        .onChange(of: remove) { _, newValue in
             if newValue {
                 animateRemoveFromDeck()
             }
         }
-        .onChange(of: shuffle) { oldValue, newValue in
+        .onChange(of: shuffle) { _, newValue in
             if newValue {
                 animateShuffleDeck()
             }
         }
-        .onChange(of: delete) { oldValue, newValue in
+        .onChange(of: delete) { _, newValue in
             if newValue {
                 animateDeleteDeck()
             }

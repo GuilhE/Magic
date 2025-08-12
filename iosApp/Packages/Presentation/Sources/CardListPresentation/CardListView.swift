@@ -44,7 +44,7 @@ public struct CardListView: View {
                 )
             }
         }
-        .onChange(of: viewModel.rateExceeded) { oldValue, newValue in
+        .onChange(of: viewModel.rateExceeded) { _, newValue in
             showRateLimitAlert = newValue
         }
     }

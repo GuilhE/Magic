@@ -31,18 +31,18 @@ public struct CardDeckScreen<CardView: CardViewProtocol, CardViewModel: CardDeck
             VStack {
                 SetPickers
                     .frame(maxWidth: .infinity, maxHeight: 100)
-                    .onChange(of:   viewModel.availableSets) { oldValue, newValue in
+                    .onChange(of: viewModel.availableSets) { _, newValue in
                         availableSets = newValue
                     }
                 CardDeck
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .onChange(of: viewModel.cards) { oldValue, newValue in
+                    .onChange(of: viewModel.cards) { _, newValue in
                         if !newValue.isEmpty, !runAddAnimation {
                             fullDeck = newValue
                             refreshCards()
                         }
                     }
-                    .onChange(of: viewModel.rateExceeded) { oldValue, newValue in
+                    .onChange(of: viewModel.rateExceeded) { _, newValue in
                         showRateLimitAlert = newValue
                     }
             }
