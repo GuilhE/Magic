@@ -8,7 +8,7 @@ public class CardsManagerImpl: DomainCardsManagerProtocol {
     private let kmpManager: CardsManager
 
     public init(manager: CardsManager) {
-        self.kmpManager = manager
+        kmpManager = manager
     }
 
     public func getCardSet(setCode: String) async -> Swift.Result<DomainCardList, DomainException> {
