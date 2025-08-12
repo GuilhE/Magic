@@ -152,8 +152,6 @@
 			packageProductDependencies = (
 				5CEF6E942C5B1D43005E16A1 /* DI */,
 				5CEF6E9A2C5B1D43005E16A1 /* CardListPresentation */,
-				5C751D472C5D39C8004083A4 /* DomainProtocols */,
-				5C751D492C5D4BE2004083A4 /* DataExtensions */,
 				5C751D4B2C5D4D85004083A4 /* FactoryProtocols */,
 				5CDE07AE2C6133F200FE3C47 /* CardDeckPresentation */,
 				5CE108EA2CA1B63F00D62467 /* Kingfisher */,
@@ -305,7 +303,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -360,7 +358,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -388,7 +386,7 @@
 				FUSE_BUILD_SCRIPT_PHASES = NO;
 				INFOPLIST_FILE = App/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Magic;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -423,7 +421,7 @@
 				FUSE_BUILD_SCRIPT_PHASES = NO;
 				INFOPLIST_FILE = App/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Magic;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -477,7 +475,7 @@
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
 			requirement = {
 				kind = exactVersion;
-				version = 8.3.1;
+				version = 8.5.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -487,14 +485,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5C0E71082D491BAD000335AB /* XCRemoteSwiftPackageReference "netfox" */;
 			productName = netfox;
-		};
-		5C751D472C5D39C8004083A4 /* DomainProtocols */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = DomainProtocols;
-		};
-		5C751D492C5D4BE2004083A4 /* DataExtensions */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = DataExtensions;
 		};
 		5C751D4B2C5D4D85004083A4 /* FactoryProtocols */ = {
 			isa = XCSwiftPackageProductDependency;

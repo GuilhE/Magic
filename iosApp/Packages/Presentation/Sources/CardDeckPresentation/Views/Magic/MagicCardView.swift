@@ -25,25 +25,25 @@ public struct MagicCardView: CardViewProtocol {
             } else {
                 if showError {
                     ZStack {
-                        RoundedRectangle(cornerRadius: 14)
-                            .stroke(Color.black)
-                            .background(Color.white)
-                        Color.gray.opacity(0.2)
-                        Image(systemName: "photo")
-                            .font(.title)
-                            .foregroundStyle(.secondary)
-                            .accessibilityHidden(true)
+                        Color.white
+                        Image("card_back")
+                            .opacity(0.3)
                     }
+                    .grayscale(1)
+                    .accessibilityHidden(true)
                 } else {
                     KFImage(URL(string: card.imageUrl))
+                        //.loadTransition(.blurReplace())
                         .resizable()
                         .placeholder {
                             ZStack {
-                                RoundedRectangle(cornerRadius: 14)
-                                    .stroke(Color.black)
-                                    .background(Color.white)
+                                Color.white
+                                Image("card_back")
+                                    .opacity(0.3)
                                 ProgressView()
                             }
+                            .grayscale(1)
+                            .accessibilityHidden(true)
                             .frame(width: size.width, height: size.height)
                         }
                         .onFailure { _ in showError = true }

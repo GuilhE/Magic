@@ -15,6 +15,6 @@ fun managersDiModule(): Module = module {
  * This function must be called by the iOS app inside CardsManagerFactory in AppFactories.swift to provide the CardsManager instance.
  */
 @Suppress("unused")
-object ManagersDi {
+object KmpInstancesProvider {
     fun cardsManager(): CardsManager = CardsManagerImpl()
 }

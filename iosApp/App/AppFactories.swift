@@ -15,7 +15,7 @@ class CardsManagerFactory: FactoryProtocol {
 
     static func register() {
         DIContainer.shared.register(DomainCardsManagerProtocol.self, name: createName) { _ in
-            CardsManagerImpl(apiManager: ManagersDi().cardsManager())
+            CardsManagerImpl(manager: KmpInstancesProvider().cardsManager())
         }
         DIContainer.shared.register(DomainCardsManagerProtocol.self, name: mockName) { _ in CardsManagerMock() }
     }

@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "Domain",
-    platforms: [.iOS(.v16)],
+    platforms: [.iOS(.v18)],
     products: [
         .library(
             name: "DomainModels",
