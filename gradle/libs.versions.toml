@@ -105,7 +105,6 @@ androidx-compose = [
     "androidx-compose-foundation",
     "androidx-compose-foundation-layout",
     "androidx-compose-material",
-#    "androidx-compose-material-iconsExtended",
     "androidx-compose-material3",
     "androidx-compose-runtime",
     "androidx-compose-lifecycle-runtime",
