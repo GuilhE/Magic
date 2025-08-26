@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-
 plugins {
     id("buildlogic.plugins.kmp.library.android")
     alias(libs.plugins.sqldelight) //to include sqlite3 in XCFramework
@@ -17,10 +15,7 @@ kotlin {
             export(projects.dataManagers)
             export(projects.dataModels)
         }
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
-        compilerOptions {
-            freeCompilerArgs.add("-Xexport-kdoc")
-        }
+        iosTarget.compilerOptions { freeCompilerArgs.add("-Xexport-kdoc") }
     }
 
     sourceSets {
