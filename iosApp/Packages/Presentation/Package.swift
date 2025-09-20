@@ -22,6 +22,7 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../Domain"),
+        .package(url: "https://github.com/onevcat/Kingfisher.git", exact: "8.5.0"),
     ],
     targets: [
         .target(
@@ -38,6 +39,7 @@ let package = Package(
                 "CardUIModels",
                 .product(name: "DomainModels", package: "Domain"),
                 .product(name: "DomainUseCases", package: "Domain"),
+                .product(name: "Kingfisher", package: "Kingfisher"),
             ]
         ),
         .target(

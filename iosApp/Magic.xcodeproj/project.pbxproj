@@ -20,7 +20,6 @@
 		5CBAF8DF2E491D0800167EE4 /* CardUIModels in Frameworks */ = {isa = PBXBuildFile; productRef = 5CBAF8DE2E491D0800167EE4 /* CardUIModels */; };
 		5CBAF8E12E49210700167EE4 /* DomainUseCases in Frameworks */ = {isa = PBXBuildFile; productRef = 5CBAF8E02E49210700167EE4 /* DomainUseCases */; };
 		5CDE07AF2C6133F200FE3C47 /* CardDeckPresentation in Frameworks */ = {isa = PBXBuildFile; productRef = 5CDE07AE2C6133F200FE3C47 /* CardDeckPresentation */; };
-		5CE108EB2CA1B63F00D62467 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5CE108EA2CA1B63F00D62467 /* Kingfisher */; };
 		5CEF6E952C5B1D43005E16A1 /* DI in Frameworks */ = {isa = PBXBuildFile; productRef = 5CEF6E942C5B1D43005E16A1 /* DI */; };
 		5CEF6E9B2C5B1D43005E16A1 /* CardListPresentation in Frameworks */ = {isa = PBXBuildFile; productRef = 5CEF6E9A2C5B1D43005E16A1 /* CardListPresentation */; };
 /* End PBXBuildFile section */
@@ -65,7 +64,6 @@
 				5C751D4C2C5D4D85004083A4 /* FactoryProtocols in Frameworks */,
 				5CEF6E9B2C5B1D43005E16A1 /* CardListPresentation in Frameworks */,
 				5CBAF8DF2E491D0800167EE4 /* CardUIModels in Frameworks */,
-				5CE108EB2CA1B63F00D62467 /* Kingfisher in Frameworks */,
 				5CBAF8D92E491CD500167EE4 /* KMPBridge in Frameworks */,
 				5CDE07AF2C6133F200FE3C47 /* CardDeckPresentation in Frameworks */,
 			);
@@ -154,7 +152,6 @@
 				5CEF6E9A2C5B1D43005E16A1 /* CardListPresentation */,
 				5C751D4B2C5D4D85004083A4 /* FactoryProtocols */,
 				5CDE07AE2C6133F200FE3C47 /* CardDeckPresentation */,
-				5CE108EA2CA1B63F00D62467 /* Kingfisher */,
 				5C0E71092D491BAD000335AB /* netfox */,
 				5CBAF8D62E491CD500167EE4 /* CardRepository */,
 				5CBAF8D82E491CD500167EE4 /* KMPBridge */,
@@ -174,7 +171,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1640;
+				LastUpgradeCheck = 2600;
 				ORGANIZATIONNAME = orgName;
 				TargetAttributes = {
 					7555FF7A242A565900829871 = {
@@ -192,7 +189,6 @@
 			);
 			mainGroup = 7555FF72242A565900829871;
 			packageReferences = (
-				5CE108E92CA1B63F00D62467 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				5C0E71082D491BAD000335AB /* XCRemoteSwiftPackageReference "netfox" */,
 			);
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
@@ -304,11 +300,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -360,7 +357,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -464,14 +461,6 @@
 				version = 1.21.0;
 			};
 		};
-		5CE108E92CA1B63F00D62467 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
-			requirement = {
-				kind = exactVersion;
-				version = 8.5.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -507,11 +496,6 @@
 		5CDE07AE2C6133F200FE3C47 /* CardDeckPresentation */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = CardDeckPresentation;
-		};
-		5CE108EA2CA1B63F00D62467 /* Kingfisher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5CE108E92CA1B63F00D62467 /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = Kingfisher;
 		};
 		5CEF6E942C5B1D43005E16A1 /* DI */ = {
 			isa = XCSwiftPackageProductDependency;
