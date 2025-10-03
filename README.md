@@ -2,7 +2,7 @@
 
 # Magic
 
-[![Android Weekly](https://androidweekly.net/issues/issue-647/badge)](https://androidweekly.net/issues/issue-647)
+[![Android Weekly](https://androidweekly.net/issues/issue-647/badge)](https://androidweekly.net/issues/issue-647) [![Featured in Kotlin Weekly - Issue #378](https://img.shields.io/badge/Featured_in_Kotlin_Weekly-Issue_%23478-7878b4)](https://mailchi.mp/kotlinweekly/kotlin-weekly-478) 
 
 KMP sample project acting as a playground to illustrate what's discussed in this article:
 <p>
