@@ -1,5 +1,5 @@
 import DomainModels
-import MagicDataLayer
+import MagicDataModels
 
 extension KotlinThrowable: @retroactive ErrorException, @unchecked Sendable {}
 extension RateLimitException: @retroactive DomainRateLimitException, @unchecked Sendable {}

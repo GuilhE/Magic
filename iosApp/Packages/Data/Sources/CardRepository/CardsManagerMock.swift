@@ -1,6 +1,6 @@
 import DomainModels
 import DomainUseCases
-import MagicDataLayer
+import Foundation
 
 private struct MockCardSet: DomainCardSet, Hashable {
     let code: String

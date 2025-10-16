@@ -3,19 +3,18 @@
 pluginManagement {
     includeBuild("build-logic")
     repositories {
-        mavenLocal()
+        google()
         mavenCentral()
         gradlePluginPortal()
-        google()
+        maven("https://redirector.kotlinlang.org/maven/dev")
     }
 }
 
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        mavenLocal()
-        mavenCentral()
         google()
+        mavenCentral()
+        maven("https://redirector.kotlinlang.org/maven/dev")
     }
 }
 

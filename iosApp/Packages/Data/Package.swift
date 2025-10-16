@@ -18,7 +18,6 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../Domain"),
-        .package(url: "https://github.com/rickclephas/KMP-NativeCoroutines.git", exact: "1.0.0-ALPHA-47-spm-async"),
     ],
     targets: [
         .target(
@@ -32,8 +31,7 @@ let package = Package(
             dependencies: [
                 "KMPBridge",
                 .product(name: "DomainModels", package: "Domain"),
-                .product(name: "DomainUseCases", package: "Domain"),
-                .product(name: "KMPNativeCoroutinesAsync", package: "KMP-NativeCoroutines"),
+                .product(name: "DomainUseCases", package: "Domain")
             ]
         ),
     ]

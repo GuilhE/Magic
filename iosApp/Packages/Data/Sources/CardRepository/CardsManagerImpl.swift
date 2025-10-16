@@ -1,8 +1,8 @@
 import DomainModels
 import DomainUseCases
 import KMPBridge
-import KMPNativeCoroutinesAsync
-@preconcurrency import MagicDataLayer
+import MagicDataManagers
+import MagicDataModels
 
 public class CardsManagerImpl: DomainCardsManagerProtocol {
     private let kmpManager: CardsManager
@@ -13,8 +13,8 @@ public class CardsManagerImpl: DomainCardsManagerProtocol {
 
     public func getCardSet(setCode: String) async -> Swift.Result<DomainCardList, DomainException> {
         do {
-            let result = try await asyncFunction(for: kmpManager.getSet(setCode: setCode))
-            if let successResult = result as? ResultSuccess<NSArray>, let cards = successResult.data as? [Card] {
+            let result = try await kmpManager.getSet(setCode: setCode)
+            if let successResult = result as? Result<NSArray>, let cards = successResult.data as? [Card] {
                 return .success(DomainCardList(cards: cards.asDomainCards))
             } else if let errorResult = result as? ResultError {
                 return .failure(DomainException(domainError: errorResult.exception as ErrorException))

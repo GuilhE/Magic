@@ -1,3 +1,7 @@
+@file:OptIn(ExperimentalSwiftExportDsl::class)
+
+import org.jetbrains.kotlin.gradle.swiftexport.ExperimentalSwiftExportDsl
+
 plugins {
     id("buildlogic.plugins.kmp.library.android")
     alias(libs.plugins.sqldelight) //to include sqlite3 in XCFramework
@@ -10,12 +14,16 @@ android {
 kotlin {
     androidTarget()
     listOf(iosArm64(), iosSimulatorArm64()).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "MagicDataLayer"
-            export(projects.dataManagers)
-            export(projects.dataModels)
-        }
         iosTarget.compilerOptions { freeCompilerArgs.add("-Xexport-kdoc") }
+    }
+
+    swiftExport {
+        moduleName = "MagicDI"
+        //https://youtrack.jetbrains.com/issue/KT-81270/K-N-Build-fails-when-exposing-suspend-functions#focus=Comments-27-12735527.0-0
+        //flattenPackage = "com.magic.core.di"
+        configure { settings.put("enableCoroutinesSupport", "true") }
+        export(projects.dataManagers) { moduleName = "MagicDataManagers" }
+        export(projects.dataModels) { moduleName = "MagicDataModels" }
     }
 
     sourceSets {
