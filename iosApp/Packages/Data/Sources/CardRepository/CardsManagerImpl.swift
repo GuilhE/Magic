@@ -13,9 +13,8 @@ typealias Card = ExportedKotlinPackages.com.magic.data.models.local.Card
 typealias CardSet = ExportedKotlinPackages.com.magic.data.models.local.CardSet
 typealias Result = ExportedKotlinPackages.com.magic.data.models.local.Result
 
-@MainActor
 public class CardsManagerImpl: DomainCardsManagerProtocol, @unchecked Sendable {
-    private nonisolated(unsafe) let kmpManager: CardsManager
+    private let kmpManager: CardsManager
 
     public init(manager: ExportedKotlinPackages.com.magic.data.managers.CardsManager) {
         kmpManager = manager

@@ -7,10 +7,11 @@ import SwiftUI
 @MainActor
 public protocol CardListViewModelProtocol {}
 
+@MainActor
 public class CardListViewModel: ObservableObject, CardListViewModelProtocol {
     // https://en.wikipedia.org/wiki/List_of_Magic:_The_Gathering_sets
     private let sets = ["4ED", "5ED", "TMP", "MIR"]
-    private let manager: DomainCardsManagerProtocol
+    nonisolated(unsafe) private let manager: DomainCardsManagerProtocol
     private var cancellables = Set<AnyCancellable>()
 
     @Published var currentSet: CardSetItem = .init(code: "", name: "", releaseDate: "")

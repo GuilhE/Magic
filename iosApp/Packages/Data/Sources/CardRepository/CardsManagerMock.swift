@@ -17,7 +17,7 @@ private struct MockCard: DomainCard {
     let artist: String
 }
 
-public class CardsManagerMock: DomainCardsManagerProtocol {
+public class CardsManagerMock: DomainCardsManagerProtocol, @unchecked Sendable {
     private var mockCardSets: [MockCardSet: [MockCard]] = [:]
     private var setCountContinuation: AsyncStream<Int>.Continuation?
     private var cardCountContinuation: AsyncStream<Int>.Continuation?
@@ -84,16 +84,13 @@ public class CardsManagerMock: DomainCardsManagerProtocol {
     }
 
     public func removeCardSet(setCode: String) {
-        if let set = mockCardSets.first(where: { $0.key.code == setCode }) {
-            mockCardSets[set.key] = []
-            Task {
-                await emitCardsUpdate(for: setCode, cards: [])
-            }
-        } else {
+        guard let set = mockCardSets.first(where: { $0.key.code == setCode }) else {
             return
         }
-        Task {
-            await emitCountsUpdate(delay: 0)
+        mockCardSets[set.key] = []
+        Task.detached {
+            await self.emitCardsUpdate(for: setCode, cards: [])
+            await self.emitCountsUpdate(delay: 0)
         }
     }
 

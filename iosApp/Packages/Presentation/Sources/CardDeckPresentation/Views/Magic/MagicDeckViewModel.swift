@@ -4,13 +4,14 @@ import DomainModels
 import DomainUseCases
 import SwiftUI
 
+@MainActor
 public class MagicDeckViewModel: ObservableObject, CardDeckViewModelProtocol {
     public typealias CardType = MagicCard
 
     // https://en.wikipedia.org/wiki/List_of_Magic:_The_Gathering_sets
     // private let sets = ["4ED", "5ED", "TMP", "MIR"] //For some reason these sets images return 308
     private let sets = ["TOR", "CHK", "NPH", "DTK"]
-    private let manager: DomainCardsManagerProtocol
+    nonisolated(unsafe) private let manager: DomainCardsManagerProtocol
     private var cancellables = Set<AnyCancellable>()
 
     @Published private(set) var currentSet: CardSetItem = .init(code: "", name: "", releaseDate: "")
