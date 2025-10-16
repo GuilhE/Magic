@@ -5,6 +5,7 @@ import com.magic.data.models.local.Card
 import com.magic.data.models.local.CardSet
 import com.magic.data.models.local.Result
 import kotlinx.coroutines.flow.StateFlow
+import kotlin.coroutines.cancellation.CancellationException
 
 /**
  * Manager class for handling card and card set operations. This class interacts with the remote API and
@@ -19,7 +20,7 @@ interface CardsManager {
      * @param setCode The code of the [CardSet] to fetch and insert.
      * @return A [Result] containing a list of [Card] on success or a [Throwable] on error.
      */
-    @Throws(RateLimitException::class)
+//    @Throws(RateLimitException::class, CancellationException::class)
     suspend fun getSet(setCode: String): Result<List<Card>>
 
     /**
@@ -28,7 +29,7 @@ interface CardsManager {
      * @param setCodes A list of set codes to be fetched.
      * @return A [Result] indicating success or failure of the operation. In case of error, a [Throwable] inside [Result.Error].
      */
-    @Throws(RateLimitException::class)
+//    @Throws(RateLimitException::class, CancellationException::class)
     suspend fun getSets(setCodes: List<String>): Result<Unit>
 
     /**
