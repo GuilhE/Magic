@@ -4,7 +4,6 @@ import org.jetbrains.kotlin.gradle.swiftexport.ExperimentalSwiftExportDsl
 
 plugins {
     id("buildlogic.plugins.kmp.library.android")
-    alias(libs.plugins.sqldelight) //to include sqlite3 in XCFramework
 }
 
 android {

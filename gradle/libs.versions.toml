@@ -1,15 +1,15 @@
 [versions]
 
 #======Kotlin
-kotlin = "2.2.20"
-kmp="2.3.0-Beta2-32"
+kotlin = "2.2.21"
+kmp="2.3.0-Beta2-91"
 kotlinxCoroutines = "1.10.2"
 kotlinxSerialization = "1.9.0"
 kotlinxCompose = "1.9.1"
 ktor = "3.3.1"
 
 #=====Google
-ksp = "2.2.20-2.0.3"
+ksp = "2.3.0"
 
 #======Android
 androidCompileSdk = "36"
@@ -19,10 +19,10 @@ androidGradlePlugin = "8.13.0"
 androidMaterial = "1.13.0"
 androidxActivityKtx = "1.11.0"
 androidxLifecycle = "2.9.4"
-androidxCompose = "1.9.3"
+androidxCompose = "1.9.4"
 androidxComposeLifecycle = "2.9.4"
 androidxComposeMaterial3 = "1.4.0"
-androidxComposeUiUtilAndroid = "1.9.3"
+androidxComposeUiUtilAndroid = "1.9.4"
 
 #======Multiplatform
 kermit = "2.0.8"
