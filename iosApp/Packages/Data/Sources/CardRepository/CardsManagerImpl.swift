@@ -1,17 +1,15 @@
 import DomainModels
 import DomainUseCases
+import ExportedKotlinPackages
 import KMPBridge
 import MagicDataManagers
 import MagicDataModels
-import ExportedKotlinPackages
 
-//Until we can use flattenPackage in swiftExport gradle configuration we need this helper class
-//https://youtrack.jetbrains.com/issue/KT-81270/K-N-Build-fails-when-exposing-suspend-functions
-
+// Until we can use flattenPackage in swiftExport gradle configuration we need this helper class
+// https://youtrack.jetbrains.com/issue/KT-81270/K-N-Build-fails-when-exposing-suspend-functions
 typealias CardsManager = ExportedKotlinPackages.com.magic.data.managers.CardsManager
 typealias Card = ExportedKotlinPackages.com.magic.data.models.local.Card
 typealias CardSet = ExportedKotlinPackages.com.magic.data.models.local.CardSet
-typealias Result = ExportedKotlinPackages.com.magic.data.models.local.Result
 
 public class CardsManagerImpl: DomainCardsManagerProtocol, @unchecked Sendable {
     private let kmpManager: CardsManager
@@ -24,20 +22,24 @@ public class CardsManagerImpl: DomainCardsManagerProtocol, @unchecked Sendable {
         let result = await kmpManager.getSet(setCode: setCode)
         if let successResult = result as? Result.Success, let cards = successResult.data as? [Card]? {
             return .success(DomainCardList(cards: cards!.asDomainCards))
-        } else if let errorResult = result as? Result.Error {
-            return .failure(DomainException(domainError: errorResult.exception as ErrorException))
-        } else {
+        }
+        /* else if let errorResult = result as? Result.Error {
+             return .failure(DomainException(domainError: errorResult.exception as ErrorException))
+         } */
+        else {
             return .failure(DomainException(error: UnexpectedResultError()))
         }
     }
 
     public func getCardSets(setCodes: [String]) async -> Swift.Result<Void, DomainException> {
         let result = await kmpManager.getSets(setCodes: setCodes)
-        if result is Result.Success {
+        if result as? Result.Success {
             return .success(())
-        } else if let errorResult = result as? Result.Error {
-            return .failure(DomainException(domainError: errorResult.exception as ErrorException))
-        } else {
+        }
+        /* else if let errorResult = result as? Result.Error {
+             return .failure(DomainException(domainError: errorResult.exception as ErrorException))
+         } */
+        else {
             return .failure(DomainException(error: UnexpectedResultError()))
         }
     }
@@ -49,48 +51,52 @@ public class CardsManagerImpl: DomainCardsManagerProtocol, @unchecked Sendable {
 
     public func observeCardSets() async throws -> AsyncStream<[DomainCardSet]> {
         return AsyncStream { continuation in
-            Task { @MainActor in
-                let sets = kmpManager.observeSets.value
-                if let cardSets = sets as? [CardSet]? {
-                    continuation.yield(cardSets!.asDomainCardSets)
+            let observationTask = Task { @MainActor in
+                await kmpManager.observeSets { sets in
+                    continuation.yield(sets.asDomainCardSets)
                 }
-                continuation.finish()
+            }
+            continuation.onTermination = { _ in
+                observationTask.cancel()
             }
         }
     }
 
     public func observeSetCount() async throws -> AsyncStream<Int> {
         return AsyncStream { continuation in
-            Task { @MainActor in
-                let count = kmpManager.observeSetCount.value
-                if let setCount = count as? Int? {
-                    continuation.yield(setCount!)
+            let observationTask = Task { @MainActor in
+                await kmpManager.observeSetCount { count in
+                    continuation.yield(Int(count))
                 }
-                continuation.finish()
+            }
+            continuation.onTermination = { _ in
+                observationTask.cancel()
             }
         }
     }
 
     public func observeCardCount() async throws -> AsyncStream<Int> {
         return AsyncStream { continuation in
-            Task { @MainActor in
-                let count = kmpManager.observeCardCount.value
-                if let cardCount = count as? Int? {
-                    continuation.yield(cardCount!)
+            let observationTask = Task { @MainActor in
+                await kmpManager.observeCardCount { count in
+                    continuation.yield(Int(count))
                 }
-                continuation.finish()
+            }
+            continuation.onTermination = { _ in
+                observationTask.cancel()
             }
         }
     }
 
     public func observeCardsFromSet(setCode: String) async throws -> AsyncStream<[DomainCard]> {
         return AsyncStream { continuation in
-            Task { @MainActor in
-                let setCards = kmpManager.observeCardsFromSet(code: setCode).value
-                if let apiCards = setCards as? [Card]? {
-                    continuation.yield(apiCards!.asDomainCards)
+            let observationTask = Task { @MainActor in
+                await kmpManager.observeCardFromSet(code: setCode) { cards in
+                    continuation.yield(cards.asDomainCards)
                 }
-                continuation.finish()
+            }
+            continuation.onTermination = { _ in
+                observationTask.cancel()
             }
         }
     }

@@ -5,13 +5,16 @@ import com.magic.core.database.MagicDao
 import com.magic.core.network.api.ApiClient
 import com.magic.core.network.api.core.ApiResult
 import com.magic.data.models.exceptions.RateLimitException
+import com.magic.data.models.local.Card
 import com.magic.data.models.local.CardImpl
+import com.magic.data.models.local.CardSet
 import com.magic.data.models.local.CardSetImpl
 import com.magic.data.models.local.Result
 import com.magic.data.models.remote.CardListResponse
 import com.magic.data.models.remote.CardSetResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -20,6 +23,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -125,6 +129,41 @@ internal class CardsManagerImpl : CardsManager, KoinComponent {
     override fun removeAllSets() = local.deleteAllSets()
 
     override fun removeSet(setCode: String) = local.deleteCardSet(setCode)
+
+    //========================== SWIFT EXPORT TESTING ==========================//
+    //https://youtrack.jetbrains.com/issue/KT-81593
+    override suspend fun observeSetCount(callback: (Long) -> Unit): Boolean {
+        local.setCountStream()
+            .stateIn(coroutineScope, SharingStarted.Lazily, 0)
+            .collect { value -> callback(value) }
+    }
+
+    override suspend fun observeCardCount(callback: (Long) -> Unit): Boolean {
+        local.cardCountStream()
+            .stateIn(coroutineScope, SharingStarted.Lazily, 0)
+            .collect { value -> callback(value) }
+    }
+
+    override suspend fun observeSets(callback: (List<CardSet>) -> Unit): Boolean {
+        local.setsStream()
+            .map { dbSets -> dbSets.map { dbSet -> dbSet.toCardSet() } }
+            .stateIn(coroutineScope, SharingStarted.Lazily, emptyList())
+            .collect { value -> callback(value) }
+    }
+
+    override suspend fun observeCardFromSet(code: String, callback: (List<Card>) -> Unit): Boolean {
+        local.cardsFromSetStream(code)
+            .map { dbCards -> dbCards.map { dbCard -> dbCard.toCard() } }
+            .stateIn(coroutineScope, SharingStarted.Lazily, emptyList())
+            .collect { value -> callback(value) }
+    }
+
+    override suspend fun observeCards(callback: (List<Card>) -> Unit): Boolean {
+        local.cardsStream()
+            .map { dbCards -> dbCards.map { dbCard -> dbCard.toCard() } }
+            .stateIn(coroutineScope, SharingStarted.Lazily, emptyList())
+            .collect { value -> callback(value) }
+    }
 }
 
 private fun com.magic.core.database.CardSet.toCardSet(): CardSetImpl {

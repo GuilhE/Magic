@@ -1,9 +1,13 @@
 package com.magic.data.managers
 
 import com.magic.data.models.local.Card
+import com.magic.data.models.local.CardImpl
 import com.magic.data.models.local.CardSet
+import com.magic.data.models.local.CardSetImpl
 import com.magic.data.models.local.Result
 import kotlinx.coroutines.flow.StateFlow
+import kotlin.experimental.ExperimentalObjCRefinement
+import kotlin.native.HiddenFromObjC
 
 /**
  * Manager class for handling card and card set operations. This class interacts with the remote API and
@@ -35,6 +39,8 @@ interface CardsManager {
      *
      * @return A [StateFlow] of [Long] representing the current count of card sets in the database.
      */
+    @OptIn(ExperimentalObjCRefinement::class)
+    @HiddenFromObjC
     val observeSetCount: StateFlow<Long>
 
     /**
@@ -42,6 +48,8 @@ interface CardsManager {
      *
      * @return A [StateFlow] of [Long] representing the current count of cards in the database.
      */
+    @OptIn(ExperimentalObjCRefinement::class)
+    @HiddenFromObjC
     val observeCardCount: StateFlow<Long>
 
     /**
@@ -49,6 +57,8 @@ interface CardsManager {
      *
      * @return A [StateFlow] of a list of [CardSet] representing the current state of card sets in the database.
      */
+    @OptIn(ExperimentalObjCRefinement::class)
+    @HiddenFromObjC
     val observeSets: StateFlow<List<CardSet>>
 
     /**
@@ -57,6 +67,8 @@ interface CardsManager {
      * @param code The code of the [CardSet] for which cards should be observed.
      * @return A [StateFlow] of a list of [Card] representing the current state of all cards from a [CardSet] in the database.
      */
+    @OptIn(ExperimentalObjCRefinement::class)
+    @HiddenFromObjC
     fun observeCardsFromSet(code: String): StateFlow<List<Card>>
 
     /**
@@ -64,6 +76,8 @@ interface CardsManager {
      *
      * @return A [StateFlow] of a list of [Card] representing the current state of all cards in the database.
      */
+    @OptIn(ExperimentalObjCRefinement::class)
+    @HiddenFromObjC
     val observeCards: StateFlow<List<Card>>
 
     /**
@@ -113,4 +127,12 @@ interface CardsManager {
      * @param setCode The code of the card set for which cards should be removed.
      */
     fun removeSet(setCode: String)
+
+    //========================== SWIFT EXPORT TESTING ==========================//
+
+    suspend fun observeSetCount(callback: (Long) -> Unit): Boolean
+    suspend fun observeCardCount(callback: (Long) -> Unit): Boolean
+    suspend fun observeSets(callback: (List<CardSet>) -> Unit): Boolean
+    suspend fun observeCardFromSet(code: String, callback: (List<Card>) -> Unit): Boolean
+    suspend fun observeCards(callback: (List<Card>) -> Unit): Boolean
 }
