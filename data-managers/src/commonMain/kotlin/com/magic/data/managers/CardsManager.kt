@@ -1,11 +1,9 @@
 package com.magic.data.managers
 
-import com.magic.data.models.exceptions.RateLimitException
 import com.magic.data.models.local.Card
 import com.magic.data.models.local.CardSet
 import com.magic.data.models.local.Result
 import kotlinx.coroutines.flow.StateFlow
-import kotlin.coroutines.cancellation.CancellationException
 
 /**
  * Manager class for handling card and card set operations. This class interacts with the remote API and

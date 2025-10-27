@@ -392,6 +392,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1;
+				OTHER_LDFLAGS = "-lsqlite3";
 				PRODUCT_BUNDLE_IDENTIFIER = com.magic.app.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -423,6 +424,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1;
+				OTHER_LDFLAGS = "-lsqlite3";
 				PRODUCT_BUNDLE_IDENTIFIER = com.magic.app.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
