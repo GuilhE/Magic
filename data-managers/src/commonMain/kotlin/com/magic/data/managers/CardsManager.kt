@@ -4,7 +4,6 @@ import com.magic.data.models.local.Card
 import com.magic.data.models.local.CardSet
 import com.magic.data.models.local.Result
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
 import kotlin.experimental.ExperimentalObjCRefinement
 import kotlin.native.HiddenFromObjC
 
