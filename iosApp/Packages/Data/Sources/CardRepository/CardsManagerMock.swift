@@ -52,27 +52,27 @@ public class CardsManagerMock: DomainCardsManagerProtocol, @unchecked Sendable {
         Array(mockCardSets.keys)
     }
 
-    public func observeCardSets() async throws -> AsyncStream<[DomainCardSet]> {
+    public func observeCardSets() async -> AsyncStream<[DomainCardSet]> {
         AsyncStream { continuation in
             continuation.yield(Array(mockCardSets.keys))
         }
     }
 
-    public func observeSetCount() async throws -> AsyncStream<Int> {
+    public func observeSetCount() async -> AsyncStream<Int> {
         AsyncStream { continuation in
             setCountContinuation = continuation
             continuation.yield(mockCardSets.count)
         }
     }
 
-    public func observeCardCount() async throws -> AsyncStream<Int> {
+    public func observeCardCount() async -> AsyncStream<Int> {
         AsyncStream { continuation in
             cardCountContinuation = continuation
             continuation.yield(mockCardSets.flatMap(\.value).count)
         }
     }
 
-    public func observeCardsFromSet(setCode: String) async throws -> AsyncStream<[DomainCard]> {
+    public func observeCardsFromSet(setCode: String) async -> AsyncStream<[DomainCard]> {
         AsyncStream { continuation in
             cardsContinuations[setCode] = continuation
             if let cards = mockCardSets.first(where: { $0.key.code == setCode })?.value {

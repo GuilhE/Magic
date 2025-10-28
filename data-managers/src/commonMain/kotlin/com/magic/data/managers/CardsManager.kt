@@ -1,10 +1,9 @@
 package com.magic.data.managers
 
 import com.magic.data.models.local.Card
-import com.magic.data.models.local.CardImpl
 import com.magic.data.models.local.CardSet
-import com.magic.data.models.local.CardSetImpl
 import com.magic.data.models.local.Result
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlin.experimental.ExperimentalObjCRefinement
 import kotlin.native.HiddenFromObjC
@@ -37,48 +36,48 @@ interface CardsManager {
     /**
      * Observes the count of card set in the local database.
      *
-     * @return A [StateFlow] of [Long] representing the current count of card sets in the database.
+     * @return A [Flow] of [Long] representing the current count of card sets in the database.
      */
     @OptIn(ExperimentalObjCRefinement::class)
     @HiddenFromObjC
-    val observeSetCount: StateFlow<Long>
+    val observeSetCount: Flow<Long>
 
     /**
      * Observes the count of cards in the local database.
      *
-     * @return A [StateFlow] of [Long] representing the current count of cards in the database.
+     * @return A [Flow] of [Long] representing the current count of cards in the database.
      */
     @OptIn(ExperimentalObjCRefinement::class)
     @HiddenFromObjC
-    val observeCardCount: StateFlow<Long>
+    val observeCardCount: Flow<Long>
 
     /**
      * Observes changes in the list of cards in the local database.
      *
-     * @return A [StateFlow] of a list of [CardSet] representing the current state of card sets in the database.
+     * @return A [Flow] of a list of [CardSet] representing the current state of card sets in the database.
      */
     @OptIn(ExperimentalObjCRefinement::class)
     @HiddenFromObjC
-    val observeSets: StateFlow<List<CardSet>>
+    val observeSets: Flow<List<CardSet>>
 
     /**
      * Returns an observable of all changes in the list of cards for a specific set in the local database.
      *
      * @param code The code of the [CardSet] for which cards should be observed.
-     * @return A [StateFlow] of a list of [Card] representing the current state of all cards from a [CardSet] in the database.
+     * @return A [Flow] of a list of [Card] representing the current state of all cards from a [CardSet] in the database.
      */
     @OptIn(ExperimentalObjCRefinement::class)
     @HiddenFromObjC
-    fun observeCardsFromSet(code: String): StateFlow<List<Card>>
+    fun observeCardsFromSet(code: String): Flow<List<Card>>
 
     /**
      * Returns an observable of all cards in the local database.
      *
-     * @return A [StateFlow] of a list of [Card] representing the current state of all cards in the database.
+     * @return A [Flow] of a list of [Card] representing the current state of all cards in the database.
      */
     @OptIn(ExperimentalObjCRefinement::class)
     @HiddenFromObjC
-    val observeCards: StateFlow<List<Card>>
+    val observeCards: Flow<List<Card>>
 
     /**
      * Gets the count of card sets in the local database.
@@ -130,9 +129,9 @@ interface CardsManager {
 
     //========================== SWIFT EXPORT TESTING ==========================//
 
-    suspend fun observeSetCount(callback: (Long) -> Unit): Boolean
-    suspend fun observeCardCount(callback: (Long) -> Unit): Boolean
-    suspend fun observeSets(callback: (List<CardSet>) -> Unit): Boolean
-    suspend fun observeCardFromSet(code: String, callback: (List<Card>) -> Unit): Boolean
-    suspend fun observeCards(callback: (List<Card>) -> Unit): Boolean
+    fun observeSetCount(callback: (Long) -> Unit): Observation
+    fun observeCardCount(callback: (Long) -> Unit): Observation
+    fun observeSets(callback: (List<CardSet>) -> Unit): Observation
+    fun observeCardFromSet(code: String, callback: (List<Card>) -> Unit): Observation
+    fun observeCards(callback: (List<Card>) -> Unit): Observation
 }

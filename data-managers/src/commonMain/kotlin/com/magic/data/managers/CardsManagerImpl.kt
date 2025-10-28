@@ -14,11 +14,11 @@ import com.magic.data.models.remote.CardListResponse
 import com.magic.data.models.remote.CardSetResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -96,25 +96,19 @@ internal class CardsManagerImpl : CardsManager, KoinComponent {
         }
     }
 
-    override val observeSetCount: StateFlow<Long> = local.setCountStream()
-        .stateIn(coroutineScope, SharingStarted.Lazily, 0)
+    override val observeSetCount: Flow<Long> = local.setCountStream()
 
-    override val observeCardCount: StateFlow<Long> = local.cardCountStream()
-        .stateIn(coroutineScope, SharingStarted.Lazily, 0)
+    override val observeCardCount: Flow<Long> = local.cardCountStream()
 
-    override val observeSets: StateFlow<List<CardSetImpl>> = local.setsStream()
+    override val observeSets: Flow<List<CardSetImpl>> = local.setsStream()
         .map { dbSets -> dbSets.map { dbSet -> dbSet.toCardSet() } }
-        .stateIn(coroutineScope, SharingStarted.Lazily, emptyList())
 
-    override fun observeCardsFromSet(code: String): StateFlow<List<CardImpl>> {
-        return local.cardsFromSetStream(code)
-            .map { dbCards -> dbCards.map { dbCard -> dbCard.toCard() } }
-            .stateIn(coroutineScope, SharingStarted.Lazily, emptyList())
+    override fun observeCardsFromSet(code: String): Flow<List<CardImpl>> {
+        return local.cardsFromSetStream(code).map { dbCards -> dbCards.map { dbCard -> dbCard.toCard() } }
     }
 
-    override val observeCards: StateFlow<List<CardImpl>> = local.cardsStream()
+    override val observeCards: Flow<List<CardImpl>> = local.cardsStream()
         .map { dbCards -> dbCards.map { dbCard -> dbCard.toCard() } }
-        .stateIn(coroutineScope, SharingStarted.Lazily, emptyList())
 
     override fun getSetCount(): Long = local.setCount()
 
@@ -131,38 +125,44 @@ internal class CardsManagerImpl : CardsManager, KoinComponent {
     override fun removeSet(setCode: String) = local.deleteCardSet(setCode)
 
     //========================== SWIFT EXPORT TESTING ==========================//
-    //https://youtrack.jetbrains.com/issue/KT-81593
-    override suspend fun observeSetCount(callback: (Long) -> Unit): Boolean {
-        local.setCountStream()
-            .stateIn(coroutineScope, SharingStarted.Lazily, 0)
-            .collect { value -> callback(value) }
+    override fun observeSetCount(callback: (Long) -> Unit): Observation {
+        return Observation(
+            coroutineScope.launch {
+                local.setCountStream().collect { value -> callback(value) }
+            }
+        )
     }
 
-    override suspend fun observeCardCount(callback: (Long) -> Unit): Boolean {
-        local.cardCountStream()
-            .stateIn(coroutineScope, SharingStarted.Lazily, 0)
-            .collect { value -> callback(value) }
+    override fun observeCardCount(callback: (Long) -> Unit): Observation {
+        return Observation(
+            coroutineScope.launch {
+                local.cardCountStream().collect { value -> callback(value) }
+            }
+        )
     }
 
-    override suspend fun observeSets(callback: (List<CardSet>) -> Unit): Boolean {
-        local.setsStream()
-            .map { dbSets -> dbSets.map { dbSet -> dbSet.toCardSet() } }
-            .stateIn(coroutineScope, SharingStarted.Lazily, emptyList())
-            .collect { value -> callback(value) }
+    override fun observeSets(callback: (List<CardSet>) -> Unit): Observation {
+        return Observation(coroutineScope.launch {
+            local.setsStream()
+                .map { dbSets -> dbSets.map { dbSet -> dbSet.toCardSet() } }
+                .collect { value -> callback(value) }
+        })
     }
 
-    override suspend fun observeCardFromSet(code: String, callback: (List<Card>) -> Unit): Boolean {
-        local.cardsFromSetStream(code)
-            .map { dbCards -> dbCards.map { dbCard -> dbCard.toCard() } }
-            .stateIn(coroutineScope, SharingStarted.Lazily, emptyList())
-            .collect { value -> callback(value) }
+    override fun observeCardFromSet(code: String, callback: (List<Card>) -> Unit): Observation {
+        return Observation(coroutineScope.launch {
+            local.cardsFromSetStream(code)
+                .map { dbCards -> dbCards.map { dbCard -> dbCard.toCard() } }
+                .collect { value -> callback(value) }
+        })
     }
 
-    override suspend fun observeCards(callback: (List<Card>) -> Unit): Boolean {
-        local.cardsStream()
-            .map { dbCards -> dbCards.map { dbCard -> dbCard.toCard() } }
-            .stateIn(coroutineScope, SharingStarted.Lazily, emptyList())
-            .collect { value -> callback(value) }
+    override fun observeCards(callback: (List<Card>) -> Unit): Observation {
+        return Observation(coroutineScope.launch {
+            local.cardsStream()
+                .map { dbCards -> dbCards.map { dbCard -> dbCard.toCard() } }
+                .collect { value -> callback(value) }
+        })
     }
 }
 

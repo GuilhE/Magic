@@ -47,47 +47,47 @@ public class CardsManagerImpl: DomainCardsManagerProtocol, @unchecked Sendable {
         return apiCardSets.asDomainCardSets
     }
 
-    public func observeCardSets() async throws -> AsyncStream<[DomainCardSet]> {
+    public func observeCardSets() async -> AsyncStream<[DomainCardSet]> {
         return AsyncStream { continuation in
-            let observationTask = Task {
-                await kmpManager.observeSets { sets in
-                    continuation.yield(sets.asDomainCardSets)
-                }
+            let observation = kmpManager.observeSets { sets in
+                continuation.yield(sets.asDomainCardSets)
             }
-            continuation.onTermination = { _ in observationTask.cancel() }
+            continuation.onTermination = { _ in
+                observation.cancel()
+            }
         }
     }
 
-    public func observeSetCount() async throws -> AsyncStream<Int> {
+    public func observeSetCount() async -> AsyncStream<Int> {
         return AsyncStream { continuation in
-            let observationTask = Task {
-                await kmpManager.observeSetCount { count in
-                    continuation.yield(Int(count))
-                }
+            let observation = kmpManager.observeSetCount { count in
+                continuation.yield(Int(count))
             }
-            continuation.onTermination = { _ in observationTask.cancel() }
+            continuation.onTermination = { _ in
+                observation.cancel()
+            }
         }
     }
 
-    public func observeCardCount() async throws -> AsyncStream<Int> {
+    public func observeCardCount() async -> AsyncStream<Int> {
         return AsyncStream { continuation in
-            let observationTask = Task {
-                await kmpManager.observeCardCount { count in
-                    continuation.yield(Int(count))
-                }
+            let observation = kmpManager.observeCardCount { count in
+                continuation.yield(Int(count))
             }
-            continuation.onTermination = { _ in observationTask.cancel() }
+            continuation.onTermination = { _ in
+                observation.cancel()
+            }
         }
     }
 
-    public func observeCardsFromSet(setCode: String) async throws -> AsyncStream<[DomainCard]> {
+    public func observeCardsFromSet(setCode: String) async -> AsyncStream<[DomainCard]> {
         return AsyncStream { continuation in
-            let observationTask = Task {
-                await kmpManager.observeCardFromSet(code: setCode) { cards in
-                    continuation.yield(cards.asDomainCards)
-                }
+            let observation = kmpManager.observeCardFromSet(code: setCode) { cards in
+                continuation.yield(cards.asDomainCards)
             }
-            continuation.onTermination = { _ in observationTask.cancel() }
+            continuation.onTermination = { _ in
+                observation.cancel()
+            }
         }
     }
 
