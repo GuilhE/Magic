@@ -31,7 +31,7 @@ let package = Package(
             dependencies: [
                 "KMPBridge",
                 .product(name: "DomainModels", package: "Domain"),
-                .product(name: "DomainUseCases", package: "Domain")
+                .product(name: "DomainUseCases", package: "Domain"),
             ]
         ),
     ]
