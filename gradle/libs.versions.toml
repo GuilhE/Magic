@@ -1,14 +1,15 @@
 [versions]
 
 #======Kotlin
-kotlin = "2.2.20"
+kotlin = "2.2.21"
+kmp="2.3.0-Beta2-91"
 kotlinxCoroutines = "1.10.2"
 kotlinxSerialization = "1.9.0"
-kotlinxCompose = "1.9.0"
-ktor = "3.3.0"
+kotlinxCompose = "1.9.1"
+ktor = "3.3.1"
 
 #=====Google
-ksp = "2.2.20-2.0.2"
+ksp = "2.3.0"
 
 #======Android
 androidCompileSdk = "36"
@@ -17,17 +18,16 @@ androidMinSdk = "24"
 androidGradlePlugin = "8.13.0"
 androidMaterial = "1.13.0"
 androidxActivityKtx = "1.11.0"
-androidxLifecycle = "2.9.3"
-androidxCompose = "1.9.1"
-androidxComposeLifecycle = "2.9.3"
-androidxComposeMaterial3 = "1.3.2"
-androidxComposeUiUtilAndroid = "1.9.1"
+androidxLifecycle = "2.9.4"
+androidxCompose = "1.9.4"
+androidxComposeLifecycle = "2.9.4"
+androidxComposeMaterial3 = "1.4.0"
+androidxComposeUiUtilAndroid = "1.9.4"
 
 #======Multiplatform
 kermit = "2.0.8"
 sqldelight = "2.1.0"
 koin = "4.1.1"
-nativecoroutines = "1.0.0-ALPHA-47"
 turbine = "1.2.1"
 
 [plugins]
@@ -35,10 +35,10 @@ turbine = "1.2.1"
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 google-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kmp" }
 kotlinx-compose = { id = "org.jetbrains.compose", version.ref = "kotlinxCompose" }
 kotlinx-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-nativecoroutines = { id = "com.rickclephas.kmp.nativecoroutines", version.ref = "nativecoroutines" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 
 [libraries]
@@ -80,7 +80,6 @@ androidx-compose-activity = { group = "androidx.activity", name = "activity-comp
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "androidxCompose" }
 androidx-compose-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout", version.ref = "androidxCompose" }
 androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "androidxCompose" }
-androidx-compose-material-iconsExtended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "androidxCompose" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "androidxComposeMaterial3" }
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "androidxCompose" }
 androidx-compose-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxComposeLifecycle" }

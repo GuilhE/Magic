@@ -4,13 +4,14 @@ import DomainModels
 import DomainUseCases
 import SwiftUI
 
+@MainActor
 public class MagicDeckViewModel: ObservableObject, CardDeckViewModelProtocol {
     public typealias CardType = MagicCard
 
     // https://en.wikipedia.org/wiki/List_of_Magic:_The_Gathering_sets
     // private let sets = ["4ED", "5ED", "TMP", "MIR"] //For some reason these sets images return 308
     private let sets = ["TOR", "CHK", "NPH", "DTK"]
-    private let manager: DomainCardsManagerProtocol
+    private nonisolated(unsafe) let manager: DomainCardsManagerProtocol
     private var cancellables = Set<AnyCancellable>()
 
     @Published private(set) var currentSet: CardSetItem = .init(code: "", name: "", releaseDate: "")
@@ -44,13 +45,9 @@ public class MagicDeckViewModel: ObservableObject, CardDeckViewModelProtocol {
 
     private func observeCards(setCode: String) async {
         print("> Observing \(currentSet.name) cards")
-        do {
-            let stream = try await manager.observeCardsFromSet(setCode: setCode)
-            for await cardList in stream {
-                cards = cardList.map { card in card.toMagicCard() }
-            }
-        } catch {
-            print("> Failed to observe cards with error: \(error)")
+        let stream = await manager.observeCardsFromSet(setCode: setCode)
+        for await cardList in stream {
+            cards = cardList.map { card in card.toMagicCard() }
         }
     }
 

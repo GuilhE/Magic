@@ -11,6 +11,7 @@
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* MagicApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* MagicApp.swift */; };
 		5C0E710A2D491BAD000335AB /* netfox in Frameworks */ = {isa = PBXBuildFile; productRef = 5C0E71092D491BAD000335AB /* netfox */; };
+		5C53738C2EA1196E007C7070 /* TempTypealias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C53738B2EA1196E007C7070 /* TempTypealias.swift */; };
 		5C751D4C2C5D4D85004083A4 /* FactoryProtocols in Frameworks */ = {isa = PBXBuildFile; productRef = 5C751D4B2C5D4D85004083A4 /* FactoryProtocols */; };
 		5C88A8CA2C5BCF4300BC4BC0 /* AppDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C88A8C92C5BCF4300BC4BC0 /* AppDependencies.swift */; };
 		5C94B42C2C63D3C10072F5A9 /* AppFactories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C94B42B2C63D3C10072F5A9 /* AppFactories.swift */; };
@@ -42,6 +43,7 @@
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* MagicApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagicApp.swift; sourceTree = "<group>"; };
 		5C1A46C82C5B1C3600D10311 /* Core */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Core; sourceTree = "<group>"; };
+		5C53738B2EA1196E007C7070 /* TempTypealias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempTypealias.swift; sourceTree = "<group>"; };
 		5C88A8C92C5BCF4300BC4BC0 /* AppDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDependencies.swift; sourceTree = "<group>"; };
 		5C94B42B2C63D3C10072F5A9 /* AppFactories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFactories.swift; sourceTree = "<group>"; };
 		5CEF6E912C5B1CA4005E16A1 /* Data */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Data; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 				2152FB032600AC8F00CF470E /* MagicApp.swift */,
 				5C88A8C92C5BCF4300BC4BC0 /* AppDependencies.swift */,
 				5C94B42B2C63D3C10072F5A9 /* AppFactories.swift */,
+				5C53738B2EA1196E007C7070 /* TempTypealias.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -230,7 +233,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"$SRCROOT/..\"\n./gradlew :core-di:embedAndSignAppleFrameworkForXcode\n";
+			shellScript = "cd \"$SRCROOT/..\"\n./gradlew :core-di:embedSwiftExportForXcode\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -239,6 +242,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C53738C2EA1196E007C7070 /* TempTypealias.swift in Sources */,
 				5C94B42C2C63D3C10072F5A9 /* AppFactories.swift in Sources */,
 				5C88A8CA2C5BCF4300BC4BC0 /* AppDependencies.swift in Sources */,
 				2152FB042600AC8F00CF470E /* MagicApp.swift in Sources */,
@@ -376,6 +380,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = "${TEAM_ID}";
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				FUSE_BUILD_SCRIPT_PHASES = NO;
@@ -387,6 +392,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1;
+				OTHER_LDFLAGS = "-lsqlite3";
 				PRODUCT_BUNDLE_IDENTIFIER = com.magic.app.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -418,6 +424,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1;
+				OTHER_LDFLAGS = "-lsqlite3";
 				PRODUCT_BUNDLE_IDENTIFIER = com.magic.app.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
