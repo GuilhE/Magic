@@ -48,7 +48,7 @@ public class CardsManagerImpl: DomainCardsManagerProtocol, @unchecked Sendable {
     }
 
     public func observeCardSets() async -> AsyncStream<[DomainCardSet]> {
-        return AsyncStream { continuation in
+        AsyncStream { continuation in
             let observation = kmpManager.observeSets { sets in
                 continuation.yield(sets.asDomainCardSets)
             }
@@ -59,7 +59,7 @@ public class CardsManagerImpl: DomainCardsManagerProtocol, @unchecked Sendable {
     }
 
     public func observeSetCount() async -> AsyncStream<Int> {
-        return AsyncStream { continuation in
+        AsyncStream { continuation in
             let observation = kmpManager.observeSetCount { count in
                 continuation.yield(Int(count))
             }
@@ -70,7 +70,7 @@ public class CardsManagerImpl: DomainCardsManagerProtocol, @unchecked Sendable {
     }
 
     public func observeCardCount() async -> AsyncStream<Int> {
-        return AsyncStream { continuation in
+        AsyncStream { continuation in
             let observation = kmpManager.observeCardCount { count in
                 continuation.yield(Int(count))
             }
@@ -81,7 +81,7 @@ public class CardsManagerImpl: DomainCardsManagerProtocol, @unchecked Sendable {
     }
 
     public func observeCardsFromSet(setCode: String) async -> AsyncStream<[DomainCard]> {
-        return AsyncStream { continuation in
+        AsyncStream { continuation in
             let observation = kmpManager.observeCardFromSet(code: setCode) { cards in
                 continuation.yield(cards.asDomainCards)
             }
