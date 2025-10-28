@@ -15,7 +15,7 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Running code format
+      - name: Running SwiftFormat
         run: |
           swiftformat ./iosApp --swiftversion 6.0.3 --reporter github-actions-log
           git diff --exit-code || echo "CHANGES_DETECTED=true" >> $GITHUB_ENV
@@ -24,7 +24,7 @@ jobs:
         if: env.CHANGES_DETECTED == 'true'
         run: echo "SwiftFormat made changes. Proceeding with formatting."
 
-      - name: Creating new branch to commit changes
+      - name: Create branch and commit formatting changes
         if: env.CHANGES_DETECTED == 'true'
         run: |
           git config --global user.name 'github-actions[bot]'
@@ -33,7 +33,7 @@ jobs:
           # Generate branch name based on event type
           if [ "${{ github.event_name }}" == "pull_request" ]; then
             BRANCH_NAME="auto-formatting-pr-${{ github.event.pull_request.number }}-$(date +%s)"
-            BASE_BRANCH="${{ github.event.pull_request.base.ref }}"
+            BASE_BRANCH="${{ github.event.pull_request.head.ref }}"
           else
             BRANCH_NAME="auto-formatting-$(date +%Y%m%d-%H%M%S)"
             BASE_BRANCH="main"
@@ -50,7 +50,7 @@ jobs:
           git commit -m "Apply SwiftFormat"
           git push origin $BRANCH_NAME
 
-      - name: Creating Pull Request
+      - name: Create Pull Request
         if: env.CHANGES_DETECTED == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -60,3 +60,11 @@ jobs:
             --body "This PR applies SwiftFormat automatically to maintain code consistency." \
             --base ${{ env.BASE_BRANCH }} \
             --head ${{ env.BRANCH_NAME }}
+
+      - name: Add reviewer to PR
+        if: env.CHANGES_DETECTED == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: |
+          PR_NUMBER=$(gh pr list --head ${{ env.BRANCH_NAME }} --json number -q '.[0].number')
+          gh pr edit $PR_NUMBER --add-reviewer GuilhE
