@@ -1,28 +1,30 @@
 @file:OptIn(ExperimentalSwiftExportDsl::class)
 
+import org.jetbrains.kotlin.gradle.plugin.mpp.apple.swiftexport.SWIFT_EXPORT_COROUTINES_SUPPORT_TURNED_ON
 import org.jetbrains.kotlin.gradle.swiftexport.ExperimentalSwiftExportDsl
 
 plugins {
-    id("buildlogic.plugins.kmp.library.android")
-}
-
-android {
-    namespace = "com.magic.core.di"
+    id("buildlogic.plugins.kmp.library")
 }
 
 kotlin {
-    androidTarget()
+    android { namespace = "com.magic.core.di" }
     listOf(iosArm64(), iosSimulatorArm64()).forEach { iosTarget ->
         iosTarget.compilerOptions { freeCompilerArgs.add("-Xexport-kdoc") }
     }
 
     swiftExport {
         moduleName = "MagicDI"
-        //https://youtrack.jetbrains.com/issue/KT-81270/K-N-Build-fails-when-exposing-suspend-functions#focus=Comments-27-12735527.0-0
-        //flattenPackage = "com.magic.core.di"
-        configure { settings.put("enableCoroutinesSupport", "true") }
-        export(projects.dataManagers) { moduleName = "MagicDataManagers" }
-        export(projects.dataModels) { moduleName = "MagicDataModels" }
+        flattenPackage = "com.magic.core.di"
+        configure { settings.put(SWIFT_EXPORT_COROUTINES_SUPPORT_TURNED_ON, "true") }
+        export(projects.dataManagers) {
+            moduleName = "MagicDataManagers"
+            flattenPackage = "com.magic.data.managers"
+        }
+        export(projects.dataModels) {
+            moduleName = "MagicDataModels"
+            flattenPackage = "com.magic.data.models"
+        }
     }
 
     sourceSets {

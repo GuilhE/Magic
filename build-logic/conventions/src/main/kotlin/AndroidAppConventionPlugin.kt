@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import extensions.addComposeDependencies
 import extensions.addKotlinCompileOptions
@@ -59,7 +61,6 @@ class AndroidAppConventionPlugin : Plugin<Project> {
                 abortOnError = false
             }
 
-            @Suppress("UnstableApiUsage")
             testOptions {
                 unitTests.apply {
                     isReturnDefaultValues = true

@@ -5,9 +5,6 @@ import KMPBridge
 import MagicDataManagers
 import MagicDataModels
 
-// Until we can use flattenPackage in swiftExport gradle configuration we need this helper class
-// https://youtrack.jetbrains.com/issue/KT-81270/K-N-Build-fails-when-exposing-suspend-functions
-typealias CardsManager = ExportedKotlinPackages.com.magic.data.managers.CardsManager
 typealias Card = ExportedKotlinPackages.com.magic.data.models.local.Card
 typealias CardSet = ExportedKotlinPackages.com.magic.data.models.local.CardSet
 typealias Success = ExportedKotlinPackages.com.magic.data.models.local.Result.Success
@@ -16,7 +13,7 @@ typealias Error = ExportedKotlinPackages.com.magic.data.models.local.Result.Erro
 public class CardsManagerImpl: DomainCardsManagerProtocol, @unchecked Sendable {
     private let kmpManager: CardsManager
 
-    public init(manager: ExportedKotlinPackages.com.magic.data.managers.CardsManager) {
+    public init(manager: CardsManager) {
         kmpManager = manager
     }
 

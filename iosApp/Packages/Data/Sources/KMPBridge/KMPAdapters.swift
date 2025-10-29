@@ -1,21 +1,16 @@
 import DomainModels
+import ExportedKotlinPackages
 import MagicDataManagers
 import MagicDataModels
 
-import ExportedKotlinPackages
-
-// Until we can use flattenPackage in swiftExport gradle configuration we need this helper class
-// https://youtrack.jetbrains.com/issue/KT-81270/K-N-Build-fails-when-exposing-suspend-functions
-
-typealias CardsManager = ExportedKotlinPackages.com.magic.data.managers.CardsManager
-typealias Observation = ExportedKotlinPackages.com.magic.data.managers.Observation
 typealias Card = ExportedKotlinPackages.com.magic.data.models.local.Card
 typealias CardSet = ExportedKotlinPackages.com.magic.data.models.local.CardSet
+typealias RateLimitException = ExportedKotlinPackages.com.magic.data.models.exceptions.RateLimitException
 typealias Throwable = ExportedKotlinPackages.kotlin.Throwable
 
 extension Throwable: @retroactive ErrorException, @unchecked Sendable {}
 extension Observation: @retroactive @unchecked Sendable {}
-// extension RateLimitException: @retroactive DomainRateLimitException, @unchecked Sendable {}
+extension RateLimitException: @retroactive DomainRateLimitException, @unchecked Sendable {}
 
 public extension Card {
     var asDomainCard: DomainCard {

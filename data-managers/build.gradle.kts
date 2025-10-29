@@ -1,15 +1,11 @@
 plugins {
-    id("buildlogic.plugins.kmp.library.android")
+    id("buildlogic.plugins.kmp.library")
     alias(libs.plugins.google.ksp)
     alias(libs.plugins.sqldelight) //for unit test
 }
 
-android {
-    namespace = "com.magic.data.managers"
-}
-
 kotlin {
-    androidTarget()
+    android { namespace = "com.magic.data.managers" }
     listOf(iosArm64(), iosSimulatorArm64()).forEach { iosTarget ->
         iosTarget.compilerOptions { freeCompilerArgs.add("-Xexport-kdoc") }
     }

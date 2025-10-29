@@ -1,14 +1,10 @@
 plugins {
-    id("buildlogic.plugins.kmp.library.android")
+    id("buildlogic.plugins.kmp.library")
     alias(libs.plugins.sqldelight)
 }
 
-android {
-    namespace = "com.magic.core.database"
-}
-
 kotlin {
-    androidTarget()
+    android { namespace = "com.magic.core.database" }
     iosArm64()
     iosSimulatorArm64()
 
