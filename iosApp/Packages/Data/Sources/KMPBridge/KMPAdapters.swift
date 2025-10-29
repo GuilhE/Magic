@@ -3,43 +3,38 @@ import ExportedKotlinPackages
 import MagicDataManagers
 import MagicDataModels
 
-typealias Card = ExportedKotlinPackages.com.magic.data.models.local.Card
-typealias CardSet = ExportedKotlinPackages.com.magic.data.models.local.CardSet
-typealias RateLimitException = ExportedKotlinPackages.com.magic.data.models.exceptions.RateLimitException
-typealias Throwable = ExportedKotlinPackages.kotlin.Throwable
-
-extension Throwable: @retroactive ErrorException, @unchecked Sendable {}
+extension kotlin.Throwable: @retroactive ErrorException, @unchecked Sendable {}
 extension Observation: @retroactive @unchecked Sendable {}
-extension RateLimitException: @retroactive DomainRateLimitException, @unchecked Sendable {}
+extension exceptions.RateLimitException: @retroactive DomainRateLimitException, @unchecked Sendable {}
 
-public extension Card {
+public extension local.Card {
     var asDomainCard: DomainCard {
         CardImpl(self)
     }
 }
 
-public extension CardSet {
+public extension local.CardSet {
     var asDomainCardSet: DomainCardSet {
         CardSetImpl(self)
     }
 }
 
-public extension [Card] {
+public extension [local.Card] {
     var asDomainCards: [DomainCard] {
         map(\.asDomainCard)
     }
 }
 
-public extension [CardSet] {
+public extension [local.CardSet] {
     var asDomainCardSets: [DomainCardSet] {
         map(\.asDomainCardSet)
     }
 }
 
 private struct CardImpl: DomainCard, @unchecked Sendable {
-    private let apiCard: Card
+    private let apiCard: local.Card
 
-    init(_ apiCard: Card) {
+    init(_ apiCard: local.Card) {
         self.apiCard = apiCard
     }
 
@@ -52,9 +47,9 @@ private struct CardImpl: DomainCard, @unchecked Sendable {
 }
 
 private struct CardSetImpl: DomainCardSet, @unchecked Sendable {
-    private let apiCardSet: CardSet
+    private let apiCardSet: local.CardSet
 
-    init(_ apiCardSet: CardSet) {
+    init(_ apiCardSet: local.CardSet) {
         self.apiCardSet = apiCardSet
     }
 

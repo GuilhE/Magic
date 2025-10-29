@@ -5,11 +5,6 @@ import KMPBridge
 import MagicDataManagers
 import MagicDataModels
 
-typealias Card = ExportedKotlinPackages.com.magic.data.models.local.Card
-typealias CardSet = ExportedKotlinPackages.com.magic.data.models.local.CardSet
-typealias Success = ExportedKotlinPackages.com.magic.data.models.local.Result.Success
-typealias Error = ExportedKotlinPackages.com.magic.data.models.local.Result.Error
-
 public class CardsManagerImpl: DomainCardsManagerProtocol, @unchecked Sendable {
     private let kmpManager: CardsManager
 
@@ -19,9 +14,9 @@ public class CardsManagerImpl: DomainCardsManagerProtocol, @unchecked Sendable {
 
     public func getCardSet(setCode: String) async -> Swift.Result<DomainCardList, DomainException> {
         let result = await kmpManager.getSet(setCode: setCode)
-        if let successResult = result as? Success, let cards = successResult.data as? [Card]? {
+        if let successResult = result as? local.Result.Success, let cards = successResult.data as? [local.Card]? {
             return .success(DomainCardList(cards: cards!.asDomainCards))
-        } else if let errorResult = result as? Error {
+        } else if let errorResult = result as? local.Result.Error {
             return .failure(DomainException(domainError: errorResult.exception as ErrorException))
         } else {
             return .failure(DomainException(error: UnexpectedResultError()))
@@ -30,9 +25,9 @@ public class CardsManagerImpl: DomainCardsManagerProtocol, @unchecked Sendable {
 
     public func getCardSets(setCodes: [String]) async -> Swift.Result<Void, DomainException> {
         let result = await kmpManager.getSets(setCodes: setCodes)
-        if (result as? Success) != nil {
+        if (result as? local.Result.Success) != nil {
             return .success(())
-        } else if let errorResult = result as? Error {
+        } else if let errorResult = result as? local.Result.Error {
             return .failure(DomainException(domainError: errorResult.exception as ErrorException))
         } else {
             return .failure(DomainException(error: UnexpectedResultError()))
@@ -40,7 +35,7 @@ public class CardsManagerImpl: DomainCardsManagerProtocol, @unchecked Sendable {
     }
 
     public func getCardSets() -> [DomainCardSet] {
-        let apiCardSets = kmpManager.getSets() as [CardSet]
+        let apiCardSets = kmpManager.getSets() as [local.CardSet]
         return apiCardSets.asDomainCardSets
     }
 
