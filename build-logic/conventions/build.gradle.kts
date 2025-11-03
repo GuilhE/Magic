@@ -7,6 +7,7 @@ plugins {
 repositories {
     google()
     mavenCentral()
+    maven("https://redirector.kotlinlang.org/maven/dev")
 }
 
 java {

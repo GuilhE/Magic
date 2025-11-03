@@ -1,11 +1,10 @@
 [versions]
 
 #======Kotlin
-kotlin = "2.3.0-Beta2"
-kmp="2.3.20-dev-2147"
+kotlin = "2.3.20-dev-2461"
 kotlinxCoroutines = "1.10.2"
 kotlinxSerialization = "1.9.0"
-kotlinxCompose = "1.9.1"
+kotlinxCompose = "1.9.2"
 ktor = "3.3.1"
 
 #=====Google
@@ -34,7 +33,7 @@ turbine = "1.2.1"
 
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "androidGradlePlugin" }
-kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kmp" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinx-compose = { id = "org.jetbrains.compose", version.ref = "kotlinxCompose" }
 kotlinx-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
