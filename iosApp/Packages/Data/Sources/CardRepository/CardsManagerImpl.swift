@@ -74,7 +74,7 @@ public class CardsManagerImpl: DomainCardsManagerProtocol, @unchecked Sendable {
 
     public func observeCardsFromSet(setCode: String) async -> AsyncStream<[DomainCard]> {
         AsyncStream { continuation in
-            let observation = kmpManager.observeCardFromSet(code: setCode) { cards in
+            let observation = kmpManager.observeCardsFromSet(code: setCode) { cards in
                 continuation.yield(cards.asDomainCards)
             }
             continuation.onTermination = { _ in

@@ -19,10 +19,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -149,7 +146,7 @@ internal class CardsManagerImpl : CardsManager, KoinComponent {
         })
     }
 
-    override fun observeCardFromSet(code: String, callback: (List<Card>) -> Unit): Observation {
+    override fun observeCardsFromSet(code: String, callback: (List<Card>) -> Unit): Observation {
         return Observation(coroutineScope.launch {
             local.cardsFromSetStream(code)
                 .map { dbCards -> dbCards.map { dbCard -> dbCard.toCard() } }

@@ -131,6 +131,6 @@ interface CardsManager {
     fun observeSetCount(callback: (Long) -> Unit): Observation
     fun observeCardCount(callback: (Long) -> Unit): Observation
     fun observeSets(callback: (List<CardSet>) -> Unit): Observation
-    fun observeCardFromSet(code: String, callback: (List<Card>) -> Unit): Observation
+    fun observeCardsFromSet(code: String, callback: (List<Card>) -> Unit): Observation
     fun observeCards(callback: (List<Card>) -> Unit): Observation
 }
