@@ -1,7 +1,6 @@
 @file:Suppress("unused")
 
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
-import extensions.addComposeDependencies
 import extensions.addKotlinCompileOptions
 import extensions.buildComposeMetricsParameters
 import org.gradle.api.JavaVersion
@@ -27,7 +26,6 @@ class AndroidAppConventionPlugin : Plugin<Project> {
                 addKotlinAndroidConfigurations(versionCatalog)
             }
             addKotlinCompileOptions(buildComposeMetricsParameters())
-            addComposeDependencies(versionCatalog)
         }
     }
 

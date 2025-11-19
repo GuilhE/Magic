@@ -11,20 +11,20 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(libs.kotlinx.coroutines.core)
-            implementation(libs.kmp.sqldelight.coroutines.extensions)
-            implementation(libs.kmp.koin.core)
+            implementation(libs.sqldelight.coroutines.extensions)
+            implementation(libs.koin.core)
         }
         commonTest.dependencies {
             implementation(libs.test.kotlin)
-            implementation(libs.test.kmp.koin)
-            implementation(libs.test.kmp.turbine)
+            implementation(libs.test.koin)
+            implementation(libs.test.turbine)
             implementation(libs.test.kotlinx.coroutines)
         }
         androidMain.dependencies {
-            implementation(libs.kmp.sqldelight.android.driver)
-            implementation(libs.kmp.sqldelight.driver)
+            implementation(libs.sqldelight.android.driver)
+            implementation(libs.sqldelight.driver)
         }
-        iosMain.dependencies { implementation(libs.kmp.sqldelight.ios.driver) }
+        iosMain.dependencies { implementation(libs.sqldelight.ios.driver) }
     }
 }
 

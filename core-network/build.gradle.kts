@@ -13,8 +13,8 @@ kotlin {
             implementation(libs.bundles.ktor)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization)
-            implementation(libs.kmp.koin.core)
-            implementation(libs.kmp.kermit)
+            implementation(libs.koin.core)
+            implementation(libs.kermit)
         }
         commonTest.dependencies {
             implementation(libs.test.kotlin)

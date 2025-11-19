@@ -33,7 +33,7 @@ kotlin {
             implementation(projects.coreDatabase)
             api(projects.dataManagers)
             api(projects.dataModels)
-            implementation(libs.kmp.koin.core)
+            implementation(libs.koin.core)
         }
     }
 }
