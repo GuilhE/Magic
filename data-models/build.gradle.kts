@@ -1,14 +1,10 @@
 plugins {
-    id("buildlogic.plugins.kmp.library.android")
+    id("buildlogic.plugins.kmp.library")
     alias(libs.plugins.kotlinx.serialization)
 }
 
-android {
-    namespace = "com.magic.data.models"
-}
-
 kotlin {
-    androidTarget()
+    android { namespace = "com.magic.data.models" }
     iosArm64()
     iosSimulatorArm64()
 

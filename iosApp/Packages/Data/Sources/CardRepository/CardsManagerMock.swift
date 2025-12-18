@@ -1,6 +1,6 @@
 import DomainModels
 import DomainUseCases
-import MagicDataLayer
+import Foundation
 
 private struct MockCardSet: DomainCardSet, Hashable {
     let code: String
@@ -17,7 +17,7 @@ private struct MockCard: DomainCard {
     let artist: String
 }
 
-public class CardsManagerMock: DomainCardsManagerProtocol {
+public class CardsManagerMock: DomainCardsManagerProtocol, @unchecked Sendable {
     private var mockCardSets: [MockCardSet: [MockCard]] = [:]
     private var setCountContinuation: AsyncStream<Int>.Continuation?
     private var cardCountContinuation: AsyncStream<Int>.Continuation?
@@ -52,27 +52,27 @@ public class CardsManagerMock: DomainCardsManagerProtocol {
         Array(mockCardSets.keys)
     }
 
-    public func observeCardSets() async throws -> AsyncStream<[DomainCardSet]> {
+    public func observeCardSets() async -> AsyncStream<[DomainCardSet]> {
         AsyncStream { continuation in
             continuation.yield(Array(mockCardSets.keys))
         }
     }
 
-    public func observeSetCount() async throws -> AsyncStream<Int> {
+    public func observeSetCount() async -> AsyncStream<Int> {
         AsyncStream { continuation in
             setCountContinuation = continuation
             continuation.yield(mockCardSets.count)
         }
     }
 
-    public func observeCardCount() async throws -> AsyncStream<Int> {
+    public func observeCardCount() async -> AsyncStream<Int> {
         AsyncStream { continuation in
             cardCountContinuation = continuation
             continuation.yield(mockCardSets.flatMap(\.value).count)
         }
     }
 
-    public func observeCardsFromSet(setCode: String) async throws -> AsyncStream<[DomainCard]> {
+    public func observeCardsFromSet(setCode: String) async -> AsyncStream<[DomainCard]> {
         AsyncStream { continuation in
             cardsContinuations[setCode] = continuation
             if let cards = mockCardSets.first(where: { $0.key.code == setCode })?.value {
@@ -84,16 +84,13 @@ public class CardsManagerMock: DomainCardsManagerProtocol {
     }
 
     public func removeCardSet(setCode: String) {
-        if let set = mockCardSets.first(where: { $0.key.code == setCode }) {
-            mockCardSets[set.key] = []
-            Task {
-                await emitCardsUpdate(for: setCode, cards: [])
-            }
-        } else {
+        guard let set = mockCardSets.first(where: { $0.key.code == setCode }) else {
             return
         }
-        Task {
-            await emitCountsUpdate(delay: 0)
+        mockCardSets[set.key] = []
+        Task.detached {
+            await self.emitCardsUpdate(for: setCode, cards: [])
+            await self.emitCountsUpdate(delay: 0)
         }
     }
 

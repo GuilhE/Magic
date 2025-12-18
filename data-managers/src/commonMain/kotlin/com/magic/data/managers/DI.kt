@@ -1,7 +1,9 @@
 package com.magic.data.managers
 
+import io.ktor.utils.io.core.Closeable
 import org.koin.core.module.Module
 import org.koin.dsl.module
+import org.koin.dsl.onClose
 import kotlin.experimental.ExperimentalObjCRefinement
 import kotlin.native.HiddenFromObjC
 

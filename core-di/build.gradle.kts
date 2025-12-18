@@ -1,21 +1,29 @@
-plugins {
-    id("buildlogic.plugins.kmp.library.android")
-    alias(libs.plugins.sqldelight) //to include sqlite3 in XCFramework
-}
+@file:OptIn(ExperimentalSwiftExportDsl::class)
 
-android {
-    namespace = "com.magic.core.di"
+import org.jetbrains.kotlin.gradle.plugin.mpp.apple.swiftexport.SWIFT_EXPORT_COROUTINES_SUPPORT_TURNED_ON
+import org.jetbrains.kotlin.gradle.swiftexport.ExperimentalSwiftExportDsl
+
+plugins {
+    id("buildlogic.plugins.kmp.library")
 }
 
 kotlin {
-    androidTarget()
-    listOf(iosArm64(), iosSimulatorArm64()).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "MagicDataLayer"
-            export(projects.dataManagers)
-            export(projects.dataModels)
+    android { namespace = "com.magic.core.di" }
+    iosArm64()
+    iosSimulatorArm64()
+
+    swiftExport {
+        moduleName = "MagicDI"
+        flattenPackage = "com.magic.core.di"
+        configure { settings.put(SWIFT_EXPORT_COROUTINES_SUPPORT_TURNED_ON, "true") }
+        export(projects.dataManagers) {
+            moduleName = "MagicDataManagers"
+            flattenPackage = "com.magic.data.managers"
         }
-        iosTarget.compilerOptions { freeCompilerArgs.add("-Xexport-kdoc") }
+        export(projects.dataModels) {
+            moduleName = "MagicDataModels"
+            flattenPackage = "com.magic.data.models"
+        }
     }
 
     sourceSets {
@@ -24,7 +32,7 @@ kotlin {
             implementation(projects.coreDatabase)
             api(projects.dataManagers)
             api(projects.dataModels)
-            implementation(libs.kmp.koin.core)
+            implementation(libs.koin.core)
         }
     }
 }

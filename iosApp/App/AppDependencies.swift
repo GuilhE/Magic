@@ -1,9 +1,9 @@
-import MagicDataLayer
+import MagicDI
 
 @MainActor
 class AppDependencies {
     func setupDependencies() {
-        DependencyInjection().doInitKoin(enableNetworkLogs: false)
+        DependencyInjection.shared.initKoin(enableNetworkLogs: false)
         CardsManagerFactory.register()
         CardListViewModelFactory.register()
         CardDeckViewModelFactory.register()

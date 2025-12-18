@@ -7,10 +7,11 @@ import SwiftUI
 @MainActor
 public protocol CardListViewModelProtocol {}
 
+@MainActor
 public class CardListViewModel: ObservableObject, CardListViewModelProtocol {
     // https://en.wikipedia.org/wiki/List_of_Magic:_The_Gathering_sets
     private let sets = ["4ED", "5ED", "TMP", "MIR"]
-    private let manager: DomainCardsManagerProtocol
+    private nonisolated(unsafe) let manager: DomainCardsManagerProtocol
     private var cancellables = Set<AnyCancellable>()
 
     @Published var currentSet: CardSetItem = .init(code: "", name: "", releaseDate: "")
@@ -59,35 +60,23 @@ public class CardListViewModel: ObservableObject, CardListViewModelProtocol {
     }
 
     private func observeSetCount() async {
-        do {
-            let stream = try await manager.observeSetCount()
-            for await count in stream {
-                setCount = count
-            }
-        } catch {
-            print("> Failed to observe set count with error: \(error)")
+        let stream = await manager.observeSetCount()
+        for await count in stream {
+            setCount = count
         }
     }
 
     private func observeCardsCount() async {
-        do {
-            let stream = try await manager.observeCardCount()
-            for await count in stream {
-                cardsTotalCount = count
-            }
-        } catch {
-            print("> Failed to observe card count with error: \(error)")
+        let stream = await manager.observeCardCount()
+        for await count in stream {
+            cardsTotalCount = count
         }
     }
 
     private func observeCards(setCode: String) async {
-        do {
-            let stream = try await manager.observeCardsFromSet(setCode: setCode)
-            for await cardList in stream {
-                cards = cardList.map { card in card.toCardListItem() }
-            }
-        } catch {
-            print("> Failed to observe cards with error: \(error)")
+        let stream = await manager.observeCardsFromSet(setCode: setCode)
+        for await cardList in stream {
+            cards = cardList.map { card in card.toCardListItem() }
         }
     }
 

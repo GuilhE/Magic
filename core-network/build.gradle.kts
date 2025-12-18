@@ -1,14 +1,10 @@
 plugins {
-    id("buildlogic.plugins.kmp.library.android")
+    id("buildlogic.plugins.kmp.library")
     alias(libs.plugins.kotlinx.serialization)
 }
 
-android {
-    namespace = "com.magic.core.network"
-}
-
 kotlin {
-    androidTarget()
+    android { namespace = "com.magic.core.network" }
     iosArm64()
     iosSimulatorArm64()
 
@@ -17,8 +13,8 @@ kotlin {
             implementation(libs.bundles.ktor)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization)
-            implementation(libs.kmp.koin.core)
-            implementation(libs.kmp.kermit)
+            implementation(libs.koin.core)
+            implementation(libs.kermit)
         }
         commonTest.dependencies {
             implementation(libs.test.kotlin)
