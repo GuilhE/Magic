@@ -9,9 +9,8 @@ plugins {
 
 kotlin {
     android { namespace = "com.magic.core.di" }
-    listOf(iosArm64(), iosSimulatorArm64()).forEach { iosTarget ->
-        iosTarget.compilerOptions { freeCompilerArgs.add("-Xexport-kdoc") }
-    }
+    iosArm64()
+    iosSimulatorArm64()
 
     swiftExport {
         moduleName = "MagicDI"

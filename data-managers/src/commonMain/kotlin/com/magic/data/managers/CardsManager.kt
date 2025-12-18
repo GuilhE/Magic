@@ -1,9 +1,11 @@
 package com.magic.data.managers
 
+import com.magic.data.models.exceptions.RateLimitException
 import com.magic.data.models.local.Card
 import com.magic.data.models.local.CardSet
 import com.magic.data.models.local.Result
 import kotlinx.coroutines.flow.Flow
+import kotlin.coroutines.cancellation.CancellationException
 import kotlin.experimental.ExperimentalObjCRefinement
 import kotlin.native.HiddenFromObjC
 
@@ -20,7 +22,7 @@ interface CardsManager {
      * @param setCode The code of the [CardSet] to fetch and insert.
      * @return A [Result] containing a list of [Card] on success or a [Throwable] on error.
      */
-//    @Throws(RateLimitException::class, CancellationException::class)
+    @Throws(RateLimitException::class, CancellationException::class)
     suspend fun getSet(setCode: String): Result<List<Card>>
 
     /**
@@ -29,7 +31,7 @@ interface CardsManager {
      * @param setCodes A list of set codes to be fetched.
      * @return A [Result] indicating success or failure of the operation. In case of error, a [Throwable] inside [Result.Error].
      */
-//    @Throws(RateLimitException::class, CancellationException::class)
+    @Throws(RateLimitException::class, CancellationException::class)
     suspend fun getSets(setCodes: List<String>): Result<Unit>
 
     /**

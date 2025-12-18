@@ -6,9 +6,8 @@ plugins {
 
 kotlin {
     android { namespace = "com.magic.data.managers" }
-    listOf(iosArm64(), iosSimulatorArm64()).forEach { iosTarget ->
-        iosTarget.compilerOptions { freeCompilerArgs.add("-Xexport-kdoc") }
-    }
+    iosArm64()
+    iosSimulatorArm64()
 
     sourceSets {
         commonMain.dependencies {

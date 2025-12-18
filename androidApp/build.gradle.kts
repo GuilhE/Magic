@@ -29,10 +29,14 @@ dependencies {
     implementation(projects.coreDi)
     implementation(projects.dataModels)
     implementation(projects.dataManagers)
+
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.compose.activity)
     implementation(libs.android.material)
-    implementation(libs.bundles.compose.multiplatform)
+
+    implementation(libs.bundles.jetbrains.compose)
+    implementation(libs.jetbrains.compose.ui.tooling)
+
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
 }

@@ -1,6 +1,4 @@
-@file:Suppress("unused")
-
-import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
+import com.android.build.api.dsl.ApplicationExtension
 import extensions.addKotlinCompileOptions
 import extensions.buildComposeMetricsParameters
 import org.gradle.api.JavaVersion
@@ -17,19 +15,18 @@ class AndroidAppConventionPlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply("com.android.application")
-                apply("org.jetbrains.kotlin.android")
                 apply("org.jetbrains.kotlin.plugin.compose")
             }
 
             val versionCatalog = target.extensions.getByType<VersionCatalogsExtension>().named("libs")
-            extensions.configure<BaseAppModuleExtension> {
+            extensions.configure<ApplicationExtension> {
                 addKotlinAndroidConfigurations(versionCatalog)
             }
             addKotlinCompileOptions(buildComposeMetricsParameters())
         }
     }
 
-    private fun BaseAppModuleExtension.addKotlinAndroidConfigurations(libs: VersionCatalog) {
+    private fun ApplicationExtension.addKotlinAndroidConfigurations(libs: VersionCatalog) {
         apply {
             compileSdk = libs.findVersion("androidCompileSdk").get().toString().toInt()
             defaultConfig {
@@ -44,8 +41,10 @@ class AndroidAppConventionPlugin : Plugin<Project> {
                     )
                 )
             }
-            
+
             buildFeatures {
+                buildConfig = true
+                resValues = true
                 compose = true
             }
 
@@ -75,7 +74,7 @@ class AndroidAppConventionPlugin : Plugin<Project> {
                             "**/*.kotlin_module",
 //                            "**/*.version",
                             "**/*.txt",
-//                            "**/*.xml",  //if not commented it will delete all shared-ui resources
+//                            "**/*.xml",  //if not commented it will delete all KMP resources
                             "**/*.properties",
                             "/META-INF/{AL2.0,LGPL2.1}"
                         )

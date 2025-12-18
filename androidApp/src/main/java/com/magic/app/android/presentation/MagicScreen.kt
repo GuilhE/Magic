@@ -41,7 +41,8 @@ import com.magic.data.models.local.CardSetImpl
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun MagicScreen(viewModel: MagicViewModel = koinViewModel()) {
+fun MagicScreen() {
+    val viewModel: MagicViewModel = koinViewModel()
     with(viewModel.state.collectAsStateWithLifecycle().value) {
         MagicScreenContent(
             set = set,
