@@ -1,16 +1,12 @@
 plugins {
-    id("buildlogic.plugins.kmp.library.android")
+    id("buildlogic.plugins.kmp.library")
     alias(libs.plugins.google.ksp)
     alias(libs.plugins.nativecoroutines)
     alias(libs.plugins.sqldelight) //for unit test
 }
 
-android {
-    namespace = "com.magic.data.managers"
-}
-
 kotlin {
-    androidTarget()
+    android { namespace = "com.magic.data.managers" }
     listOf(iosArm64(), iosSimulatorArm64()).forEach { iosTarget ->
         iosTarget.compilerOptions { freeCompilerArgs.add("-Xexport-kdoc") }
     }
@@ -22,16 +18,16 @@ kotlin {
             implementation(projects.dataModels)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.bundles.ktor)
-            implementation(libs.kmp.koin.core)
-            implementation(libs.kmp.kermit)
+            implementation(libs.koin.core)
+            implementation(libs.kermit)
         }
         commonTest.dependencies {
             implementation(libs.test.kotlin)
-            implementation(libs.test.kmp.koin)
-            implementation(libs.test.kmp.turbine)
+            implementation(libs.test.koin)
+            implementation(libs.test.turbine)
             implementation(libs.test.kotlinx.coroutines)
             implementation(libs.ktor.client.mock)
         }
-        androidMain.dependencies { implementation(libs.kmp.koin.android) }
+        androidMain.dependencies { implementation(libs.koin.android) }
     }
 }

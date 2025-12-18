@@ -1,14 +1,10 @@
 plugins {
-    id("buildlogic.plugins.kmp.library.android")
+    id("buildlogic.plugins.kmp.library")
     alias(libs.plugins.sqldelight) //to include sqlite3 in XCFramework
 }
 
-android {
-    namespace = "com.magic.core.di"
-}
-
 kotlin {
-    androidTarget()
+    android { namespace = "com.magic.core.di" }
     listOf(iosArm64(), iosSimulatorArm64()).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "MagicDataLayer"
@@ -24,7 +20,7 @@ kotlin {
             implementation(projects.coreDatabase)
             api(projects.dataManagers)
             api(projects.dataModels)
-            implementation(libs.kmp.koin.core)
+            implementation(libs.koin.core)
         }
     }
 }
