@@ -1,6 +1,6 @@
 plugins {
     id("buildlogic.plugins.kmp.library")
-    alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 kotlin {
