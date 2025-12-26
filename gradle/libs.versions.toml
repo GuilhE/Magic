@@ -1,6 +1,6 @@
 [versions]
 #======Kotlin
-kotlin = "2.3.20-dev-6091"
+kotlin = "2.3.20-Beta1-23"
 kotlinxCoroutines = "1.10.2"
 kotlinxSerialization = "1.9.0"
 composeMultiplatform = "1.10.0-rc02"
@@ -14,7 +14,7 @@ ksp = "2.3.4"
 androidCompileSdk = "36"
 androidTargetSdk = "36"
 androidMinSdk = "24"
-androidGradlePlugin = "9.0.0-beta05"
+androidGradlePlugin = "9.0.0-rc01"
 androidMaterial = "1.13.0"
 androidxActivityKtx = "1.12.2"
 androidxLifecycle = "2.10.0"
