@@ -83,7 +83,7 @@ struct CardDeckView<CardView: CardViewProtocol>: View {
     }
 
     private func handleDragChanged(value: DragGesture.Value, card: CardView.CardType) {
-        guard !shuffle && !zooming else { return }
+        guard !shuffle, !zooming else { return }
         guard card == deck.first else { return }
 
         activeCard = card
@@ -100,7 +100,7 @@ struct CardDeckView<CardView: CardViewProtocol>: View {
     }
 
     private func handleMagnificationChanged(value: CGFloat, card: CardView.CardType) {
-        guard !shuffle && !dragging && card == touchedCard else { return }
+        guard !shuffle, !dragging, card == touchedCard else { return }
 
         zooming = true
         zoomScale = min(max(value, 1.2), 3.0)
