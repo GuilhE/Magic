@@ -11,7 +11,6 @@ kotlin {
             export(projects.dataManagers)
             export(projects.dataModels)
         }
-        iosTarget.compilerOptions { freeCompilerArgs.add("-Xexport-kdoc") }
     }
 
     sourceSets {

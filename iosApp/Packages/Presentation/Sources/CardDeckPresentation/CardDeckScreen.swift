@@ -103,6 +103,7 @@ public struct CardDeckScreen<CardView: CardViewProtocol, CardViewModel: CardDeck
                 }
             }
         }
+        .animation(.smooth, value: availableSets)
     }
 
     private var CardDeck: some View {
