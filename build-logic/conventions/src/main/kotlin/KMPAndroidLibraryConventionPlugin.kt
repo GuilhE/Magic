@@ -11,33 +11,48 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 
 class KMPAndroidLibraryConventionPlugin : Plugin<Project> {
-    override fun apply(target: Project): Unit = with(target) {
-        pluginManager.apply("org.jetbrains.kotlin.multiplatform")
-        pluginManager.apply("com.android.kotlin.multiplatform.library")
-
-        val kmpe = extensions.getByType<KotlinMultiplatformExtension>()
-        val androidLibrary = (kmpe as ExtensionAware).extensions
-            .getByType(KotlinMultiplatformAndroidLibraryTarget::class.java)
-        androidLibrary.apply {
-            val catalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
-            compileSdk = catalog.findVersion("androidCompileSdk").get().toString().toInt()
-            minSdk = catalog.findVersion("androidMinSdk").get().toString().toInt()
-            compilerOptions { jvmTarget.set(JvmTarget.JVM_17) }
-            lint {
-                disable.add("Instantiatable")
-                abortOnError = false
+    override fun apply(target: Project): Unit =
+        with(target) {
+            with(pluginManager) {
+                apply("org.jetbrains.kotlin.multiplatform")
+                apply("com.android.kotlin.multiplatform.library")
+                apply("buildlogic.plugins.ktlint")
             }
-        }
+            val kmpe = extensions.getByType<KotlinMultiplatformExtension>()
+            val androidLibrary =
+                (kmpe as ExtensionAware)
+                    .extensions
+                    .getByType(KotlinMultiplatformAndroidLibraryTarget::class.java)
+            androidLibrary.apply {
+                val catalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
+                compileSdk =
+                    catalog
+                        .findVersion("androidCompileSdk")
+                        .get()
+                        .toString()
+                        .toInt()
+                minSdk =
+                    catalog
+                        .findVersion("androidMinSdk")
+                        .get()
+                        .toString()
+                        .toInt()
+                compilerOptions { jvmTarget.set(JvmTarget.JVM_17) }
+                lint {
+                    disable.add("Instantiatable")
+                    abortOnError = false
+                }
+            }
 
-        kotlinExtension.apply {
-            sourceSets.all {
-                languageSettings.apply {
-                    optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
-                    optIn("kotlinx.cinterop.ExperimentalForeignApi")
-                    optIn("kotlin.experimental.ExperimentalObjCName")
-                    optIn("kotlin.RequiresOptIn")
+            kotlinExtension.apply {
+                sourceSets.all {
+                    languageSettings.apply {
+                        optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
+                        optIn("kotlinx.cinterop.ExperimentalForeignApi")
+                        optIn("kotlin.experimental.ExperimentalObjCName")
+                        optIn("kotlin.RequiresOptIn")
+                    }
                 }
             }
         }
-    }
 }

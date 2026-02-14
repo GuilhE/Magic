@@ -4,7 +4,9 @@ on:
   push:
     branches:
       - main
+      - develop
   pull_request:
+  workflow_dispatch:
 
 jobs:
   Lint:
@@ -15,42 +17,44 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Running code format
+      - name: Running SwiftFormat
         run: |
-          swiftformat ./iosApp --swiftversion 6.0.3 --reporter github-actions-log
-          git diff --exit-code || echo "CHANGES_DETECTED=true" >> $GITHUB_ENV
+          swiftformat ./iosApp --exclude iosApp/Representables --swiftversion 6.0.3 --reporter github-actions-log          
+          if ! git diff --exit-code -- 'iosApp/**/*.swift'; then
+            echo "CHANGES_DETECTED=true" >> $GITHUB_ENV
+          fi
 
       - name: Check if there are changes
         if: env.CHANGES_DETECTED == 'true'
         run: echo "SwiftFormat made changes. Proceeding with formatting."
 
-      - name: Creating new branch to commit changes
+      - name: Create branch and commit formatting changes
         if: env.CHANGES_DETECTED == 'true'
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          
-          # Generate branch name based on event type
+
           if [ "${{ github.event_name }}" == "pull_request" ]; then
             BRANCH_NAME="auto-formatting-pr-${{ github.event.pull_request.number }}-$(date +%s)"
-            BASE_BRANCH="${{ github.event.pull_request.base.ref }}"
+            BASE_BRANCH="${{ github.event.pull_request.head.ref }}"
           else
             BRANCH_NAME="auto-formatting-$(date +%Y%m%d-%H%M%S)"
-            BASE_BRANCH="main"
+            BASE_BRANCH=$(git rev-parse --abbrev-ref HEAD)
           fi
-          
+
           echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
           echo "BASE_BRANCH=$BASE_BRANCH" >> $GITHUB_ENV
-          
-          # Delete remote branch if it exists
+
           git push origin --delete $BRANCH_NAME 2>/dev/null || true
-          
           git checkout -b $BRANCH_NAME
-          git add .
+          SWIFT_FILES=$(git diff --name-only | grep '\.swift$' | grep '^iosApp/' || true)
+          if [ -n "$SWIFT_FILES" ]; then
+            echo "$SWIFT_FILES" | xargs git add
+          fi
           git commit -m "Apply SwiftFormat"
           git push origin $BRANCH_NAME
 
-      - name: Creating Pull Request
+      - name: Create Pull Request
         if: env.CHANGES_DETECTED == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -60,3 +64,20 @@ jobs:
             --body "This PR applies SwiftFormat automatically to maintain code consistency." \
             --base ${{ env.BASE_BRANCH }} \
             --head ${{ env.BRANCH_NAME }}
+
+      - name: Add reviewer to PR
+        if: env.CHANGES_DETECTED == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            COMMIT_AUTHOR="${{ github.event.pull_request.user.login }}"
+          else
+            COMMIT_AUTHOR="${{ github.actor }}"
+          fi
+          
+          PR_NUMBER=$(gh pr list --head ${{ env.BRANCH_NAME }} --json number -q '.[0].number')
+          
+          if [ "$COMMIT_AUTHOR" != "github-actions[bot]" ]; then
+            gh pr edit $PR_NUMBER --add-reviewer $COMMIT_AUTHOR || echo "Could not add reviewer (may be PR author or lack permissions)"
+          fi

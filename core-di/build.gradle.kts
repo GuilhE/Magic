@@ -1,6 +1,6 @@
 plugins {
     id("buildlogic.plugins.kmp.library")
-    alias(libs.plugins.sqldelight) //to include sqlite3 in XCFramework
+    alias(libs.plugins.sqldelight) // to include sqlite3 in XCFramework
 }
 
 kotlin {
@@ -20,6 +20,10 @@ kotlin {
             api(projects.dataManagers)
             api(projects.dataModels)
             implementation(libs.koin.core)
+        }
+        commonTest.dependencies {
+            implementation(libs.test.kotlin)
+            implementation(libs.test.koin)
         }
     }
 }

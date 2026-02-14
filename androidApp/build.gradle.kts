@@ -1,5 +1,6 @@
 plugins {
     id("buildlogic.plugins.application")
+	id("buildlogic.plugins.kmp.compose")
 }
 
 android {

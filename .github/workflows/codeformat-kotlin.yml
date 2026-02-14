@@ -1,0 +1,221 @@
+name: KotlinFormat (code)
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  Lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 17
+
+      - name: Ensure editorconfig
+        run: |
+          if [ ! -f .editorconfig ]; then
+            cat > .editorconfig << 'EOF'
+          root = true
+          
+          [*.{kt,kts}]
+          indent_style = tab
+          indent_size = 4
+          max_line_length = 150
+          insert_final_newline = false
+          ktlint_code_style = android_studio
+          ktlint_standard_final-newline = disabled
+          ktlint_standard_trailing-comma-on-call-site = disabled
+          ktlint_standard_trailing-comma-on-declaration-site = disabled
+          ktlint_standard_function-naming = disabled
+          ktlint_standard_class-signature = disabled
+          ktlint_standard_function-signature = disabled
+          ktlint_standard_parameter-list-wrapping = disabled
+          ktlint_standard_argument-list-wrapping = disabled
+          ktlint_standard_wrapping = disabled
+          ktlint_standard_indent = disabled
+          
+          EOF
+          else
+            grep -q "indent_style" .editorconfig || \
+              printf "\nindent_style = tab\n" >> .editorconfig
+            grep -q "indent_size" .editorconfig || \
+              printf "indent_size = 4\n" >> .editorconfig
+            grep -q "max_line_length" .editorconfig || \
+              printf "max_line_length = 150\n" >> .editorconfig
+            grep -q "insert_final_newline" .editorconfig || \
+              printf "insert_final_newline = false\n" >> .editorconfig
+            grep -q "ktlint_code_style" .editorconfig || \
+              printf "ktlint_code_style = android_studio\n" >> .editorconfig
+            grep -q "ktlint_standard_final-newline" .editorconfig || \
+              printf "ktlint_standard_final-newline = disabled\n" >> .editorconfig
+            grep -q "ktlint_standard_trailing-comma-on-call-site" .editorconfig || \
+              printf "ktlint_standard_trailing-comma-on-call-site = disabled\n" >> .editorconfig
+            grep -q "ktlint_standard_trailing-comma-on-declaration-site" .editorconfig || \
+              printf "ktlint_standard_trailing-comma-on-declaration-site = disabled\n" >> .editorconfig
+            grep -q "ktlint_standard_function-naming" .editorconfig || \
+              printf "ktlint_standard_function-naming = disabled\n" >> .editorconfig
+            grep -q "ktlint_standard_class-signature" .editorconfig || \
+              printf "ktlint_standard_class-signature = disabled\n" >> .editorconfig
+            grep -q "ktlint_standard_function-signature" .editorconfig || \
+              printf "ktlint_standard_function-signature = disabled\n" >> .editorconfig
+            grep -q "ktlint_standard_parameter-list-wrapping" .editorconfig || \
+              printf "ktlint_standard_parameter-list-wrapping = disabled\n" >> .editorconfig
+            grep -q "ktlint_standard_argument-list-wrapping" .editorconfig || \
+              printf "ktlint_standard_argument-list-wrapping = disabled\n" >> .editorconfig
+            grep -q "ktlint_standard_wrapping" .editorconfig || \
+              printf "ktlint_standard_wrapping = disabled\n" >> .editorconfig
+            grep -q "ktlint_standard_indent" .editorconfig || \
+              printf "ktlint_standard_indent = disabled\n" >> .editorconfig
+          fi
+
+      - name: Install ktlint
+        run: |
+          curl -sSLO https://github.com/pinterest/ktlint/releases/download/0.50.0/ktlint
+          chmod a+x ktlint
+
+      - name: Run ktlint formatting
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            BASE_BRANCH=${{ github.event.pull_request.base.ref }}
+            git fetch origin $BASE_BRANCH --depth=1
+            MERGE_BASE=$(git merge-base HEAD origin/$BASE_BRANCH)
+            FILES=$(git diff $MERGE_BASE...HEAD --name-only | grep '\.kt$' || true)
+          else
+            FILES=$(find . -name "*.kt" \
+              ! -path "./iosApp/*" \
+              ! -path "*/build/*" \
+              ! -path "*/gradle/*" \
+              ! -path "*/.*")
+          fi
+
+          FILES=$(echo "$FILES" | grep -v '^iosApp/' | grep -v '/build/' | grep -v '/gradle/' | grep -v '/\.' || true)
+
+          if [ -z "$FILES" ]; then
+            echo "No Kotlin files to format."
+            exit 0
+          fi
+
+          ./ktlint $FILES > violations.txt 2>&1 || true
+          
+          DISABLED_RULES=$(grep "ktlint_standard.*= disabled" .editorconfig | grep -oP 'ktlint_standard_\K[a-z-]+' | sed 's/^/standard:/' | tr '\n' ',' | sed 's/,$//')
+          VIOLATIONS_RAW=$(grep -oP '(?<=\()[a-z:_-]+(?=\))' violations.txt | sort -u || echo "")
+          VIOLATIONS_LIST=""
+          while IFS= read -r rule; do
+            if [ -n "$rule" ]; then
+              if [[ ",$DISABLED_RULES," == *",$rule,"* ]]; then
+                VIOLATIONS_LIST="${VIOLATIONS_LIST}- $rule (disabled)\n"
+              else
+                VIOLATIONS_LIST="${VIOLATIONS_LIST}- $rule\n"
+              fi
+            fi
+          done <<< "$VIOLATIONS_RAW"
+          
+          if [ -z "$VIOLATIONS_LIST" ]; then
+            VIOLATIONS_LIST="- general formatting"
+          fi
+          
+          echo "VIOLATIONS<<EOF" >> $GITHUB_ENV
+          echo -e "$VIOLATIONS_LIST" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+          
+          VIOLATIONS_COMMIT=""
+          while IFS= read -r rule; do
+            if [ -n "$rule" ]; then
+              if [[ ",$DISABLED_RULES," == *",$rule,"* ]]; then
+                VIOLATIONS_COMMIT="${VIOLATIONS_COMMIT}$rule (disabled), "
+              else
+                VIOLATIONS_COMMIT="${VIOLATIONS_COMMIT}$rule, "
+              fi
+            fi
+          done <<< "$VIOLATIONS_RAW"
+          VIOLATIONS_COMMIT=$(echo "$VIOLATIONS_COMMIT" | sed 's/, $//')
+          
+          if [ -z "$VIOLATIONS_COMMIT" ]; then
+            VIOLATIONS_COMMIT="general formatting"
+          fi
+          
+          echo "VIOLATIONS_COMMIT<<EOF" >> $GITHUB_ENV
+          echo "$VIOLATIONS_COMMIT" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+          
+          rm -f violations.txt
+
+          ./ktlint -F $FILES || true
+
+          if ! git diff --quiet -- '*.kt' '**/*.kt'; then
+            echo "CHANGES_DETECTED=true" >> $GITHUB_ENV
+          fi
+
+      - name: Create branch and commit formatting changes
+        if: env.CHANGES_DETECTED == 'true'
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            BRANCH_NAME="auto-formatting-pr-${{ github.event.pull_request.number }}-$(date +%s)"
+            BASE_BRANCH="${{ github.event.pull_request.head.ref }}"
+          else
+            BRANCH_NAME="auto-formatting-$(date +%Y%m%d-%H%M%S)"
+            BASE_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          fi
+
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+          echo "BASE_BRANCH=$BASE_BRANCH" >> $GITHUB_ENV
+
+          git push origin --delete $BRANCH_NAME 2>/dev/null || true
+          git checkout -b $BRANCH_NAME
+          # Only add modified Kotlin files (excluding iosApp and build directories)
+          KOTLIN_FILES=$(git diff --name-only | grep '\.kt$' | grep -v '^iosApp/' | grep -v '/build/' || true)
+          if [ -n "$KOTLIN_FILES" ]; then
+            echo "$KOTLIN_FILES" | xargs git add
+          fi
+          git commit -m "Apply ktlint formatting" -m "Violated rules: ${{ env.VIOLATIONS_COMMIT }}"
+          git push origin $BRANCH_NAME
+
+      - name: Create Pull Request
+        if: env.CHANGES_DETECTED == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat > pr_body.txt << 'EOFBODY'
+          This PR applies ktlint automatically to maintain code consistency.
+          
+          Violated rules:
+          EOFBODY
+          echo "${{ env.VIOLATIONS }}" >> pr_body.txt
+          
+          gh pr create \
+            --title "Apply ktlint formatting" \
+            --body-file pr_body.txt \
+            --base ${{ env.BASE_BRANCH }} \
+            --head ${{ env.BRANCH_NAME }}
+
+      - name: Add reviewer to PR
+        if: env.CHANGES_DETECTED == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            COMMIT_AUTHOR="${{ github.event.pull_request.user.login }}"
+          else
+            COMMIT_AUTHOR="${{ github.actor }}"
+          fi
+          
+          PR_NUMBER=$(gh pr list --head ${{ env.BRANCH_NAME }} --json number -q '.[0].number')
+          
+          if [ "$COMMIT_AUTHOR" != "github-actions[bot]" ]; then
+            gh pr edit $PR_NUMBER --add-reviewer $COMMIT_AUTHOR || echo "Could not add reviewer (may be PR author or lack permissions)"
+          fi
