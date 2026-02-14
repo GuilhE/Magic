@@ -9,5 +9,5 @@ plugins {
 }
 
 tasks.register("exportFrameworkForXcode") {
-    dependsOn(":design-shared:embedAndSignAppleFrameworkForXcode")
+    dependsOn(":core-di:embedAndSignAppleFrameworkForXcode")
 }

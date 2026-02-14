@@ -231,7 +231,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/scripts/.swiftformat.sh\"\n";
+			shellScript = "\"${SRCROOT}/scripts/.runswiftformat.sh\"\n";
 		};
 		7555FFB5242A651A00829871 /* Compile Kotlin Framework */ = {
 			isa = PBXShellScriptBuildPhase;
