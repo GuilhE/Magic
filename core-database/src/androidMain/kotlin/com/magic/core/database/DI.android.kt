@@ -5,9 +5,9 @@ package com.magic.core.database
 import androidx.sqlite.db.SupportSQLiteDatabase
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
+import java.util.Properties
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import java.util.Properties
 
 actual fun databaseDiModule(): Module = module {
     single {

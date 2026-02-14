@@ -187,7 +187,7 @@ private fun Dropdown(
 private fun MagicScreenPreview() {
     MagicScreenContent(
         set = CardSetImpl("SET01", "SET01"),
-        sets = listOf(CardSetImpl("SET01", "SET01"),CardSetImpl("SET02", "SET02")),
+        sets = listOf(CardSetImpl("SET01", "SET01"), CardSetImpl("SET02", "SET02")),
         setCount = 50,
         cards = emptyList(),
         cardsTotalCount = 123,

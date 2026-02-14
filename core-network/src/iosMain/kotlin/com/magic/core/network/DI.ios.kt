@@ -2,9 +2,9 @@ package com.magic.core.network
 
 import com.magic.core.network.api.ApiClient
 import io.ktor.client.engine.darwin.Darwin
+import kotlin.experimental.ExperimentalObjCRefinement
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import kotlin.experimental.ExperimentalObjCRefinement
 
 @OptIn(ExperimentalObjCRefinement::class)
 @HiddenFromObjC
