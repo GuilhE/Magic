@@ -213,5 +213,7 @@ struct CardDeckView<CardView: CardViewProtocol>: View {
         }
     }
 
-    private func fromBottomToTop() -> Bool { !showBack && (removedFromDeck || !addedToDeck) }
+    private func fromBottomToTop() -> Bool {
+        !showBack && (removedFromDeck || !addedToDeck)
+    }
 }
