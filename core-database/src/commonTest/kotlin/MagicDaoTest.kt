@@ -1,16 +1,16 @@
 import app.cash.turbine.test
 import com.magic.core.database.MagicDao
-import kotlinx.coroutines.test.runTest
-import org.koin.core.context.startKoin
-import org.koin.core.context.stopKoin
-import org.koin.test.KoinTest
-import org.koin.test.get
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import kotlinx.coroutines.test.runTest
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.test.KoinTest
+import org.koin.test.get
 
 class MagicDaoTest : KoinTest {
 

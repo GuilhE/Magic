@@ -2,9 +2,9 @@
 
 package com.magic.core.network.api.errors
 
-import kotlinx.serialization.Serializable
 import kotlin.experimental.ExperimentalObjCRefinement
 import kotlin.native.HiddenFromObjC
+import kotlinx.serialization.Serializable
 
 @Serializable
 @HiddenFromObjC
