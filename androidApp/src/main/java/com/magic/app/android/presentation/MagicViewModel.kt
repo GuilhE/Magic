@@ -27,7 +27,7 @@ data class MagicScreenState(
 )
 
 class MagicViewModel : ViewModel(), KoinComponent {
-    //https://en.wikipedia.org/wiki/List_of_Magic:_The_Gathering_sets
+    // https://en.wikipedia.org/wiki/List_of_Magic:_The_Gathering_sets
     private val cardSetsCodes = listOf("4ED", "5ED", "TMP", "MIR")
     private val manager: CardsManager by inject()
 
@@ -91,7 +91,7 @@ private suspend fun <T : Any> safeCall(onCallStateChange: (suspend (running: Boo
         onCallStateChange?.invoke(true)
         return call()
     } catch (e: Throwable) {
-        println(e) //to simplify
+        println(e) // to simplify
     } finally {
         onCallStateChange?.invoke(false)
     }

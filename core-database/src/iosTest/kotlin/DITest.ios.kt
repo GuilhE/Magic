@@ -3,9 +3,9 @@ import app.cash.sqldelight.driver.native.wrapConnection
 import co.touchlab.sqliter.DatabaseConfiguration
 import com.magic.core.database.MagicDao
 import com.magic.core.database.MagicDatabase
+import kotlin.experimental.ExperimentalObjCRefinement
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import kotlin.experimental.ExperimentalObjCRefinement
 
 @OptIn(ExperimentalObjCRefinement::class)
 @HiddenFromObjC

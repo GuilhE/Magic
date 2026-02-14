@@ -1,7 +1,7 @@
 package extensions
 
-import org.gradle.api.Project
 import java.io.File
+import org.gradle.api.Project
 
 internal fun Project.buildComposeMetricsParameters(): List<String> {
     val metricParameters = mutableListOf<String>()

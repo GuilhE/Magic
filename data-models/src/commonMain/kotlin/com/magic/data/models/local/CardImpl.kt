@@ -1,9 +1,9 @@
 package com.magic.data.models.local
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 import kotlin.experimental.ExperimentalObjCRefinement
 import kotlin.native.HiddenFromObjC
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 @OptIn(ExperimentalObjCRefinement::class)
 @HiddenFromObjC
