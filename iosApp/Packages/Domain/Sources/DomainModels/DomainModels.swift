@@ -41,5 +41,7 @@ public final class DomainException: Error, Sendable {
 
 public struct UnexpectedResultError: Error, Sendable {
     public init() {}
-    var localizedDescription: String { "Received an unexpected result type." }
+    var localizedDescription: String {
+        "Received an unexpected result type."
+    }
 }

@@ -35,12 +35,29 @@ private struct CardImpl: DomainCard, @unchecked Sendable {
         self.apiCard = apiCard
     }
 
-    var id: String { apiCard.id }
-    var setCode: String { apiCard.setCode }
-    var name: String { apiCard.name }
-    var text: String { apiCard.text }
-    var imageUrl: String { apiCard.imageUrl }
-    var artist: String { apiCard.artist }
+    var id: String {
+        apiCard.id
+    }
+
+    var setCode: String {
+        apiCard.setCode
+    }
+
+    var name: String {
+        apiCard.name
+    }
+
+    var text: String {
+        apiCard.text
+    }
+
+    var imageUrl: String {
+        apiCard.imageUrl
+    }
+
+    var artist: String {
+        apiCard.artist
+    }
 }
 
 private struct CardSetImpl: DomainCardSet, @unchecked Sendable {
@@ -50,7 +67,15 @@ private struct CardSetImpl: DomainCardSet, @unchecked Sendable {
         self.apiCardSet = apiCardSet
     }
 
-    var code: String { apiCardSet.code }
-    var name: String { apiCardSet.name }
-    var releaseDate: String { apiCardSet.releaseDate }
+    var code: String {
+        apiCardSet.code
+    }
+
+    var name: String {
+        apiCardSet.name
+    }
+
+    var releaseDate: String {
+        apiCardSet.releaseDate
+    }
 }
