@@ -46,10 +46,10 @@ class MagicViewModel : ViewModel(), KoinComponent {
             observeCurrentSet
                 .flatMapLatest { set ->
                     combine(
-                        manager.observeSets,
+                        manager.observeSets(),
                         manager.observeCardsFromSet(set.code),
-                        manager.observeCardCount,
-                        manager.observeSetCount
+                        manager.observeCardCount(),
+                        manager.observeSetCount()
                     ) { sets, cards, cardsCount, setCount ->
                         MagicScreenState(set, cards, sets, setCount.toInt(), cardsCount.toInt())
                     }

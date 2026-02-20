@@ -5,27 +5,20 @@ import com.magic.core.database.MagicDao
 import com.magic.core.network.api.ApiClient
 import com.magic.core.network.api.core.ApiResult
 import com.magic.data.models.exceptions.RateLimitException
-import com.magic.data.models.local.Card
 import com.magic.data.models.local.CardImpl
-import com.magic.data.models.local.CardSet
 import com.magic.data.models.local.CardSetImpl
 import com.magic.data.models.local.Result
 import com.magic.data.models.remote.CardListResponse
 import com.magic.data.models.remote.CardSetResponse
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 internal class CardsManagerImpl : CardsManager, KoinComponent {
-    private val coroutineScope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
     private val logger = Logger.withTag("CardsManager")
     private val remote: ApiClient by inject()
     private val local: MagicDao by inject()

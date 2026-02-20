@@ -12,7 +12,7 @@ kotlin {
     iosSimulatorArm64()
 
     swiftExport {
-        moduleName = "MagicDI"
+        moduleName = "MagicDataLayer"
         flattenPackage = "com.magic.core.di"
         export(projects.dataManagers) {
             moduleName = "MagicDataManagers"
@@ -32,5 +32,8 @@ kotlin {
             api(projects.dataModels)
             implementation(libs.koin.core)
         }
+		commonTest.dependencies {
+			implementation(libs.test.koin)
+		}
     }
 }

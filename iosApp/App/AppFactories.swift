@@ -5,6 +5,7 @@ import DI
 import DomainUseCases
 import FactoryProtocols
 import Foundation
+import MagicDataLayer
 import MagicDataManagers
 
 class CardsManagerFactory: FactoryProtocol {

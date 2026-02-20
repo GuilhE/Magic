@@ -146,7 +146,7 @@ class CardsManagerTest : KoinTest {
     @Test
     fun `observeSetCount should reflect changes in database`() = runTest {
         val manager = get<CardsManager>()
-        manager.observeSetCount.stateIn(CoroutineScope(Dispatchers.Default)).test {
+        manager.observeSetCount().stateIn(CoroutineScope(Dispatchers.Default)).test {
             assertEquals(0, awaitItem().toInt())
 
             manager.getSet("SET001")
@@ -162,7 +162,7 @@ class CardsManagerTest : KoinTest {
     @Test
     fun `observeCardCount should reflect changes in database`() = runTest {
         val manager = get<CardsManager>()
-        manager.observeCardCount.stateIn(CoroutineScope(Dispatchers.Default)).test {
+        manager.observeCardCount().stateIn(CoroutineScope(Dispatchers.Default)).test {
             assertEquals(0,awaitItem().toInt())
 
             manager.getSet("SET001")
@@ -178,7 +178,7 @@ class CardsManagerTest : KoinTest {
     @Test
     fun `observeSets should reflect changes in database`() = runTest {
         val manager = get<CardsManager>()
-        manager.observeSets.stateIn(CoroutineScope(Dispatchers.Default)).test {
+        manager.observeSets().stateIn(CoroutineScope(Dispatchers.Default)).test {
             assertTrue(awaitItem().isEmpty())
 
             manager.getSet("SET001")
@@ -210,7 +210,7 @@ class CardsManagerTest : KoinTest {
     @Test
     fun `observeCards should reflect changes in database`() = runTest {
         val manager = get<CardsManager>()
-        manager.observeCards.stateIn(CoroutineScope(Dispatchers.Default)).test {
+        manager.observeCards().stateIn(CoroutineScope(Dispatchers.Default)).test {
             assertTrue(awaitItem().isEmpty().also { println(">>>>> $it ${manager.getCardCount()}") })
 
             manager.getSet("SET001")
