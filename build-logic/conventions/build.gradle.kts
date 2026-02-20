@@ -41,5 +41,9 @@ gradlePlugin {
             id = "${project.group}.kmp.compose"
             implementationClass = "CMPLibraryConventionPlugin"
         }
+        register("KtlintConventionPlugin") {
+            id = "${project.group}.ktlint"
+            implementationClass = "KtlintConventionPlugin"
+        }
     }
 }

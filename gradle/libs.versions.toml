@@ -25,7 +25,11 @@ sqldelight = "2.2.1"
 koin = "4.1.1"
 turbine = "1.2.1"
 
+#======Others
+ktlint = "14.0.1"
+
 [plugins]
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "androidGradlePlugin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

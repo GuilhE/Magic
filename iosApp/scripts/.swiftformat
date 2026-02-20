@@ -1,0 +1,70 @@
+# swiftformat-version:0.58.3
+
+# File options
+--exclude fastlane,GPX\ Files,vendor,scripts,locales
+
+# Rules
+--disable acronyms # It can autocorrect synthesised implementation of Codable
+--disable blankLinesAtEndOfScope
+--disable blankLinesAtStartOfScope
+--disable markTypes
+--disable organizeDeclarations
+--disable sortSwitchCases
+--disable wrapSwitchCases
+--enable blankLinesBetweenImports
+--enable blockComments
+--enable isEmpty
+--enable wrapConditionalBodies
+--enable wrapEnumCases
+--enable wrapMultilineStatementBraces # Be careful, it doesn't work well together with --closingparen
+--enable redundantProperty
+--enable redundantSelf
+
+###
+# Configurable rules
+###
+
+# fileHeader
+--header strip
+
+# hoistAwait
+--asynccapturing assertThrowsError,assertThrowsErrorOnMain
+
+# hoistPatternLet
+--patternlet inline
+
+# indent
+--ifdef no-indent
+
+# numberFormatting
+--hexgrouping ignore
+
+# semicolons
+--semicolons never
+
+# spaceAroundOperators
+--ranges no-space
+
+# trailingCommas
+--commas inline
+
+# unusedArguments
+--stripunusedargs closure-only
+
+--disable wrap # Not worth enforcing because it depends on the context
+--assetliterals actual-width
+--maxwidth 110
+
+# wrapArguments
+--closingparen balanced
+--wraparguments before-first
+--wrapcollections before-first
+--wrapconditions before-first
+--wrapparameters before-first
+--wrapreturntype preserve
+
+# wrapAttributes
+--funcattributes preserve
+--typeattributes prev-line
+--varattributes preserve
+

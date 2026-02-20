@@ -103,6 +103,7 @@ public struct CardDeckScreen<CardView: CardViewProtocol, CardViewModel: CardDeck
                 }
             }
         }
+        .animation(.smooth, value: availableSets)
     }
 
     private var CardDeck: some View {
@@ -212,9 +213,17 @@ public struct CardDeckScreen<CardView: CardViewProtocol, CardViewModel: CardDeck
         }
     }
 
-    private func enabledDeleteButton() -> Bool { !viewModel.isLoading && !showEmpty && !runDeleteAnimation && !runAddAnimation && !runRemoveAnimation && !runShuffleAnimation }
-    private func enabledShuffleButton() -> Bool { !viewModel.isLoading && !showEmpty && !runDeleteAnimation && !runAddAnimation && !runRemoveAnimation }
-    private func enabledGetButton() -> Bool { viewModel.isLoading || (!runDeleteAnimation && !runShuffleAnimation && !runAddAnimation && !runRemoveAnimation && !currentSet.isEmpty) }
+    private func enabledDeleteButton() -> Bool {
+        !viewModel.isLoading && !showEmpty && !runDeleteAnimation && !runAddAnimation && !runRemoveAnimation && !runShuffleAnimation
+    }
+
+    private func enabledShuffleButton() -> Bool {
+        !viewModel.isLoading && !showEmpty && !runDeleteAnimation && !runAddAnimation && !runRemoveAnimation
+    }
+
+    private func enabledGetButton() -> Bool {
+        viewModel.isLoading || (!runDeleteAnimation && !runShuffleAnimation && !runAddAnimation && !runRemoveAnimation && !currentSet.isEmpty)
+    }
 }
 
 private extension CardSetItem {

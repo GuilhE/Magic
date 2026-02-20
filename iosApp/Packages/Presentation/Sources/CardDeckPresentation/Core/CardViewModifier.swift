@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct CardViewModifier<CardType>: ViewModifier where CardType: CardProtocol {
+struct CardViewModifier<CardType: CardProtocol>: ViewModifier {
     let card: CardType
     let isTouchedCard: Bool
     let isActiveCard: Bool
@@ -35,5 +35,7 @@ struct CardViewModifier<CardType>: ViewModifier where CardType: CardProtocol {
             )
     }
 
-    private func fromBottomToTop() -> Bool { !showBack && (removed || !added) }
+    private func fromBottomToTop() -> Bool {
+        !showBack && (removed || !added)
+    }
 }

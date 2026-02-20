@@ -24,7 +24,7 @@ class ApiClient(
     suspend inline fun <reified T : Any> perform(request: BaseRequest): ApiResult<T> {
         return apiCall {
             val response: HttpResponse = client.request {
-                url("${baseUrl}/${request.path}")
+                url("$baseUrl/${request.path}")
                 method = request.method
                 request.requestBuilder().apply {
                     this()

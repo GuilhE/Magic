@@ -10,12 +10,11 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.getByType
 
 class AndroidAppConventionPlugin : Plugin<Project> {
-
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
                 apply("com.android.application")
-                apply("org.jetbrains.kotlin.plugin.compose")
+                apply("buildlogic.plugins.ktlint")
             }
 
             val versionCatalog = target.extensions.getByType<VersionCatalogsExtension>().named("libs")
@@ -28,17 +27,32 @@ class AndroidAppConventionPlugin : Plugin<Project> {
 
     private fun ApplicationExtension.addKotlinAndroidConfigurations(libs: VersionCatalog) {
         apply {
-            compileSdk = libs.findVersion("androidCompileSdk").get().toString().toInt()
+            compileSdk =
+                libs
+                    .findVersion("androidCompileSdk")
+                    .get()
+                    .toString()
+                    .toInt()
             defaultConfig {
-                targetSdk = libs.findVersion("androidTargetSdk").get().toString().toInt()
-                minSdk = libs.findVersion("androidMinSdk").get().toString().toInt()
+                targetSdk =
+                    libs
+                        .findVersion("androidTargetSdk")
+                        .get()
+                        .toString()
+                        .toInt()
+                minSdk =
+                    libs
+                        .findVersion("androidMinSdk")
+                        .get()
+                        .toString()
+                        .toInt()
 
                 testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                 testInstrumentationRunnerArguments.putAll(
                     mapOf(
                         "disableAnalytics" to "true",
-                        "clearPackageData" to "true"
-                    )
+                        "clearPackageData" to "true",
+                    ),
                 )
             }
 
@@ -76,8 +90,8 @@ class AndroidAppConventionPlugin : Plugin<Project> {
                             "**/*.txt",
 //                            "**/*.xml",  //if not commented it will delete all KMP resources
                             "**/*.properties",
-                            "/META-INF/{AL2.0,LGPL2.1}"
-                        )
+                            "/META-INF/{AL2.0,LGPL2.1}",
+                        ),
                     )
                 }
             }
