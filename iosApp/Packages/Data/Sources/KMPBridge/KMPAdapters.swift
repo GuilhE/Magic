@@ -4,7 +4,6 @@ import MagicDataManagers
 import MagicDataModels
 
 extension kotlin.Throwable: @retroactive ErrorException, @unchecked Sendable {}
-extension Observation: @retroactive @unchecked Sendable {}
 extension exceptions.RateLimitException: @retroactive DomainRateLimitException, @unchecked Sendable {}
 
 public extension local.Card {

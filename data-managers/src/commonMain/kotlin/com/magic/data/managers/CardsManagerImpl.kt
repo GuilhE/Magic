@@ -93,18 +93,18 @@ internal class CardsManagerImpl : CardsManager, KoinComponent {
         }
     }
 
-    override val observeSetCount: Flow<Long> = local.setCountStream()
+	override fun observeSetCount(): Flow<Long> = local.setCountStream()
 
-    override val observeCardCount: Flow<Long> = local.cardCountStream()
+	override fun observeCardCount(): Flow<Long> = local.cardCountStream()
 
-    override val observeSets: Flow<List<CardSetImpl>> = local.setsStream()
+	override fun observeSets(): Flow<List<CardSetImpl>> = local.setsStream()
         .map { dbSets -> dbSets.map { dbSet -> dbSet.toCardSet() } }
 
     override fun observeCardsFromSet(code: String): Flow<List<CardImpl>> {
         return local.cardsFromSetStream(code).map { dbCards -> dbCards.map { dbCard -> dbCard.toCard() } }
     }
 
-    override val observeCards: Flow<List<CardImpl>> = local.cardsStream()
+	override fun observeCards(): Flow<List<CardImpl>> = local.cardsStream()
         .map { dbCards -> dbCards.map { dbCard -> dbCard.toCard() } }
 
     override fun getSetCount(): Long = local.setCount()
@@ -120,47 +120,6 @@ internal class CardsManagerImpl : CardsManager, KoinComponent {
     override fun removeAllSets() = local.deleteAllSets()
 
     override fun removeSet(setCode: String) = local.deleteCardSet(setCode)
-
-    //========================== SWIFT EXPORT TESTING ==========================//
-    override fun observeSetCount(callback: (Long) -> Unit): Observation {
-        return Observation(
-            coroutineScope.launch {
-                local.setCountStream().collect { value -> callback(value) }
-            }
-        )
-    }
-
-    override fun observeCardCount(callback: (Long) -> Unit): Observation {
-        return Observation(
-            coroutineScope.launch {
-                local.cardCountStream().collect { value -> callback(value) }
-            }
-        )
-    }
-
-    override fun observeSets(callback: (List<CardSet>) -> Unit): Observation {
-        return Observation(coroutineScope.launch {
-            local.setsStream()
-                .map { dbSets -> dbSets.map { dbSet -> dbSet.toCardSet() } }
-                .collect { value -> callback(value) }
-        })
-    }
-
-    override fun observeCardsFromSet(code: String, callback: (List<Card>) -> Unit): Observation {
-        return Observation(coroutineScope.launch {
-            local.cardsFromSetStream(code)
-                .map { dbCards -> dbCards.map { dbCard -> dbCard.toCard() } }
-                .collect { value -> callback(value) }
-        })
-    }
-
-    override fun observeCards(callback: (List<Card>) -> Unit): Observation {
-        return Observation(coroutineScope.launch {
-            local.cardsStream()
-                .map { dbCards -> dbCards.map { dbCard -> dbCard.toCard() } }
-                .collect { value -> callback(value) }
-        })
-    }
 }
 
 private fun com.magic.core.database.CardSet.toCardSet(): CardSetImpl {

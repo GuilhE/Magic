@@ -1,6 +1,5 @@
 @file:OptIn(ExperimentalSwiftExportDsl::class)
 
-import org.jetbrains.kotlin.gradle.plugin.mpp.apple.swiftexport.SWIFT_EXPORT_COROUTINES_SUPPORT_TURNED_ON
 import org.jetbrains.kotlin.gradle.swiftexport.ExperimentalSwiftExportDsl
 
 plugins {
@@ -15,7 +14,6 @@ kotlin {
     swiftExport {
         moduleName = "MagicDI"
         flattenPackage = "com.magic.core.di"
-        configure { settings.put(SWIFT_EXPORT_COROUTINES_SUPPORT_TURNED_ON, "true") }
         export(projects.dataManagers) {
             moduleName = "MagicDataManagers"
             flattenPackage = "com.magic.data.managers"

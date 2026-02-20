@@ -1,22 +1,22 @@
 [versions]
 #======Kotlin
-kotlin = "2.3.20-Beta1-23"
+kotlin = "2.4.0-dev-4131"
 kotlinxCoroutines = "1.10.2"
-kotlinxSerialization = "1.9.0"
-composeMultiplatform = "1.10.0-rc02"
+kotlinxSerialization = "1.10.0"
+composeMultiplatform = "1.10.1"
 composeMaterial3 = "1.9.0"
-ktor = "3.3.3"
+ktor = "3.4.0"
 
 #=====Google
-ksp = "2.3.4"
+ksp = "2.3.6"
 
 #======Android
 androidCompileSdk = "36"
 androidTargetSdk = "36"
 androidMinSdk = "24"
-androidGradlePlugin = "9.0.0-rc01"
+androidGradlePlugin = "9.0.1"
 androidMaterial = "1.13.0"
-androidxActivityKtx = "1.12.2"
+androidxActivityKtx = "1.12.4"
 androidxLifecycle = "2.10.0"
 
 #======Multiplatform

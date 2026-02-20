@@ -2,12 +2,15 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,swift,xcode,kotlin,android,androidstudio,intellij,intellij+iml
 
 /kotlin-js-store/
+**/.DS_Store
+**/ktlint
 
 ### Android ###
 # Gradle files
 .gradle/
 .kotlin/
 build/
+gradle/gradle-daemon-jvm.properties
 
 # Local configuration file (sdk path, etc)
 local.properties
