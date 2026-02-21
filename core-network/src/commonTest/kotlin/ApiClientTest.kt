@@ -81,8 +81,8 @@ class ApiClientTest {
         val result = apiClient.perform<Map<String, String>>(request)
         assertTrue(result is ApiResult.Error)
         assertTrue(result.exception is ApiError)
-        assertEquals((result.exception as ApiError).status, 123)
-        assertEquals((result.exception as ApiError).error, "Ups!")
+        assertEquals(123, result.exception.status)
+        assertEquals("Ups!", result.exception.error)
     }
 
     @Test
@@ -113,7 +113,7 @@ class ApiClientTest {
         assertTrue(result is ApiResult.Error)
         val error = result.exception
         assertTrue(error is ApiError)
-        assertEquals(HttpStatusCode.Unauthorized.value, error.status)
-        assertEquals(HttpStatusCode.Unauthorized.description, error.message)
+        assertEquals(error.status, HttpStatusCode.Unauthorized.value)
+        assertEquals(error.message, HttpStatusCode.Unauthorized.description)
     }
 }

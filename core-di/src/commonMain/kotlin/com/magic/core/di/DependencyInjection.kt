@@ -19,7 +19,7 @@ object DependencyInjection {
      * This function must be called by the iOS app inside the respective App struct.
      */
     @Suppress("unused")
-    fun init(enableNetworkLogs: Boolean) = initKoin(enableNetworkLogs = enableNetworkLogs, appDeclaration = {})
+    fun start(enableNetworkLogs: Boolean) = initKoin(enableNetworkLogs = enableNetworkLogs, appDeclaration = {})
 
     /**
      * DI engine initialization.
@@ -27,14 +27,14 @@ object DependencyInjection {
      */
     @HiddenFromObjC
     fun initKoin(enableNetworkLogs: Boolean = false, appDeclaration: KoinAppDeclaration) {
-        startKoin {
-            appDeclaration()
-            modules(
-                networkDiModule("https://api.magicthegathering.io/v1/", enableNetworkLogs),
-                databaseDiModule(),
-                managersDiModule()
-            )
-        }
+		startKoin {
+			appDeclaration()
+			modules(
+				networkDiModule("https://api.magicthegathering.io/v1/", enableNetworkLogs),
+				databaseDiModule(),
+				managersDiModule()
+			)
+		}
     }
 }
 

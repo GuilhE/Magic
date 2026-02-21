@@ -14,12 +14,9 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.utils.io.ByteReadChannel
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -30,6 +27,11 @@ import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.get
+import kotlin.test.AfterTest
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class CardsManagerTest : KoinTest {
 
@@ -144,15 +146,14 @@ class CardsManagerTest : KoinTest {
     @Test
     fun `observeSetCount should reflect changes in database`() = runTest {
         val manager = get<CardsManager>()
-
-        manager.observeSetCount.test {
-            assertTrue(awaitItem().toInt() == 0)
+        manager.observeSetCount().stateIn(CoroutineScope(Dispatchers.Default)).test {
+            assertEquals(0, awaitItem().toInt())
 
             manager.getSet("SET001")
-            assertTrue(awaitItem().toInt() == 1)
+            assertEquals(1,awaitItem().toInt())
 
             manager.removeAllSets()
-            assertTrue(awaitItem().toInt() == 0)
+            assertEquals(0,awaitItem().toInt())
 
             cancelAndIgnoreRemainingEvents()
         }
@@ -161,14 +162,14 @@ class CardsManagerTest : KoinTest {
     @Test
     fun `observeCardCount should reflect changes in database`() = runTest {
         val manager = get<CardsManager>()
-        manager.observeCardCount.test {
-            assertTrue(awaitItem().toInt() == 0)
+        manager.observeCardCount().stateIn(CoroutineScope(Dispatchers.Default)).test {
+            assertEquals(0,awaitItem().toInt())
 
             manager.getSet("SET001")
-            assertTrue(awaitItem() > 0)
+            assertEquals(2,awaitItem().toInt())
 
             manager.removeAllSets()
-            assertTrue(awaitItem().toInt() == 0)
+            assertEquals(0,awaitItem().toInt())
 
             cancelAndIgnoreRemainingEvents()
         }
@@ -177,8 +178,7 @@ class CardsManagerTest : KoinTest {
     @Test
     fun `observeSets should reflect changes in database`() = runTest {
         val manager = get<CardsManager>()
-
-        manager.observeSets.test {
+        manager.observeSets().stateIn(CoroutineScope(Dispatchers.Default)).test {
             assertTrue(awaitItem().isEmpty())
 
             manager.getSet("SET001")
@@ -194,14 +194,13 @@ class CardsManagerTest : KoinTest {
     @Test
     fun `observeCardsFromSet should reflect changes in database`() = runTest {
         val manager = get<CardsManager>()
-
-        manager.observeCardsFromSet("SET001").test {
+        manager.observeCardsFromSet("SET001").stateIn(CoroutineScope(Dispatchers.Default)).test {
             assertTrue(awaitItem().isEmpty())
 
             manager.getSet("SET001")
             assertTrue(awaitItem().isNotEmpty())
 
-            manager.removeSet("SET001")
+            manager.removeAllSets()
             assertTrue(awaitItem().isEmpty())
 
             cancelAndIgnoreRemainingEvents()
@@ -211,15 +210,14 @@ class CardsManagerTest : KoinTest {
     @Test
     fun `observeCards should reflect changes in database`() = runTest {
         val manager = get<CardsManager>()
-
-        manager.observeCards.test {
-            assertTrue(awaitItem().isEmpty())
+        manager.observeCards().stateIn(CoroutineScope(Dispatchers.Default)).test {
+            assertTrue(awaitItem().isEmpty().also { println(">>>>> $it ${manager.getCardCount()}") })
 
             manager.getSet("SET001")
-            assertTrue(awaitItem().isNotEmpty())
+            assertTrue(awaitItem().isNotEmpty().also { println(">>>>> $it ${manager.getCardCount()}") })
 
-            manager.removeAllSets()
-            assertTrue(awaitItem().isEmpty())
+            manager.removeSet("SET001")
+            assertTrue(awaitItem().isEmpty().also { println(">>>>> $it ${manager.getCardCount()}") })
 
             cancelAndIgnoreRemainingEvents()
         }
@@ -300,18 +298,25 @@ class CardsManagerTest : KoinTest {
         manager.getSet("SET001")
         assertTrue(manager.getCardCount() > 0)
         manager.removeAllSets()
-        assertTrue(manager.getCardCount().toInt() == 0)
+        assertEquals(manager.getCardCount().toInt(), 0)
     }
 
     @Test
     fun `removeCardsFromSet should remove all cards for a given set`() = runTest {
         val manager = get<CardsManager>()
-        manager.getSet("SET001")
-        val initialCards = manager.getCardsFromSet("SET001")
-        assertEquals(2, initialCards.size)
+		manager.observeCards().stateIn(CoroutineScope(Dispatchers.Default)).test {
+			assertTrue(awaitItem().isEmpty().also { println(">>>>> $it ${manager.getCardCount()}") })
 
-        manager.removeSet("SET001")
-        val cardsAfterRemoval = manager.getCardsFromSet("SET001")
-        assertTrue(cardsAfterRemoval.isEmpty())
+			manager.getSet("SET001")
+			assertTrue(awaitItem().isNotEmpty().also { println(">>>>> $it ${manager.getCardCount()}") })
+
+			manager.removeSet("SET001")
+			assertTrue(awaitItem().isEmpty().also { println(">>>>> $it ${manager.getCardCount()}") })
+
+			cancelAndIgnoreRemainingEvents()
+
+			val cardsAfterRemoval = manager.getCardsFromSet("SET001")
+			assertTrue(cardsAfterRemoval.isEmpty())
+		}
     }
 }

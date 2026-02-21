@@ -1,10 +1,11 @@
 import DomainModels
 import DomainUseCases
+import ExportedKotlinPackages
 import KMPBridge
-import KMPNativeCoroutinesAsync
-@preconcurrency import MagicDataLayer
+import MagicDataManagers
+import MagicDataModels
 
-public class CardsManagerImpl: DomainCardsManagerProtocol {
+public class CardsManagerImpl: DomainCardsManagerProtocol, @unchecked Sendable {
     private let kmpManager: CardsManager
 
     public init(manager: CardsManager) {
@@ -13,10 +14,10 @@ public class CardsManagerImpl: DomainCardsManagerProtocol {
 
     public func getCardSet(setCode: String) async -> Swift.Result<DomainCardList, DomainException> {
         do {
-            let result = try await asyncFunction(for: kmpManager.getSet(setCode: setCode))
-            if let successResult = result as? ResultSuccess<NSArray>, let cards = successResult.data as? [Card] {
-                return .success(DomainCardList(cards: cards.asDomainCards))
-            } else if let errorResult = result as? ResultError {
+            let result = try await kmpManager.getSet(setCode: setCode)
+            if let successResult = result as? local.Result.Success, let cards = successResult.data as? [local.Card]? {
+                return .success(DomainCardList(cards: cards!.asDomainCards))
+            } else if let errorResult = result as? local.Result.Error {
                 return .failure(DomainException(domainError: errorResult.exception as ErrorException))
             } else {
                 return .failure(DomainException(error: UnexpectedResultError()))
@@ -28,10 +29,10 @@ public class CardsManagerImpl: DomainCardsManagerProtocol {
 
     public func getCardSets(setCodes: [String]) async -> Swift.Result<Void, DomainException> {
         do {
-            let result = try await asyncFunction(for: kmpManager.getSets(setCodes: setCodes))
-            if result is ResultSuccess<KotlinUnit> {
+            let result = try await kmpManager.getSets(setCodes: setCodes)
+            if (result as? local.Result.Success) != nil {
                 return .success(())
-            } else if let errorResult = result as? ResultError {
+            } else if let errorResult = result as? local.Result.Error {
                 return .failure(DomainException(domainError: errorResult.exception as ErrorException))
             } else {
                 return .failure(DomainException(error: UnexpectedResultError()))
@@ -42,54 +43,48 @@ public class CardsManagerImpl: DomainCardsManagerProtocol {
     }
 
     public func getCardSets() -> [DomainCardSet] {
-        let apiCardSets = kmpManager.getSets() as [CardSet]
+        let apiCardSets = kmpManager.getSets() as [local.CardSet]
         return apiCardSets.asDomainCardSets
     }
 
-    public func observeCardSets() async throws -> AsyncStream<[DomainCardSet]> {
+    public func observeCardSets() async -> AsyncStream<[DomainCardSet]> {
         AsyncStream { continuation in
             Task {
-                let stream = asyncSequence(for: kmpManager.observeSetsFlow)
-                for try await sets in stream {
-                    let apiCardSets = sets as [CardSet]
-                    continuation.yield(apiCardSets.asDomainCardSets)
+                for try await sets in kmpManager.observeSets() {
+                    continuation.yield(sets.asDomainCardSets)
                 }
                 continuation.finish()
             }
         }
     }
 
-    public func observeSetCount() async throws -> AsyncStream<Int> {
+    public func observeSetCount() async -> AsyncStream<Int> {
         AsyncStream { continuation in
             Task {
-                let stream = asyncSequence(for: kmpManager.observeSetCountFlow)
-                for try await count in stream {
-                    continuation.yield(count.intValue)
+                for try await count in kmpManager.observeSetCount() {
+                    continuation.yield(Int(count))
                 }
                 continuation.finish()
             }
         }
     }
 
-    public func observeCardCount() async throws -> AsyncStream<Int> {
+    public func observeCardCount() async -> AsyncStream<Int> {
         AsyncStream { continuation in
             Task {
-                let stream = asyncSequence(for: kmpManager.observeCardCountFlow)
-                for try await count in stream {
-                    continuation.yield(count.intValue)
+                for try await count in kmpManager.observeCardCount() {
+                    continuation.yield(Int(count))
                 }
                 continuation.finish()
             }
         }
     }
 
-    public func observeCardsFromSet(setCode: String) async throws -> AsyncStream<[DomainCard]> {
+    public func observeCardsFromSet(setCode: String) async -> AsyncStream<[DomainCard]> {
         AsyncStream { continuation in
             Task {
-                let stream = asyncSequence(for: kmpManager.observeCardsFromSet(code: setCode))
-                for try await cards in stream {
-                    let apiCards = cards as [Card]
-                    continuation.yield(apiCards.asDomainCards)
+                for try await cards in kmpManager.observeCardsFromSet(code: setCode) {
+                    continuation.yield(cards.asDomainCards)
                 }
                 continuation.finish()
             }
