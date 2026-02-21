@@ -14,6 +14,11 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.utils.io.ByteReadChannel
+import kotlin.test.AfterTest
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.stateIn
@@ -27,11 +32,6 @@ import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.get
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 class CardsManagerTest : KoinTest {
 
@@ -150,10 +150,10 @@ class CardsManagerTest : KoinTest {
             assertEquals(0, awaitItem().toInt())
 
             manager.getSet("SET001")
-            assertEquals(1,awaitItem().toInt())
+            assertEquals(1, awaitItem().toInt())
 
             manager.removeAllSets()
-            assertEquals(0,awaitItem().toInt())
+            assertEquals(0, awaitItem().toInt())
 
             cancelAndIgnoreRemainingEvents()
         }
@@ -163,13 +163,13 @@ class CardsManagerTest : KoinTest {
     fun `observeCardCount should reflect changes in database`() = runTest {
         val manager = get<CardsManager>()
         manager.observeCardCount().stateIn(CoroutineScope(Dispatchers.Default)).test {
-            assertEquals(0,awaitItem().toInt())
+            assertEquals(0, awaitItem().toInt())
 
             manager.getSet("SET001")
-            assertEquals(2,awaitItem().toInt())
+            assertEquals(2, awaitItem().toInt())
 
             manager.removeAllSets()
-            assertEquals(0,awaitItem().toInt())
+            assertEquals(0, awaitItem().toInt())
 
             cancelAndIgnoreRemainingEvents()
         }
