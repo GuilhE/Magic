@@ -3,7 +3,7 @@ import MagicDataLayer
 @MainActor
 class AppDependencies {
     func setupDependencies() {
-        DependencyInjection().doInit(enableNetworkLogs: true)
+        DependencyInjection.shared.start(enableNetworkLogs: false)
         CardsManagerFactory.register()
         CardListViewModelFactory.register()
         CardDeckViewModelFactory.register()

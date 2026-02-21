@@ -1,11 +1,11 @@
-// swift-tools-version: 6.1
+// swift-tools-version: 6.2
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
 let package = Package(
     name: "Data",
-    platforms: [.iOS(.v18)],
+    platforms: [.iOS(.v26)],
     products: [
         .library(
             name: "KMPBridge",
@@ -18,7 +18,6 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../Domain"),
-        .package(url: "https://github.com/rickclephas/KMP-NativeCoroutines.git", exact: "1.0.0-spm-async"),
     ],
     targets: [
         .target(
@@ -33,7 +32,6 @@ let package = Package(
                 "KMPBridge",
                 .product(name: "DomainModels", package: "Domain"),
                 .product(name: "DomainUseCases", package: "Domain"),
-                .product(name: "KMPNativeCoroutinesAsync", package: "KMP-NativeCoroutines"),
             ]
         ),
     ]

@@ -1,15 +1,26 @@
+@file:OptIn(ExperimentalSwiftExportDsl::class)
+
+import org.jetbrains.kotlin.gradle.swiftexport.ExperimentalSwiftExportDsl
+
 plugins {
     id("buildlogic.plugins.kmp.library")
-    alias(libs.plugins.sqldelight) // to include sqlite3 in XCFramework
 }
 
 kotlin {
     android { namespace = "com.magic.core.di" }
-    listOf(iosArm64(), iosSimulatorArm64()).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "MagicDataLayer"
-            export(projects.dataManagers)
-            export(projects.dataModels)
+    iosArm64()
+    iosSimulatorArm64()
+
+    swiftExport {
+        moduleName = "MagicDataLayer"
+        flattenPackage = "com.magic.core.di"
+        export(projects.dataManagers) {
+            moduleName = "MagicDataManagers"
+            flattenPackage = "com.magic.data.managers"
+        }
+        export(projects.dataModels) {
+            moduleName = "MagicDataModels"
+            flattenPackage = "com.magic.data.models"
         }
     }
 
@@ -21,9 +32,8 @@ kotlin {
             api(projects.dataModels)
             implementation(libs.koin.core)
         }
-        commonTest.dependencies {
-            implementation(libs.test.kotlin)
-            implementation(libs.test.koin)
-        }
+		commonTest.dependencies {
+			implementation(libs.test.koin)
+		}
     }
 }

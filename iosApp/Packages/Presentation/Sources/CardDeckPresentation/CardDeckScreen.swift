@@ -37,9 +37,15 @@ public struct CardDeckScreen<CardView: CardViewProtocol, CardViewModel: CardDeck
                 CardDeck
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .onChange(of: viewModel.cards) { _, newValue in
-                        if !newValue.isEmpty, !runAddAnimation {
+                        if !newValue.isEmpty, !runAddAnimation, !currentSet.isEmpty {
                             fullDeck = newValue
                             refreshCards()
+                        } else if newValue.isEmpty, !runAddAnimation {
+                            fullDeck = []
+                            handDeck = []
+                            withAnimation {
+                                showEmpty = true
+                            }
                         }
                     }
                     .onChange(of: viewModel.rateExceeded) { _, newValue in
@@ -69,14 +75,19 @@ public struct CardDeckScreen<CardView: CardViewProtocol, CardViewModel: CardDeck
                 Button(action: {
                     if currentSet != set.code {
                         currentSet = set.code
-                        changedSet = true
-                        runRemoveAnimation = true
+                        if showEmpty {
+                            viewModel.changeSet(setCode: set.code)
+                        } else {
+                            changedSet = true
+                            runRemoveAnimation = true
+                        }
                     }
                 }) {
                     Image(set.toImage())
                         .circularBlueBorder()
                         .accessibilityHidden(true)
                 }
+                .disabled(runAddAnimation || runRemoveAnimation || runShuffleAnimation || runDeleteAnimation || viewModel.isLoading)
                 .scaleEffect(currentSet == set.code ? 1.2 : 1.0)
                 .animation(.easeInOut(duration: 0.15), value: currentSet == set.code)
                 .accessibilityLabel("\(set.toLabel()) \(currentSet == set.code ? ", current deck" : "")")
@@ -132,6 +143,9 @@ public struct CardDeckScreen<CardView: CardViewProtocol, CardViewModel: CardDeck
                 onRemoved: {
                     if changedSet {
                         changedSet = false
+                        withAnimation {
+                            showEmpty = true
+                        }
                         viewModel.changeSet(setCode: currentSet)
                     } else {
                         if fullDeck.isEmpty {

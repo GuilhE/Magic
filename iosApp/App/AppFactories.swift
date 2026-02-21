@@ -6,6 +6,7 @@ import DomainUseCases
 import FactoryProtocols
 import Foundation
 import MagicDataLayer
+import MagicDataManagers
 
 class CardsManagerFactory: FactoryProtocol {
     typealias T = DomainCardsManagerProtocol
@@ -15,7 +16,7 @@ class CardsManagerFactory: FactoryProtocol {
 
     static func register() {
         DIContainer.shared.register(DomainCardsManagerProtocol.self, name: createName) { _ in
-            CardsManagerImpl(manager: KmpInstancesProvider().cardsManager())
+            CardsManagerImpl(manager: KmpInstancesProvider.shared.cardsManager())
         }
         DIContainer.shared.register(DomainCardsManagerProtocol.self, name: mockName) { _ in CardsManagerMock() }
     }
