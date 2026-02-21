@@ -10,7 +10,9 @@ KMP sample project acting as a playground to illustrate what's discussed in this
 </p>
 
 > [!NOTE]
-> The `main` branch currently uses `swiftExport`. For Objective-C/Swift interoperability (as mentioned in the article), please use the `objc-interop` tag.
+> The `main` branch currently uses `swiftExport`.  
+> For Objective-C/Swift interoperability (as mentioned in the article), please use the [`objc-interop` tag](https://github.com/GuilhE/Magic/tree/objc-interop).
+> 
 > A new article covering the `swiftExport` approach will be published in the near future.
 
 ## Details
