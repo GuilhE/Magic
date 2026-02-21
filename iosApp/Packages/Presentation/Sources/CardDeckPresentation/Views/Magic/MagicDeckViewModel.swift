@@ -127,6 +127,8 @@ public class MagicDeckViewModel: ObservableObject, CardDeckViewModelProtocol {
     public func deleteCardsFromCurrentSet() {
         manager.removeCardSet(setCode: currentSet.code)
         print("> \(currentSet.name) deleted!")
+        currentSet = .init(code: "", name: "", releaseDate: "")
+        cards = []
     }
 }
 

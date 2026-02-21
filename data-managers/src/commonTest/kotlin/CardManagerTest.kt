@@ -304,12 +304,19 @@ class CardsManagerTest : KoinTest {
     @Test
     fun `removeCardsFromSet should remove all cards for a given set`() = runTest {
         val manager = get<CardsManager>()
-        manager.getSet("SET001")
-        val initialCards = manager.getCardsFromSet("SET001")
-        assertEquals(2, initialCards.size)
+		manager.observeCards().stateIn(CoroutineScope(Dispatchers.Default)).test {
+			assertTrue(awaitItem().isEmpty().also { println(">>>>> $it ${manager.getCardCount()}") })
 
-        manager.removeSet("SET001")
-        val cardsAfterRemoval = manager.getCardsFromSet("SET001")
-        assertTrue(cardsAfterRemoval.isEmpty())
+			manager.getSet("SET001")
+			assertTrue(awaitItem().isNotEmpty().also { println(">>>>> $it ${manager.getCardCount()}") })
+
+			manager.removeSet("SET001")
+			assertTrue(awaitItem().isEmpty().also { println(">>>>> $it ${manager.getCardCount()}") })
+
+			cancelAndIgnoreRemainingEvents()
+
+			val cardsAfterRemoval = manager.getCardsFromSet("SET001")
+			assertTrue(cardsAfterRemoval.isEmpty())
+		}
     }
 }
