@@ -87,6 +87,7 @@ public struct CardDeckScreen<CardView: CardViewProtocol, CardViewModel: CardDeck
                         .circularBlueBorder()
                         .accessibilityHidden(true)
                 }
+                .disabled(runAddAnimation || runRemoveAnimation || runShuffleAnimation || runDeleteAnimation || viewModel.isLoading)
                 .scaleEffect(currentSet == set.code ? 1.2 : 1.0)
                 .animation(.easeInOut(duration: 0.15), value: currentSet == set.code)
                 .accessibilityLabel("\(set.toLabel()) \(currentSet == set.code ? ", current deck" : "")")
