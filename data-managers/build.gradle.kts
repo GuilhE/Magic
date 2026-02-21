@@ -1,7 +1,6 @@
 plugins {
     id("buildlogic.plugins.kmp.library")
     alias(libs.plugins.google.ksp)
-    alias(libs.plugins.nativecoroutines)
     alias(libs.plugins.sqldelight) //for unit test
 }
 
