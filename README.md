@@ -9,6 +9,10 @@ KMP sample project acting as a playground to illustrate what's discussed in this
  <a href="https://guidelgado.medium.com/fa8cb2c1aa92"><img src="/media/banner.png" width="692"></a></br>
 </p>
 
+> [!NOTE]
+> The `main` branch currently uses `swiftExport`. For Objective-C/Swift interoperability (as mentioned in the article), please use the `objc-interop` tag.
+> A new article covering the `swiftExport` approach will be published in the near future.
+
 ## Details
 
 ### Shared
