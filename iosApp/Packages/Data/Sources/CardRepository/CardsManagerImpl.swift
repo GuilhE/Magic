@@ -50,7 +50,7 @@ public class CardsManagerImpl: DomainCardsManagerProtocol, @unchecked Sendable {
     public func observeCardSets() async -> AsyncStream<[DomainCardSet]> {
         AsyncStream { continuation in
             Task {
-                for try await sets in kmpManager.observeSets() {
+                for try await sets in kmpManager.observeSets().asAsyncSequence() {
                     continuation.yield(sets.asDomainCardSets)
                 }
                 continuation.finish()
@@ -61,7 +61,7 @@ public class CardsManagerImpl: DomainCardsManagerProtocol, @unchecked Sendable {
     public func observeSetCount() async -> AsyncStream<Int> {
         AsyncStream { continuation in
             Task {
-                for try await count in kmpManager.observeSetCount() {
+                for try await count in kmpManager.observeSetCount().asAsyncSequence() {
                     continuation.yield(Int(count))
                 }
                 continuation.finish()
@@ -72,7 +72,7 @@ public class CardsManagerImpl: DomainCardsManagerProtocol, @unchecked Sendable {
     public func observeCardCount() async -> AsyncStream<Int> {
         AsyncStream { continuation in
             Task {
-                for try await count in kmpManager.observeCardCount() {
+                for try await count in kmpManager.observeCardCount().asAsyncSequence() {
                     continuation.yield(Int(count))
                 }
                 continuation.finish()
@@ -83,7 +83,7 @@ public class CardsManagerImpl: DomainCardsManagerProtocol, @unchecked Sendable {
     public func observeCardsFromSet(setCode: String) async -> AsyncStream<[DomainCard]> {
         AsyncStream { continuation in
             Task {
-                for try await cards in kmpManager.observeCardsFromSet(code: setCode) {
+                for try await cards in kmpManager.observeCardsFromSet(code: setCode).asAsyncSequence() {
                     continuation.yield(cards.asDomainCards)
                 }
                 continuation.finish()

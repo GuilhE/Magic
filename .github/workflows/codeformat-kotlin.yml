@@ -45,6 +45,11 @@ jobs:
           ktlint_standard_argument-list-wrapping = disabled
           ktlint_standard_wrapping = disabled
           ktlint_standard_indent = disabled
+          ktlint_standard_comment-wrapping = disabled
+          ktlint_standard_value-argument-comment = disabled
+          
+          [**/build/**]
+          ktlint = disabled
           
           EOF
           else
@@ -78,6 +83,12 @@ jobs:
               printf "ktlint_standard_wrapping = disabled\n" >> .editorconfig
             grep -q "ktlint_standard_indent" .editorconfig || \
               printf "ktlint_standard_indent = disabled\n" >> .editorconfig
+            grep -q "ktlint_standard_comment-wrapping" .editorconfig || \
+              printf "ktlint_standard_comment-wrapping = disabled\n" >> .editorconfig
+            grep -q "ktlint_standard_value-argument-comment" .editorconfig || \
+              printf "ktlint_standard_value-argument-comment = disabled\n" >> .editorconfig
+            grep -q "\[\*\*/build/\*\*\]" .editorconfig || \
+              printf "[**/build/**]\nktlint = disabled\n" >> .editorconfig
           fi
 
       - name: Install ktlint
@@ -91,16 +102,17 @@ jobs:
             BASE_BRANCH=${{ github.event.pull_request.base.ref }}
             git fetch origin $BASE_BRANCH --depth=1
             MERGE_BASE=$(git merge-base HEAD origin/$BASE_BRANCH)
-            FILES=$(git diff $MERGE_BASE...HEAD --name-only | grep '\.kt$' || true)
+            FILES=$(git diff $MERGE_BASE...HEAD --name-only | grep '\.kt$' | grep -v '^iosApp/' | grep -v '\.swift$' || true)
           else
             FILES=$(find . -name "*.kt" \
               ! -path "./iosApp/*" \
               ! -path "*/build/*" \
               ! -path "*/gradle/*" \
-              ! -path "*/.*")
+              ! -path "*/.*" \
+              ! -path "*.swift" )
           fi
 
-          FILES=$(echo "$FILES" | grep -v '^iosApp/' | grep -v '/build/' | grep -v '/gradle/' | grep -v '/\.' || true)
+          FILES=$(echo "$FILES" | grep -v '^iosApp/' | grep -v '/build/' | grep -v '/gradle/' | grep -v '/\.' | grep -v '\.swift$' || true)
 
           if [ -z "$FILES" ]; then
             echo "No Kotlin files to format."
@@ -178,7 +190,7 @@ jobs:
           git push origin --delete $BRANCH_NAME 2>/dev/null || true
           git checkout -b $BRANCH_NAME
           # Only add modified Kotlin files (excluding iosApp and build directories)
-          KOTLIN_FILES=$(git diff --name-only | grep '\.kt$' | grep -v '^iosApp/' | grep -v '/build/' || true)
+          KOTLIN_FILES=$(git diff --name-only | grep '\.kt$' | grep -v '^iosApp/' | grep -v '/build/' | grep -v '\.swift$' || true)
           if [ -n "$KOTLIN_FILES" ]; then
             echo "$KOTLIN_FILES" | xargs git add
           fi
@@ -196,12 +208,12 @@ jobs:
           Violated rules:
           EOFBODY
           echo "${{ env.VIOLATIONS }}" >> pr_body.txt
-          
+
           gh pr create \
             --title "Apply ktlint formatting" \
             --body-file pr_body.txt \
-            --base ${{ env.BASE_BRANCH }} \
-            --head ${{ env.BRANCH_NAME }}
+            --base "${{ env.BASE_BRANCH }}" \
+            --head "${{ env.BRANCH_NAME }}"
 
       - name: Add reviewer to PR
         if: env.CHANGES_DETECTED == 'true'

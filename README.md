@@ -17,6 +17,10 @@ KMP sample project acting as a playground to illustrate what's discussed in this
 
 ## Details
 
+### Swift Export
+The main branch of this repository uses [SwiftExport](https://kotlinlang.org/docs/native-swift-export.html), for objc-interop, please check the 
+`objc-interop` tag.
+
 ### Shared
 
 The modules `data-models`, `core-database`, and `core-network` are independent, while `data-managers` depends on all three.
