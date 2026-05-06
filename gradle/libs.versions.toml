@@ -1,6 +1,6 @@
 [versions]
 #======Kotlin
-kotlin = "2.4.0-RC-185"
+kotlin = "2.4.0-dev-8268"
 kotlinxCoroutines = "1.10.2"
 kotlinxSerialization = "1.11.0"
 composeMultiplatform = "1.11.0-beta03"
