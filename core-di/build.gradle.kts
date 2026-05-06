@@ -26,10 +26,10 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(projects.coreNetwork)
-            implementation(projects.coreDatabase)
-            api(projects.dataManagers)
-            api(projects.dataModels)
+			api(projects.dataManagers)
+			api(projects.dataModels)
+			implementation(projects.coreNetwork)
+			implementation(projects.coreDatabase)
             implementation(libs.koin.core)
         }
 		commonTest.dependencies {
