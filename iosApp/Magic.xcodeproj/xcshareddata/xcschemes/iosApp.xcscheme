@@ -11,7 +11,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "cd &quot;$SRCROOT/..&quot;&#10;&#10;# Xcode Scheme Pre-Actions don&apos;t subtract EXCLUDED_ARCHS from ARCHS.&#10;# Do it manually so Gradle sees the correct architectures.&#10;for arch in $EXCLUDED_ARCHS; do&#10;    ARCHS=&quot;${ARCHS//$arch/}&quot;&#10;done&#10;# Trim leading/trailing whitespace left by the removals above&#10;ARCHS=$(echo $ARCHS | xargs)&#10;export ARCHS&#10;&#10;./gradlew exportFrameworkForXcode&#10;">
+               scriptText = "cd &quot;$SRCROOT/..&quot;&#10;&#10;# Xcode Scheme Pre-Actions don&apos;t subtract EXCLUDED_ARCHS from ARCHS.&#10;# Filter manually so Gradle sees the correct architectures.&#10;for arch in $EXCLUDED_ARCHS; do&#10;    ARCHS=&quot;${ARCHS//$arch/}&quot;&#10;done&#10;export ARCHS=&quot;$(echo $ARCHS | xargs)&quot;&#10;&#10;./gradlew exportFrameworkForXcode&#10;">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"
