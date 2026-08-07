@@ -3,7 +3,7 @@ import ExportedKotlinPackages
 import MagicDataManagers
 import MagicDataModels
 
-extension kotlin.Throwable: @retroactive ErrorException, @unchecked Sendable {}
+extension kotlin.Throwable: @retroactive ErrorException {}
 extension exceptions.RateLimitException: @retroactive DomainRateLimitException, @unchecked Sendable {}
 
 public extension local.Card {

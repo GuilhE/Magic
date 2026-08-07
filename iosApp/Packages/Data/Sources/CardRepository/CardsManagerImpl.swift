@@ -18,7 +18,7 @@ public class CardsManagerImpl: DomainCardsManagerProtocol, @unchecked Sendable {
             if let successResult = result as? local.Result.Success, let cards = successResult.data as? [local.Card] {
                 return .success(DomainCardList(cards: cards.asDomainCards))
             } else if let errorResult = result as? local.Result.Error {
-                return .failure(DomainException(domainError: errorResult.exception as? ErrorException))
+                return .failure(DomainException(domainError: (errorResult.exception as Any) as? ErrorException))
             } else {
                 return .failure(DomainException(error: UnexpectedResultError()))
             }
@@ -33,7 +33,7 @@ public class CardsManagerImpl: DomainCardsManagerProtocol, @unchecked Sendable {
             if (result as? local.Result.Success) != nil {
                 return .success(())
             } else if let errorResult = result as? local.Result.Error {
-                return .failure(DomainException(domainError: errorResult.exception as? ErrorException))
+                return .failure(DomainException(domainError: (errorResult.exception as Any) as? ErrorException))
             } else {
                 return .failure(DomainException(error: UnexpectedResultError()))
             }
