@@ -1,28 +1,28 @@
 [versions]
 #======Kotlin
-kotlin = "2.4.0"
+kotlin = "2.5.0-dev-3862"
 kotlinxCoroutines = "1.11.0"
 kotlinxSerialization = "1.11.0"
 composeMultiplatform = "1.11.1"
 composeMaterial3 = "1.9.0"
-ktor = "3.5.0"
+ktor = "3.5.2"
 
 #=====Google
-ksp = "2.3.6"
+ksp = "2.3.10"
 
 #======Android
 androidCompileSdk = "36"
 androidTargetSdk = "36"
 androidMinSdk = "24"
-androidGradlePlugin = "9.2.1"
+androidGradlePlugin = "9.3.1"
 androidMaterial = "1.14.0"
 androidxActivityKtx = "1.13.0"
-androidxLifecycle = "2.10.0"
+androidxLifecycle = "2.11.0"
 
 #======Multiplatform
 kermit = "2.1.0"
 sqldelight = "2.3.2"
-koin = "4.2.1"
+koin = "4.2.2"
 turbine = "1.2.1"
 
 #======Others

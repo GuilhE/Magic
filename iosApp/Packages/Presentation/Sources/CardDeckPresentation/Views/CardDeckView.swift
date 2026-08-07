@@ -33,10 +33,26 @@ struct CardDeckView<CardView: CardViewProtocol>: View {
                 cardView(for: card, at: index)
             }
         }
-        .onChange(of: add) { _, newValue in if newValue { animateAddToDeck() } }
-        .onChange(of: remove) { _, newValue in if newValue { animateRemoveFromDeck() } }
-        .onChange(of: shuffle) { _, newValue in if newValue { animateShuffleDeck() } }
-        .onChange(of: delete) { _, newValue in if newValue { animateDeleteDeck() } }
+        .onChange(of: add) {
+            _, newValue in if newValue {
+                animateAddToDeck()
+            }
+        }
+        .onChange(of: remove) {
+            _, newValue in if newValue {
+                animateRemoveFromDeck()
+            }
+        }
+        .onChange(of: shuffle) {
+            _, newValue in if newValue {
+                animateShuffleDeck()
+            }
+        }
+        .onChange(of: delete) {
+            _, newValue in if newValue {
+                animateDeleteDeck()
+            }
+        }
     }
 
     @ViewBuilder
