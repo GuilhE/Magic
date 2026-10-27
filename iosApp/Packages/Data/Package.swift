@@ -35,6 +35,7 @@ let package = Package(
                 "KMPBridge",
                 .product(name: "DomainModels", package: "Domain"),
                 .product(name: "DomainUseCases", package: "Domain"),
+                .product(name: "MagicDataLayerLibrary", package: "Current"),
             ]
         ),
     ]
