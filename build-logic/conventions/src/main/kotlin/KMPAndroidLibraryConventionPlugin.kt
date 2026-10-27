@@ -47,7 +47,6 @@ class KMPAndroidLibraryConventionPlugin : Plugin<Project> {
             kotlinExtension.apply {
                 sourceSets.all {
                     languageSettings.apply {
-                        optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
                         optIn("kotlinx.cinterop.ExperimentalForeignApi")
                         optIn("kotlin.experimental.ExperimentalObjCName")
                         optIn("kotlin.RequiresOptIn")

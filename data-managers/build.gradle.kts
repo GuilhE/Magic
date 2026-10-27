@@ -10,6 +10,7 @@ kotlin {
     iosSimulatorArm64()
 
     sourceSets {
+        all { languageSettings.optIn("kotlinx.coroutines.ExperimentalCoroutinesApi") }
         commonMain.dependencies {
             implementation(projects.coreNetwork)
             implementation(projects.coreDatabase)

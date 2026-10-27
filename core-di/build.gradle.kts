@@ -11,17 +11,21 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
 
-    swiftExport {
-        moduleName = "MagicDataLayer"
-        flattenPackage = "com.magic.core.di"
-        export(projects.dataManagers) {
-            moduleName = "MagicDataManagers"
-            flattenPackage = "com.magic.data.managers"
-        }
-        export(projects.dataModels) {
-            moduleName = "MagicDataModels"
-            flattenPackage = "com.magic.data.models"
-        }
+    export {
+		swift {
+			moduleName = "MagicDataLayer"
+			rootPackage = "com.magic.core.di"
+			swiftPackageIntegration {
+				configure(projects.dataManagers) {
+					moduleName = "MagicDataManagers"
+					rootPackage = "com.magic.data.managers"
+				}
+				configure(projects.dataModels) {
+					moduleName = "MagicDataModels"
+					rootPackage = "com.magic.data.models"
+				}
+			}
+		}
     }
 
     sourceSets {
