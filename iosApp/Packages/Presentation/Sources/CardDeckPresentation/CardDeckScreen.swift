@@ -147,14 +147,12 @@ public struct CardDeckScreen<CardView: CardViewProtocol, CardViewModel: CardDeck
                             showEmpty = true
                         }
                         viewModel.changeSet(setCode: currentSet)
-                    } else {
-                        if fullDeck.isEmpty {
-                            Task {
-                                await viewModel.getCardsFromCurrentSet()
-                            }
-                        } else {
-                            refreshCards()
+                    } else if fullDeck.isEmpty {
+                        Task {
+                            await viewModel.getCardsFromCurrentSet()
                         }
+                    } else {
+                        refreshCards()
                     }
                 },
                 onShuffled: {
