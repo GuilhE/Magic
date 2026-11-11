@@ -99,8 +99,7 @@ struct CardDeckView<CardView: CardViewProtocol>: View {
     }
 
     private func handleDragChanged(value: DragGesture.Value, card: CardView.CardType) {
-        guard !shuffle, !zooming else { return }
-        guard card == deck.first else { return }
+        guard !shuffle, !zooming, card == deck.first else { return }
 
         activeCard = card
         let clampedWidth = max(min(value.translation.width, cardSize.width), -cardSize.width)
