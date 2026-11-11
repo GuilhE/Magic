@@ -1,11 +1,11 @@
 [versions]
 #======Kotlin
-kotlin = "2.5.0-Beta2"
+kotlin = "2.5.0-RC"
 kotlinxCoroutines = "1.11.0"
 kotlinxSerialization = "1.12.0"
 composeMultiplatform = "1.12.2"
 composeMaterial3 = "1.9.0"
-ktor = "3.6.0"
+ktor = "3.6.1"
 
 #=====Google
 ksp = "2.3.12"
@@ -14,7 +14,7 @@ ksp = "2.3.12"
 androidCompileSdk = "36"
 androidTargetSdk = "36"
 androidMinSdk = "24"
-androidGradlePlugin = "9.4.1"
+androidGradlePlugin = "9.5.1"
 androidMaterial = "1.14.0"
 androidxActivityKtx = "1.13.0"
 androidxLifecycle = "2.11.0"
