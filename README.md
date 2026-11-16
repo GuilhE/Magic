@@ -13,12 +13,8 @@ KMP sample project acting as a playground to illustrate what's discussed in this
 
 ## Details
 
-### Swift Export
-The main branch of this repository uses [SwiftExport](https://kotlinlang.org/docs/native-swift-export.html), for objc-interop, please check the 
-`objc-interop` tag.
-
 > [!NOTE]
-> The `main` branch currently uses `swiftExport`.  
+> The `main` branch currently uses [Swift export](https://kotlinlang.org/docs/native-swift-export.html).  
 > For Objective-C/Swift interoperability (as mentioned in the article), please use the [`objc-interop` tag](https://github.com/GuilhE/Magic/tree/objc-interop).
 > 
 > A new article covering the `swiftExport` approach will be published in the near future.
